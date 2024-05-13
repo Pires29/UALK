@@ -3,10 +3,10 @@ import { View, Text } from 'react-native';
 
 export default function Section2({ navigation }) {
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: "#2C333C"}}>
             <Text
                 onPress={() => navigation.navigate('Home')}
-                style={{ fontSize: 26, fontWeight: 'bold' }}>Section2 In Development...</Text>
+                style={{ fontSize: 26, fontWeight: 'bold', color: "white"  }}>Section2 In Development...</Text>
         </View>
     );
 }

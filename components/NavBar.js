@@ -1,7 +1,12 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { View, Image } from 'react-native'
+import HomeIcon from '../assets/icons/Home.png';
+import UalkIcon from '../assets/icons/pegada.png';
+import ProfileIcon from '../assets/icons/image 8.png';
+import Section2Icon from '../assets/icons/pegada.png';
+import Section3Icon from '../assets/icons/pegada.png';
 
 // Screens
 import HomeScreen from '../pages/HomeScreen';
@@ -35,30 +40,34 @@ function NavBar() {
             paddingVertical: 10,
           },
           tabBarStyle: {
-            backgroundColor: '#7D8995',
+            backgroundColor: "#2C333C",
             height: 70,
           },
           headerShown:false,
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
-            let rn = route.name;
-
-            if (rn === homeName) {
-              iconName = focused ? 'home' : 'home-outline';
-
-            } else if (rn === ualkName) {
-              iconName = focused ? 'list' : 'list-outline';
-
-            } else if (rn === profileName) {
-              iconName = focused ? 'settings' : 'settings-outline';
-            } else if (rn === section2Name) {
-                iconName = focused ? 'settings' : 'settings-outline';
-            } else if (rn === section3Name) {
-                iconName = focused ? 'settings' : 'settings-outline';
-              }
+            let iconSize;
+        
+            // Defina o tamanho do ícone com base no nome da rota ou em outra lógica
+            if (route.name === homeName) {
+                iconName = focused ? HomeIcon : HomeIcon;
+                iconSize = 24; // Tamanho específico para o ícone "Home"
+            } else if (route.name === ualkName) {
+                iconName = focused ? UalkIcon : UalkIcon;
+                iconSize = 40; // Tamanho específico para o ícone "UALK"
+            } else if (route.name === profileName) {
+                iconName = focused ? ProfileIcon : ProfileIcon;
+                iconSize = 28; // Tamanho específico para o ícone "Settings"
+            } else if (route.name === section2Name) {
+                iconName = focused ? Section2Icon : Section2Icon;
+                iconSize = 34; // Tamanho específico para o ícone "Section 2"
+            } else if (route.name === section3Name) {
+                iconName = focused ? Section3Icon : Section3Icon;
+                iconSize = 34; // Tamanho específico para o ícone "Section 3"
+            }
 
             // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color={color} />;
+            return <Image source={iconName} style={{ width: iconSize, height: iconSize, tintColor: color }} />;
           },
         })}>
 
