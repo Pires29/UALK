@@ -5,15 +5,14 @@ import Favorites from './Favorites';
 
 export default function ProfileScreen() {
 
-    const navigation = useNavigation();
+    /*const navigation = useNavigation();
 
     const goToOtherComponent = () => {
         navigation.navigate('Favorites');
-    };
+    };*/
 
     return (
         <View style={{ flex: 1, backgroundColor: "#2C333C"}}>
-            <TouchableOpacity onPress={goToOtherComponent}>
             <View style={{width: "100%", padding: 40,}}>
                 <View style={{alignItems: 'center', justifyContent: 'center', marginBottom: 30}}>
                     <Image
@@ -49,7 +48,6 @@ export default function ProfileScreen() {
                     </View>
                 </View>
             </View>
-            </TouchableOpacity>
         </View>
     );
 }
