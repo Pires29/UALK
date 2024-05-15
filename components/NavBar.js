@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Image } from 'react-native'
+import { View, Image, Button } from 'react-native'
 import HomeIcon from '../assets/icons/Home.png';
 import UalkIcon from '../assets/icons/pegada.png';
 import ProfileIcon from '../assets/icons/image 8.png';
 import Section2Icon from '../assets/icons/pegada.png';
 import Section3Icon from '../assets/icons/pegada.png';
+import { createStackNavigator, HeaderTitle } from '@react-navigation/stack';
+import Favorites from '../pages/Favorites';
+import { useNavigation } from '@react-navigation/native';
 
 // Screens
 import HomeScreen from '../pages/HomeScreen';
@@ -24,8 +27,43 @@ const section2Name = "Section 2";
 const section3Name = "Section 3";
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
-function NavBar() {
+// Componente de navegação principal
+function NavPages() {
+  const navigation = useNavigation();
+  return (
+    <Stack.Navigator>
+      {/* Defina as telas da sua aplicação aqui */}
+      <Stack.Screen 
+        name="Profile" 
+        component={ProfileScreen} 
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen name="Favorites" component={Favorites} options={{
+          headerTitle: "Atividade",
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#2C333C', // Define a cor de fundo como transparente
+            elevation: 0, // remove shadow on Android
+            shadowOpacity: 0, // remove shadow on iOS
+          }, 
+          headerTintColor: 'white', // Define a cor do texto do título como branco
+          headerBackTitleStyle: {
+          color: 'white', // Define a cor do texto de voltar atrás como branco
+          },
+          headerBackImage: () => (
+            <Image
+              source={require('../assets/icons/back-arrow.png')} // Insira o caminho do seu ícone personalizado aqui
+              style={{ width: 24, height: 24, tintColor: 'white' }} // Ajuste o tamanho e a cor do ícone conforme necessário
+            />
+          ),
+        }}/>
+    </Stack.Navigator>
+  );
+}
+
+export default function NavBar() {
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -75,11 +113,9 @@ function NavBar() {
         <Tab.Screen name={ualkName} component={UalkScreen} />
         <Tab.Screen name={section2Name} component={Section2} />
         <Tab.Screen name={section3Name} component={Section3} />
-        <Tab.Screen name={profileName} component={ProfileScreen} />
+        <Tab.Screen name={profileName} component={NavPages} />
         
       </Tab.Navigator>
     </NavigationContainer>
   );
 }
-
-export default NavBar
