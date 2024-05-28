@@ -8,7 +8,7 @@ import ProfileIcon from '../assets/icons/image 8.png';
 import Section2Icon from '../assets/icons/pegada.png';
 import Section3Icon from '../assets/icons/pegada.png';
 import { createStackNavigator, HeaderTitle } from '@react-navigation/stack';
-import Favorites from '../pages/Favorites';
+import Favorites from '../pages/FavoritesPage';
 import { useNavigation } from '@react-navigation/native';
 
 // Screens

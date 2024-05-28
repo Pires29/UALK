@@ -24,7 +24,7 @@ const renderScene = SceneMap({
   third: ThirdRoute,
 });
 
-export default function Favorites() {
+export default function FavoritesPage() {
   const layout = useWindowDimensions();
   const navigation = useNavigation(); // Obtém a instância de navegação
 

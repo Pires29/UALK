@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, useWindowDimensions, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Favorites from './Favorites';
+import Favorites from './FavoritesPage';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 
 export default function ProfileScreen() {
