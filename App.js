@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import UalkIcon from './imagens/icons/pegada.png';
+import HomeIcon from './imagens/icons/pegada.png';
 import ProfileIcon from './imagens/icons/image 8.png';
 import Section2Icon from './imagens/icons/pegada.png';
 import Section3Icon from './imagens/icons/pegada.png';
@@ -22,8 +23,9 @@ import HomeScreen from "./components/HomeScreen";
 import Section3 from "./pages/Section3";
 
 // Nomes das telas
+const homeName = "Home";
 const ualkName = "UALK";
-const profileName = "Settings";
+const profileName = "Profile";
 const section2Name = "Section 2";
 const section3Name = "Section 3";
 
@@ -51,24 +53,28 @@ function NavBar() {
                     let iconName;
                     let iconSize;
 
-                    if (route.name === ualkName) {
-                        iconName = focused ? UalkIcon : UalkIcon;
-                        iconSize = 40;
-                    } else if (route.name === profileName) {
-                        iconName = focused ? ProfileIcon : ProfileIcon;
-                        iconSize = 28;
-                    } else if (route.name === section2Name) {
-                        iconName = focused ? Section2Icon : Section2Icon;
-                        iconSize = 34;
-                    } else if (route.name === section3Name) {
-                        iconName = focused ? Section3Icon : Section3Icon;
-                        iconSize = 34;
-                    }
+                    if (route.name === homeName) {
+                      iconName = focused ? HomeIcon : HomeIcon;
+                      iconSize = 24; // Tamanho específico para o ícone "Home"
+                  } else if (route.name === ualkName) {
+                      iconName = focused ? UalkIcon : UalkIcon;
+                      iconSize = 40; // Tamanho específico para o ícone "UALK"
+                  } else if (route.name === profileName) {
+                      iconName = focused ? ProfileIcon : ProfileIcon;
+                      iconSize = 28; // Tamanho específico para o ícone "Settings"
+                  } else if (route.name === section2Name) {
+                      iconName = focused ? Section2Icon : Section2Icon;
+                      iconSize = 34; // Tamanho específico para o ícone "Section 2"
+                  } else if (route.name === section3Name) {
+                      iconName = focused ? Section3Icon : Section3Icon;
+                      iconSize = 34; // Tamanho específico para o ícone "Section 3"
+                  }
 
                     return <Image source={iconName} style={{ width: iconSize, height: iconSize, tintColor: color }} />;
                 },
             })}
         >
+            <Tab.Screen name={homeName} component={HomeScreen} />
             <Tab.Screen name={ualkName} component={UalkScreen} />
             <Tab.Screen name={section2Name} component={Section2} />
             <Tab.Screen name={section3Name} component={Section3} />
