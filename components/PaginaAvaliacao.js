@@ -1,10 +1,15 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { SafeAreaView, View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import RatingScreen from "./componentsAvaliacao/media";
+import AverageRating from "./componentsAvaliacao/mediaTotal";
+
 
 
 const PaginaAvaliacao = () => {
+    const Stack = createStackNavigator();
     const navigation = useNavigation();
     return (
         <View style={styles.container3}>
@@ -19,19 +24,12 @@ const PaginaAvaliacao = () => {
 
                 <Text style={styles.avaliacao}>Avaliação</Text>
                 <Text style={styles.descricaoAvaliacao}>Adiciona a tua avaliação</Text>
-                <View style={styles.containerstar}>
-                    <Icon name="star" size={20} color="#7D8995" style={styles.starIcon} />
-                    <Icon name="star" size={20} color="#7D8995" style={styles.starIcon} />
-                    <Icon name="star" size={20} color="#7D8995" style={styles.starIcon} />
-                    <Icon name="star" size={20} color="#7D8995" style={styles.starIcon} />
-                    <Icon name="star" size={20} color="#7D8995" style={styles.starIcon} />
+
+                <RatingScreen />
+                <AverageRating/>
 
 
-                </View>
-
-
-
-                {/* Data, avaliação e outras informações */}
+                    {/* Data, avaliação e outras informações */}
                 <View style={styles.container2}>
                     <View style={styles.infoGroup}>
                         <Text style={styles.infoTitle}>Comprimento</Text>

@@ -7,8 +7,9 @@ import UalkIcon from './imagens/icons/pegada.png';
 import ProfileIcon from './imagens/icons/image 8.png';
 import Section2Icon from './imagens/icons/pegada.png';
 import Section3Icon from './imagens/icons/pegada.png';
+import RatingScreen from './components/componentsAvaliacao/media'; // Importação do componente de avaliação
 
-// Import Screens
+// Importar Screens
 import PaginaAvaliacao from './components/PaginaAvaliacao';
 import CriarConta from './components/componentsConta/CriarConta';
 import Login from './components/componentsConta/Login';
@@ -19,7 +20,7 @@ import Section2 from "./components/Section2";
 import HomeScreen from "./components/HomeScreen";
 import Section3 from "./components/Section3";
 
-// Screen names
+// Nomes das telas
 const ualkName = "UALK";
 const profileName = "Settings";
 const section2Name = "Section 2";
@@ -84,6 +85,8 @@ const App = () => {
                     <Stack.Screen name="CriarConta" component={CriarConta} options={{ headerShown: false }} />
                     <Stack.Screen name="NavBar" component={NavBar} options={{ headerShown: false }} />
                     <Stack.Screen name="PaginaAvaliacao" component={PaginaAvaliacao} options={{ headerShown: false }} />
+                    {/* Adiciona o stack de navegação para a tela de avaliação */}
+                    <Stack.Screen name="Avaliacao" component={RatingScreen} options={{ headerShown: false }} />
                 </Stack.Navigator>
             </View>
         </NavigationContainer>
