@@ -1,0 +1,9 @@
+instalar:
+    react-native-vector-icons
+    install firebase
+    install @react-native-firebase/app
+    install @react-native-firebase/auth
+    install @react-native-async-storage/async-storage
+    install @react-navigation/native @react-navigation/native-stack
+    install react-native-screens react-native-safe-area-context
+    install @react-navigation/bottom-tabs
