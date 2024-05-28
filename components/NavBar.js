@@ -22,7 +22,7 @@ import Section3 from '../pages/Section3';
 //Screen names
 const homeName = "Home";
 const ualkName = "UALK";
-const profileName = "Settings";
+const profileName = "Profile";
 const section2Name = "Section 2";
 const section3Name = "Section 3";
 
