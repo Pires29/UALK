@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "UALK-APP",
-    "slug": "UALK-APP",
+    "name": "ProjFinTeste",
+    "slug": "ProjFinTeste",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

@@ -1,23 +1,16 @@
-import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import UalkIcon from './imagens/icons/pegada.png';
-import ProfileIcon from './imagens/icons/image 8.png';
-import Section2Icon from './imagens/icons/pegada.png';
-import Section3Icon from './imagens/icons/pegada.png';
+import { Image } from 'react-native';
+import UalkIcon from '../imagens/icons/pegada.png';
+import ProfileIcon from '../imagens/icons/image 8.png';
+import Section2Icon from '../imagens/icons/pegada.png';
+import Section3Icon from '../imagens/icons/pegada.png';
 
-// Import Screens
-import PaginaAvaliacao from './components/PaginaAvaliacao';
-import CriarConta from './components/componentsConta/CriarConta';
-import Login from './components/componentsConta/Login';
-import UalkScreen from "./components/UalkScreen";
-import Favorites from "./components/Favorites";
-import ProfileScreen from "./components/ProfileScreen";
-import Section2 from "./components/Section2";
-import HomeScreen from "./components/HomeScreen";
-import Section3 from "./components/Section3";
+// Screens
+import UalkScreen from '../components/UalkScreen';
+import ProfileScreen from '../components/ProfileScreen';
+import Section2 from '../components/Section2';
+import Section3 from '../components/Section3';
 
 // Screen names
 const ualkName = "UALK";
@@ -25,7 +18,6 @@ const profileName = "Settings";
 const section2Name = "Section 2";
 const section3Name = "Section 3";
 
-const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function NavBar() {
@@ -35,14 +27,14 @@ function NavBar() {
                 tabBarActiveTintColor: 'white',
                 tabBarInactiveTintColor: 'lightgrey',
                 tabBarLabelStyle: {
-                    fontSize: 14,
+                    fontSize: 12,
                 },
                 tabBarItemStyle: {
                     paddingVertical: 10,
                 },
                 tabBarStyle: {
                     backgroundColor: "#2C333C",
-                    height: 100,
+                    height: 70,
                 },
                 headerShown: false,
                 tabBarIcon: ({ focused, color }) => {
@@ -75,29 +67,5 @@ function NavBar() {
     );
 }
 
-const App = () => {
-    return (
-        <NavigationContainer>
-            <View style={styles.container}>
-                <Stack.Navigator initialRouteName="HomeScreen">
-                    <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-                    <Stack.Screen name="CriarConta" component={CriarConta} options={{ headerShown: false }} />
-                    <Stack.Screen name="NavBar" component={NavBar} options={{ headerShown: false }} />
-                    <Stack.Screen name="PaginaAvaliacao" component={PaginaAvaliacao} options={{ headerShown: false }} />
-                </Stack.Navigator>
-            </View>
-        </NavigationContainer>
-    );
-};
+export default NavBar;
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#2C333C',
-    },
-    content: {
-        flex: 1,
-    },
-});
-
-export default App;
