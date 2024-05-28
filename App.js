@@ -15,10 +15,10 @@ import CriarConta from './components/componentsConta/CriarConta';
 import Login from './components/componentsConta/Login';
 import UalkScreen from "./components/UalkScreen";
 import Favorites from "./components/Favorites";
-import ProfileScreen from "./components/ProfileScreen";
+import ProfileScreen from "./pages/ProfileScreen";
 import Section2 from "./components/Section2";
 import HomeScreen from "./components/HomeScreen";
-import Section3 from "./components/Section3";
+import Section3 from "./pages/Section3";
 
 // Nomes das telas
 const ualkName = "UALK";

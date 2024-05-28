@@ -8,9 +8,9 @@ import Section3Icon from '../imagens/icons/pegada.png';
 
 // Screens
 import UalkScreen from '../components/UalkScreen';
-import ProfileScreen from '../components/ProfileScreen';
+import ProfileScreen from '../pages/ProfileScreen';
 import Section2 from '../components/Section2';
-import Section3 from '../components/Section3';
+import Section3 from '../pages/Section3';
 
 // Screen names
 const ualkName = "UALK";

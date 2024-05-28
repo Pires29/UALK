@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import AuthDetails from "./Autenticado";
-import FavoriteList from "./Favorites";
+import AuthDetails from "../components/Autenticado";
+import FavoriteList from "../components/Favorites";
 
 export default function ProfileScreen() {
 
