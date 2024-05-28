@@ -1,8 +1,10 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Slider from './CarouselComponent';
 import SearchBar from "./SearchBar";
+import { useNavigation } from '@react-navigation/native';
+
 
 const PercursoItem = () => {
     const carouselData = [
@@ -10,11 +12,13 @@ const PercursoItem = () => {
         require('../imagens/image 7.png'),
         require('../imagens/image 7.png')
     ];
+    const navigation = useNavigation();
+
     return (
         <View>
             <Slider data={carouselData} />
             <SearchBar/>
-            <View style={styles.container2}>
+            <TouchableOpacity style={styles.container2} onPress={() => navigation.navigate('PaginaAvaliacao')}>
             <Image
                 source={ require('../imagens/image 5.png') }
                 style={styles.imagem}
@@ -29,8 +33,8 @@ const PercursoItem = () => {
                     </Text>
                     <Icon name="star-circle-outline" size={30} color="#7D8995" style={styles.starIcon} />
                 </View>
-            </View>
-            <View style={styles.container2}>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.container2} onPress={() => navigation.navigate('PaginaAvaliacao')}>
                 <Image
                     source={ require('../imagens/image 6.png') }
                     style={styles.imagem}
@@ -45,8 +49,8 @@ const PercursoItem = () => {
                     <Icon name="star-circle-outline" size={30} color="#7D8995" style={styles.starIcon} />
 
                 </View>
-            </View>
-            <View style={styles.container2}>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.container2} onPress={() => navigation.navigate('PaginaAvaliacao')}>
                 <Image
                     source={ require('../imagens/image 7.png') }
                     style={styles.imagem}
@@ -63,8 +67,8 @@ const PercursoItem = () => {
                     <Icon name="star-circle-outline" size={30} color="#7D8995" style={styles.starIcon} />
 
                 </View>
-            </View>
-            <View style={styles.container2}>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.container2} onPress={() => navigation.navigate('PaginaAvaliacao')}>
                 <Image
                     source={ require('../imagens/image 11.png') }
                     style={styles.imagem}
@@ -80,7 +84,7 @@ const PercursoItem = () => {
                     <Icon name="star-circle-outline" size={30} color="#7D8995" style={styles.starIcon} />
 
                 </View>
-            </View>
+            </TouchableOpacity>
         </View>
 
 

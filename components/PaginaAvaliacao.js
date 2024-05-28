@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import { useNavigation } from '@react-navigation/native';
 
 
 const PaginaAvaliacao = () => {
+    const navigation = useNavigation();
     return (
         <View style={styles.container3}>
             <ScrollView>
@@ -65,7 +67,7 @@ const PaginaAvaliacao = () => {
                     </View>
 
                     {/* Botão Terminar */}
-                    <TouchableOpacity style={styles.botaoTerminar}>
+                    <TouchableOpacity style={styles.botaoTerminar} onPress={() => navigation.navigate('NavBar')}>
                         <Text style={styles.textoBotao}>Terminar</Text>
                     </TouchableOpacity>
                 </View>
