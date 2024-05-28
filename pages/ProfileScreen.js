@@ -65,7 +65,7 @@ const FirstRoute = () => (
                     {/* Conteúdo para o botão 1 */}
                     <View style={styles.pontosinteresse}>
                         <Image
-                            source={require('../assets/images/image 16.png')}
+                            source={require('../imagens/image 16.png')}
                             style={styles.smallImage}
                             resizeMode="contain"
                         />
@@ -87,7 +87,7 @@ const FirstRoute = () => (
 
                     <View style={styles.pontosinteresse}>
                         <Image
-                            source={require('../assets/images/image 16.png')}
+                            source={require('../imagens/image 16.png')}
                             style={styles.smallImage}
                             resizeMode="cover"
                         />
@@ -188,7 +188,7 @@ export function TabViewExample() {
                 <View key={index} style={styles.itemGrid}>
                     {index === 0 ? (
                         <View style={styles.placeholder}>
-                            <Image source={require('../assets/icons/back-arrow.png')} style={{width: 25, height: 25}}/>
+                            <Image source={require('../imagens/icons/back-arrow.png')} style={{width: 25, height: 25}}/>
                         </View>
                     ) : (
                         <Image source={image} style={styles.imageGrid} />
