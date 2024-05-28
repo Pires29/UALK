@@ -5,10 +5,12 @@ import NavBar from './components/NavBar';
 import Mapa from './pages/Map'
 import  DescriptionPage from './pages/Description'
 import PercursoFlowConst from '../UALK/pages/PercursoFlow'
+import PaginaAvaliacao from "./pages/PaginaAvaliacao";
+import Media from "./components/media";
 
 export default function App() {
   return (
-      <PercursoFlowConst/>
+      <PaginaAvaliacao/>
   );
 }
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Image, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import RouteInfo from '../components/RouteInfoCaractPercurso';  // Importe o novo componente
 import ButtonRow from '../components/ButtonRowPercursos'
+import StarRating from "../components/Avaliação";
 
 const PercursoFlowConst = ({ navigation }) => {
 
@@ -108,11 +109,7 @@ const PercursoFlowConst = ({ navigation }) => {
                             />
                             <View style={styles.textContainer}>
                                 <Text style={styles.subsubtitle}> Marta Dias </Text>
-                                <Image
-                                    source={require('../assets/images/estrelinhas.png')}
-                                    style={styles.smallImageEstrelinhas}
-                                    resizeMode="cover"
-                                />
+                                <StarRating/>
                             </View>
                         </View>
                         <View style={styles.textContainer}>
