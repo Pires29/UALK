@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import AuthDetails from "./Autenticado";
+import FavoriteList from "./Favorites";
 
 export default function ProfileScreen() {
 
@@ -39,9 +40,9 @@ export default function ProfileScreen() {
                             <Text style={styles.statLabel}>Eventos</Text>
                         </View>
                     </View>
-
                 </View>
             </View>
+            <FavoriteList/>
         </View>
     );
 }

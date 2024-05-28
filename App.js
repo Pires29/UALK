@@ -81,6 +81,7 @@ const App = () => {
         <NavigationContainer>
             <View style={styles.container}>
                 <Stack.Navigator initialRouteName="HomeScreen">
+                    <Stack.Screen name={"HomeScreen"} component={HomeScreen} options={{headerShown: false}}/>
                     <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
                     <Stack.Screen name="CriarConta" component={CriarConta} options={{ headerShown: false }} />
                     <Stack.Screen name="NavBar" component={NavBar} options={{ headerShown: false }} />
