@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Image, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import RouteInfo from '../components/RouteInfoCaractPercurso';  // Importe o novo componente
+import Icon from 'react-native-vector-icons/Ionicons';
+import AverageRating from "../components/componentsAvaliacao/mediaTotal";
 
 const DescriptionPage = ({ navigation }) => {
 
@@ -19,11 +21,19 @@ const DescriptionPage = ({ navigation }) => {
             <View style={styles.background} />
 
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
-                <Image
-                    source={require('../assets/images/porsol.jpeg')}
-                    style={styles.image}
-                    resizeMode="cover"
-                />
+                <View style={styles.imageContainer}>
+                    <Image
+                        source={require('../assets/images/porsol.jpeg')}
+                        style={styles.image}
+                        resizeMode="cover"
+                    />
+                    <TouchableOpacity
+                        style={styles.backButton}
+                        onPress={() => navigation.goBack()}
+                    >
+                        <Icon name="arrow-back" size={24} color="white" />
+                    </TouchableOpacity>
+                </View>
 
                 <View style={styles.field}>
                     <Text style={styles.title}>Percurso da Marinha da Casqueira</Text>
@@ -40,7 +50,7 @@ const DescriptionPage = ({ navigation }) => {
                         style={styles.smallImage2}
                         resizeMode="cover"
                     />
-                    <Text style={styles.textavaliacao}> 4.7 (49) </Text>
+                    <Text style={styles.textavaliacao}> <AverageRating/> </Text>
                 </View>
 
                 {/* Informações do trajeto */}
@@ -165,6 +175,7 @@ const DescriptionPage = ({ navigation }) => {
                         <Text>Conteúdo do botão 2</Text>
                     </View>
                 )}
+
 
                 <TouchableOpacity
                     style={styles.button2}
@@ -391,6 +402,15 @@ const styles = StyleSheet.create({
     content: {
         marginTop: 20,
     },
+
+    backButton: {
+        position: 'absolute',
+        top: 20,
+        left: 20,
+        padding: 10,
+        borderRadius: 5,
+    },
+
 });
 
 export default DescriptionPage;

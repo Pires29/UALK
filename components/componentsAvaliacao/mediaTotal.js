@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import { db } from '../../FireBase'; // Certifique-se de que o caminho esteja correto
 import { collection, getDocs } from 'firebase/firestore';
 
@@ -40,9 +40,16 @@ const AverageRating = () => {
 
     return (
         <View>
-            <Text>Média de Avaliação: {averageRating.toFixed(2)}</Text>
+            <Text style={styles.textMedia}> {averageRating.toFixed(2)} </Text>
         </View>
     );
 };
 
 export default AverageRating;
+
+const styles = StyleSheet.create({
+    textMedia: {
+        color: 'white',
+        fontSize: 16,
+    },
+});
