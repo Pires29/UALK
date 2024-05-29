@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
-import NavPrincipal from './NavPrincipal';
-import PercursoItem from './PercursoItem';
-import AtividadesItem from './Atividades';
+import NavPrincipal from '../components/NavPrincipal';
+import PercursoItem from '../components/PercursoItem';
+import AtividadesItem from '../components/Atividades';
 
 const UalkScreen = () => {
     const [selectedOption, setSelectedOption] = useState('Percursos');

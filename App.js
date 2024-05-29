@@ -15,13 +15,14 @@ import RatingScreen from './components/componentsAvaliacao/media'; // Importaç�
 import PaginaAvaliacao from './components/PaginaAvaliacao';
 import CriarConta from './components/componentsConta/CriarConta';
 import Login from './components/componentsConta/Login';
-import UalkScreen from "./components/UalkScreen";
+import UalkScreen from "./pages/UalkScreen";
 import FavoritesPage from "./pages/FavoritesPage";
 import ProfileScreen from "./pages/ProfileScreen";
 import Section2 from "./components/Section2";
 import HomeScreen from "./components/HomeScreen";
 import Section3 from "./pages/Section3";
-import Description from "./pages/Description";
+import Map from './pages/Map';
+import MapMarkers from './pages/MapMarkers';
 
 // Nomes das telas
 const homeName = "Home";
@@ -75,7 +76,7 @@ function NavBar() {
                 },
             })}
         >
-
+          
             <Tab.Screen name={homeName} component={HomeScreen} />
             <Tab.Screen name={ualkName} component={UalkScreen} />
             <Tab.Screen name={section2Name} component={Section2} />
@@ -98,8 +99,6 @@ const App = () => {
                     <Stack.Screen name="PaginaAvaliacao" component={PaginaAvaliacao} options={{ headerShown: false }} />
                     {/* Adiciona o stack de navegação para a tela de avaliação */}
                     <Stack.Screen name="Avaliacao" component={RatingScreen} options={{ headerShown: false }} />
-                    <Stack.Screen name="Description" component={Description} options={{ headerShown: false }} />
-
                     <Stack.Screen name="Favorites" component={FavoritesPage} options={{
           headerTitle: "Atividade",
           headerTitleAlign: 'center',
@@ -107,13 +106,15 @@ const App = () => {
             backgroundColor: '#2C333C', // Define a cor de fundo como transparente
             elevation: 0, // remove shadow on Android
             shadowOpacity: 0, // remove shadow on iOS
-          },
+          }, 
           headerTintColor: 'white', // Define a cor do texto do título como branco
           headerBackTitleStyle: {
           color: 'white', // Define a cor do texto de voltar atrás como branco
           },
 
         }}/>
+                    <Stack.Screen name="Map" component={Map} options={{ headerShown: false }} />
+                    <Stack.Screen name="MapMarkers" component={MapMarkers} options={{ headerShown: false }} />
                 </Stack.Navigator>
             </View>
         </NavigationContainer>
