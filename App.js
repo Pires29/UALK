@@ -15,7 +15,7 @@ import RatingScreen from './components/componentsAvaliacao/media'; // Importa√ß√
 import PaginaAvaliacao from './components/PaginaAvaliacao';
 import CriarConta from './components/componentsConta/CriarConta';
 import Login from './components/componentsConta/Login';
-import UalkScreen from "./components/UalkScreen";
+import UalkScreen from "./pages/UalkScreen";
 import FavoritesPage from "./pages/FavoritesPage";
 import ProfileScreen from "./pages/ProfileScreen";
 import Section2 from "./components/Section2";
