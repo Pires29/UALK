@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, useWindowDimensions, ScrollView } from 'react-native';
+import AuthDetails from "../components/Autenticado";
+import FavoriteList from "../components/Favorites";
 import { useNavigation } from '@react-navigation/native';
-import Favorites from './Favorites';
+import Favorites from './FavoritesPage';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 
 export default function ProfileScreen() {
@@ -17,12 +19,12 @@ export default function ProfileScreen() {
             <View style={{width: "100%", padding: 40,}}>
                 <View style={{alignItems: 'center', justifyContent: 'center', marginBottom: 30}}>
                     <Image
-                    source={require('../assets/images/image 16.png')} // Substitua './caminho/para/sua/imagem.jpg' pelo caminho relativo da sua imagem
-                    style={{ width: 100, height: 100 }} // Ajuste a largura e altura conforme necessário
+                        source={require('../imagens/image 17.png')}
+                        style={{ width: 120, height: 120 }}
                     />
-                    <View style={{ alignItems: 'center', justifyContent: 'center'}}>
-                        <Text style={{ color: 'green', fontSize: 24, }}>Olá,</Text>
-                        <Text style={{color: "white", fontSize: 24}}>Marta Dias</Text>
+                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                        <Text style={{ color: 'green', fontSize: 24 }}>Olá,</Text>
+                        <AuthDetails />
                     </View>
                 </View>
                 <TouchableOpacity onPress={goToOtherComponent}>
@@ -30,8 +32,8 @@ export default function ProfileScreen() {
                     <View style={styles.innerContainer}>
                         <Text style={styles.maintext}>Atividade</Text>
                         <Image
-                            source={require('../assets/icons/back-arrow.png')} // Substitua './caminho/para/sua/imagem.jpg' pelo caminho relativo da sua imagem
-                            style={{ width: 20, height: 20 }} // Ajuste a largura e altura conforme necessário
+                            source={require('../imagens/icons/back-arrow.png')}
+                            style={{ width: 20, height: 20 }}
                         />
                     </View>
                     <View style={styles.innerContainer2}>
@@ -51,6 +53,7 @@ export default function ProfileScreen() {
                 </View>
                 </TouchableOpacity>
             </View>
+
             <TabViewExample/>
         </ScrollView>
     );
@@ -62,7 +65,7 @@ const FirstRoute = () => (
                     {/* Conteúdo para o botão 1 */}
                     <View style={styles.pontosinteresse}>
                         <Image
-                            source={require('../assets/images/image 16.png')}
+                            source={require('../imagens/image 16.png')}
                             style={styles.smallImage}
                             resizeMode="contain"
                         />
@@ -84,7 +87,7 @@ const FirstRoute = () => (
 
                     <View style={styles.pontosinteresse}>
                         <Image
-                            source={require('../assets/images/image 16.png')}
+                            source={require('../imagens/image 16.png')}
                             style={styles.smallImage}
                             resizeMode="cover"
                         />
@@ -185,7 +188,7 @@ export function TabViewExample() {
                 <View key={index} style={styles.itemGrid}>
                     {index === 0 ? (
                         <View style={styles.placeholder}>
-                            <Image source={require('../assets/icons/back-arrow.png')} style={{width: 25, height: 25}}/>
+                            <Image source={require('../imagens/icons/back-arrow.png')} style={{width: 25, height: 25}}/>
                         </View>
                     ) : (
                         <Image source={image} style={styles.imageGrid} />
@@ -197,6 +200,7 @@ export function TabViewExample() {
 }
 
 const styles = StyleSheet.create({
+
     containerGrid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
@@ -240,9 +244,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginTop: 20,
-    },
-    item: {
-        alignItems: 'center',
     },
     statNumber: {
         color: "white",
