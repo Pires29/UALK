@@ -53,7 +53,7 @@ const PercursoItem = () => {
                 <TouchableOpacity
                     key={percurso.id}
                     style={styles.container2}
-                    onPress={() => navigation.navigate('PaginaAvaliacao')}
+                    onPress={() => navigation.navigate('Description')}
                 >
                     <Image
                         source={percurso.imagem}
