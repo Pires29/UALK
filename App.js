@@ -1,12 +1,11 @@
 import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import UalkIcon from './imagens/icons/pegada.png';
-import HomeIcon from './imagens/icons/Home.png';
+import HomeIcon from './imagens/icons/pegada.png';
 import ProfileIcon from './imagens/icons/image 8.png';
 import Section2Icon from './imagens/icons/pegada.png';
 import Section3Icon from './imagens/icons/pegada.png';
@@ -22,8 +21,8 @@ import ProfileScreen from "./pages/ProfileScreen";
 import Section2 from "./components/Section2";
 import HomeScreen from "./components/HomeScreen";
 import Section3 from "./pages/Section3";
-import MapMarkers from './pages/MapMarkers';
 import Map from './pages/Map';
+import MapMarkers from './pages/MapMarkers';
 
 // Nomes das telas
 const homeName = "Home";
@@ -90,10 +89,9 @@ function NavBar() {
 
 const App = () => {
     return (
-      <GestureHandlerRootView style={{ flex: 1 }}>
         <NavigationContainer>
             <View style={styles.container}>
-                <Stack.Navigator initialRouteName="MapMarkers">
+                <Stack.Navigator initialRouteName="HomeScreen">
                     <Stack.Screen name={"HomeScreen"} component={HomeScreen} options={{headerShown: false}}/>
                     <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
                     <Stack.Screen name="CriarConta" component={CriarConta} options={{ headerShown: false }} />
@@ -102,24 +100,24 @@ const App = () => {
                     {/* Adiciona o stack de navegação para a tela de avaliação */}
                     <Stack.Screen name="Avaliacao" component={RatingScreen} options={{ headerShown: false }} />
                     <Stack.Screen name="Favorites" component={FavoritesPage} options={{
-                      headerTitle: "Atividade",
-                      headerTitleAlign: 'center',
-                      headerStyle: {
-                        backgroundColor: '#2C333C', // Define a cor de fundo como transparente
-                        elevation: 0, // remove shadow on Android
-                        shadowOpacity: 0, // remove shadow on iOS
-                      }, 
-                      headerTintColor: 'white', // Define a cor do texto do título como branco
-                      headerBackTitleStyle: {
-                      color: 'white', // Define a cor do texto de voltar atrás como branco
-                      },
-                    }}/>
-                    <Stack.Screen name="Map" component={Map} />
-                    <Stack.Screen name="MapMarkers" component={MapMarkers} />
+          headerTitle: "Atividade",
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#2C333C', // Define a cor de fundo como transparente
+            elevation: 0, // remove shadow on Android
+            shadowOpacity: 0, // remove shadow on iOS
+          }, 
+          headerTintColor: 'white', // Define a cor do texto do título como branco
+          headerBackTitleStyle: {
+          color: 'white', // Define a cor do texto de voltar atrás como branco
+          },
+
+        }}/>
+                    <Stack.Screen name="Map" component={Map} options={{ headerShown: false }} />
+                    <Stack.Screen name="Map" component={MapMarkers} options={{ headerShown: false }} />
                 </Stack.Navigator>
             </View>
         </NavigationContainer>
-        </GestureHandlerRootView>
     );
 };
 

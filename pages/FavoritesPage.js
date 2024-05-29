@@ -3,6 +3,7 @@ import { Text, View, useWindowDimensions, Image, TouchableOpacity } from 'react-
 import { TabBar, TabView, SceneMap } from 'react-native-tab-view';
 import Concluidos from '../components/Atividade/Concluidos';
 import Favoritos from '../components/Atividade/Favoritos';
+import FavoriteList from "../components/Favorites";
 import Eventos from '../components/Atividade/Eventos';
 import { useNavigation } from '@react-navigation/native';
 
@@ -11,7 +12,7 @@ const FirstRoute = () => (
 );
 
 const SecondRoute = () => (
-  <Favoritos/>
+  <FavoriteList/>
 );
 
 const ThirdRoute = () => (

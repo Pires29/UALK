@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Image, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import RouteInfo from '../components/RouteInfoCaractPercurso';  // Importe o novo componente
-import NavBar from "../components/NavBar";
 
 const DescriptionPage = ({ navigation }) => {
 
