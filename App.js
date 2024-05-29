@@ -114,7 +114,7 @@ const App = () => {
 
         }}/>
                     <Stack.Screen name="Map" component={Map} options={{ headerShown: false }} />
-                    <Stack.Screen name="Map" component={MapMarkers} options={{ headerShown: false }} />
+                    <Stack.Screen name="MapMarkers" component={MapMarkers} options={{ headerShown: false }} />
                 </Stack.Navigator>
             </View>
         </NavigationContainer>
