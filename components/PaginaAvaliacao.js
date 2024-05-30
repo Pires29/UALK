@@ -38,9 +38,10 @@ const PaginaAvaliacao = () => {
 
         if (authUser) {
             try {
-                await addDoc(collection(db, "users"), {
+                const username = authUser.displayName || authUser.email;  // Altere aqui para usar o displayName se estiver disponível
+                await addDoc(collection(db, "comments"), {
                     userId: authUser.uid,
-                    username: authUser.displayName || authUser.email,
+                    username: username,  // Use o displayName do usuário
                     comment: comentario,
                     percursoId: percurso.id,  // Associando o comentário ao percurso
                     timestamp: new Date(),

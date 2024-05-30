@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
-import { View, Image, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Image, Text, TouchableOpacity, StyleSheet, ScrollView, FlatList } from 'react-native';
 import RouteInfo from '../components/RouteInfoCaractPercurso';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AverageRating from "../components/componentsAvaliacao/percurso1/mediaTotal";
 import AverageRating2 from "../components/componentsAvaliacao/percurso2/mediatotal2";
-
+import { db } from '../FireBase';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 
 const DescriptionPage = ({ navigation, route }) => {
     const { percurso } = route.params;
@@ -16,6 +17,18 @@ const DescriptionPage = ({ navigation, route }) => {
     }
 
     const [selectedButton, setSelectedButton] = useState(1);
+    const [comments, setComments] = useState([]);
+
+    useEffect(() => {
+        const fetchComments = async () => {
+            const q = query(collection(db, 'comments'), where('percursoId', '==', percurso.id));
+            const querySnapshot = await getDocs(q);
+            const commentsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            setComments(commentsData);
+        };
+
+        fetchComments();
+    }, [percurso.id]);
 
     const handleButtonPress2 = (buttonNumber) => {
         setSelectedButton(buttonNumber);
@@ -66,7 +79,7 @@ const DescriptionPage = ({ navigation, route }) => {
                 </View>
 
                 <View style={styles.descricao}>
-                    <Text style={styles.subtitle2}> Pontos de Interesse </Text>
+                    <Text style={styles.subtitle2}> Pontos de Interesse </ Text>
                 </View>
                 <View style={styles.pontosinteresse}>
                     <Image
@@ -75,8 +88,8 @@ const DescriptionPage = ({ navigation, route }) => {
                         resizeMode="cover"
                     />
                     <View style={styles.textContainer}>
-                        <Text style={styles.subsubtitle}> Casa do estudante </Text>
-                        <Text style={styles.text2}>Edifício que alberga a sede da Associação Académica da Universidade de Aveiro (AAUAv). </Text>
+                        <Text style={styles.subsubtitle}> Casa do estudante </ Text>
+                        <Text style={styles.text2}>Edifício que alberga a sede da Associação Académica da Universidade de Aveiro (AAUAv). </ Text>
                     </View>
                 </View>
 
@@ -87,13 +100,13 @@ const DescriptionPage = ({ navigation, route }) => {
                         resizeMode="cover"
                     />
                     <View style={styles.textContainer}>
-                        <Text style={styles.subsubtitle}> Marinha da Casqueira </Text>
-                        <Text style={styles.text3}>Marinha que se encontra junto à Universidade </Text>
+                        <Text style={styles.subsubtitle}> Marinha da Casqueira </ Text>
+                        <Text style={styles.text3}>Marinha que se encontra junto à Universidade </ Text>
                     </View>
                 </View>
 
                 <View style={styles.descricao}>
-                    <Text style={styles.subtitle2}> Mapa </Text>
+                    <Text style={styles.subtitle2}> Mapa </ Text>
                 </View>
 
                 <TouchableOpacity
@@ -112,14 +125,14 @@ const DescriptionPage = ({ navigation, route }) => {
                         style={[styles.button, selectedButton === 1 && styles.selectedButton]}
                         onPress={() => handleButtonPress2(1)}
                     >
-                        <Text style={styles.buttonText2}>COMENTÁRIOS</Text>
+                        <Text style={styles.buttonText2}>COMENTÁRIOS</ Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         style={[styles.button, selectedButton === 2 && styles.selectedButton]}
                         onPress={() => handleButtonPress2(2)}
                     >
-                        <Text style={styles.buttonText2}>FOTOS</Text>
+                        <Text style={styles.buttonText2}>FOTOS</ Text>
                     </TouchableOpacity>
                 </View>
 
@@ -127,45 +140,33 @@ const DescriptionPage = ({ navigation, route }) => {
 
                 {selectedButton === 1 ? (
                     <View style={styles.content}>
-                        <View style={styles.pontosinteresse}>
-                            <Image
-                                source={require('../assets/images/menina.jpeg')}
-                                style={styles.smallImage}
-                                resizeMode="contain"
-                            />
-                            <View style={styles.textContainer}>
-                                <Text style={styles.subsubtitle}> Marta Dias </Text>
-                                <Image
-                                    source={require('../assets/images/estrelinhas.png')}
-                                    style={styles.smallImageEstrelinhas}
-                                    resizeMode="cover"
-                                />
-                            </View>
-                        </View>
-                        <View style={styles.textContainer}>
-                            <Text style={styles.textComentarios}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do </Text>
-                        </View>
-
-                        <View style={styles.separator} />
-
-                        <View style={styles.pontosinteresse}>
-                            <Image
-                                source={require('../assets/images/menino.jpeg')}
-                                style={styles.smallImage}
-                                resizeMode="cover"
-                            />
-                            <View style={styles.textContainer}>
-                                <Text style={styles.subsubtitle}> João Pais </ Text>
-                                <Image
-                                    source={require('../assets/images/estrelinhas.png')}
-                                    style={styles.smallImageEstrelinhas}
-                                    resizeMode="cover"
-                                />
-                            </View>
-                        </View>
-                        <View style={styles.textContainer}>
-                            <Text style={styles.textComentarios}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do </Text>
-                        </View>
+                        <FlatList
+                            data={comments}
+                            keyExtractor={(item) => item.id}
+                            renderItem={({ item }) => (
+                                <View>
+                                    <View style={styles.pontosinteresse}>
+                                        <Image
+                                            source={require('../imagens/icons/Profile.png')}
+                                            style={styles.smallImage}
+                                            resizeMode="contain"
+                                        />
+                                        <View style={styles.textContainer}>
+                                            <Text style={styles.subsubtitle}>{item.username}</ Text>
+                                            <Image
+                                                source={require('../assets/images/estrelinhas.png')}
+                                                style={styles.smallImageEstrelinhas}
+                                                resizeMode="cover"
+                                            />
+                                        </View>
+                                    </View>
+                                    <View style={styles.textContainer}>
+                                        <Text style={styles.textComentarios}>{item.comment}</ Text>
+                                    </View>
+                                    <View style={styles.separator} />
+                                </View>
+                            )}
+                        />
                         <TouchableOpacity
                             style={styles.button1}
                             onPress={() => navigation.navigate('OutraPagina')}
@@ -175,16 +176,15 @@ const DescriptionPage = ({ navigation, route }) => {
                     </View>
                 ) : (
                     <View style={styles.content}>
-                        <Text>Conteúdo do botão 2</Text>
+                        <Text>Conteúdo do botão 2</ Text>
                     </View>
                 )}
-
 
                 <TouchableOpacity
                     style={styles.button2}
                     onPress={() => navigation.navigate('PaginaAvaliacao', { percurso })}  // Passe o percurso como parâmetro
                 >
-                    <Text style={styles.buttonText}>Let's UALK</Text>
+                    <Text style={styles.buttonText}>Let's UALK</ Text>
                 </TouchableOpacity>
 
             </ScrollView>
@@ -414,7 +414,6 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 5,
     },
-
 });
 
 export default DescriptionPage;
