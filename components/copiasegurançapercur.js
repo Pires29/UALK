@@ -6,11 +6,6 @@ import SearchBar from "./SearchBar";
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from "../FireBase";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
-import AverageRating from "./componentsAvaliacao/percurso1/mediaTotal";
-import RatingScreen from "./componentsAvaliacao/percurso1/media";
-import RatingScreen2 from "./componentsAvaliacao/percurso2/media2";
-import AverageRating2 from "./componentsAvaliacao/percurso2/mediatotal2";
-
 
 const PercursoItem = () => {
     const carouselData = [
@@ -33,29 +28,21 @@ const PercursoItem = () => {
     const percursos = [
         {
             id: 1,
-            nome: 'Marinha da Casqueira',
-            imagem: require('../assets/images/porsol.jpeg'),
+            nome: 'Percurso 1',
+            imagem: require('../imagens/image 5.png'),
             comprimento: '15Km',
             classificacao: '4.5',
-            descricao: 'Aproveita a calma das marinhas para ver o pôr do sol, ou ler um livro,enquanto ouves uma música relaxante',
-            tempo: '25 min',
-            dificuldade: 'Fácil',
-            acessibilidade: 'Normal',
-            mapa: require('../assets/images/mapa.jpeg'),
+            descricao: 'Aproveita a calma das marinhas para ver o pôr do sol, ou ler um livro,enquanto ouves uma música relaxante'
         },
         {
             id: 2,
-            nome: 'Casa do Estudante',
-            imagem: require('../assets/images/casaestudante.jpeg'),
+            nome: 'Percurso 2',
+            imagem: require('../imagens/image 6.png'),
             comprimento: '15Km',
             classificacao: '4.5',
-            descricao: 'Conhece a Casa do Estudante-Atleta e o Museu do Desporto Universitário Português da FADU, espaço onde é contada a história da federação.',
-            tempo: '30 min',
-            dificuldade: 'Difícil',
-            acessibilidade: 'Normal',
-            mapa: require('../assets/images/mapa.jpeg'),
+            descricao: 'Conhece a Casa do Estudante-Atleta e o Museu do Desporto Universitário Português da FADU, espaço onde é contada a história da federação.'
         },
-
+        // Adicione mais percursos aqui...
     ];
 
     return (
@@ -66,7 +53,7 @@ const PercursoItem = () => {
                 <TouchableOpacity
                     key={percurso.id}
                     style={styles.container2}
-                    onPress={() => navigation.navigate('Description', { percurso: percurso })}
+                    onPress={() => navigation.navigate('Description')}
                 >
                     <Image
                         source={percurso.imagem}
@@ -136,3 +123,4 @@ const styles = StyleSheet.create({
 });
 
 export default PercursoItem;
+

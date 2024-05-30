@@ -1,15 +1,10 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { View, Image, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import RouteInfo from '../components/RouteInfoCaractPercurso';
+import RouteInfo from '../components/RouteInfoCaractPercurso';  // Importe o novo componente
 import Icon from 'react-native-vector-icons/Ionicons';
-import AverageRating from "../components/componentsAvaliacao/percurso1/mediaTotal";
-import AverageRating2 from "../components/componentsAvaliacao/percurso2/mediatotal2";
+import AverageRating from "./componentsAvaliacao/percurso1/mediaTotal";
 
-
-const DescriptionPage = ({ navigation, route }) => {
-    const { percurso } = route.params;
-
-    const AvaliacaoQuantitativa = percurso.id === 1 ? AverageRating : AverageRating2;
+const DescriptionPage = ({ navigation }) => {
 
     const handleButtonPress = () => {
         navigation.navigate('colocarapagina');
@@ -28,7 +23,7 @@ const DescriptionPage = ({ navigation, route }) => {
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <View style={styles.imageContainer}>
                     <Image
-                        source={percurso.imagem}
+                        source={require('../assets/images/porsol.jpeg')}
                         style={styles.image}
                         resizeMode="cover"
                     />
@@ -41,7 +36,7 @@ const DescriptionPage = ({ navigation, route }) => {
                 </View>
 
                 <View style={styles.field}>
-                    <Text style={styles.title}>Percurso {percurso.nome}</Text>
+                    <Text style={styles.title}>Percurso da Marinha da Casqueira</Text>
                     <Image
                         source={require('../assets/images/passos.jpeg')}
                         style={styles.smallpassos}
@@ -55,14 +50,16 @@ const DescriptionPage = ({ navigation, route }) => {
                         style={styles.smallImage2}
                         resizeMode="cover"
                     />
-                    <Text style={styles.textavaliacao}> <AvaliacaoQuantitativa/> </Text>
+                    <Text style={styles.textavaliacao}> <AverageRating/> </Text>
                 </View>
+
                 {/* Informações do trajeto */}
-                <RouteInfo time={percurso.tempo} difficulty={percurso.dificuldade} accessibility={percurso.acessibilidade} />
+                <RouteInfo time="25 min" difficulty="Fácil" accessibility="Normal" />
 
                 <View style={styles.descricao}>
                     <Text style={styles.subtitle}> Descrição </Text>
-                    <Text style={styles.text}>{percurso.descricao}</Text>
+                    <Text style={styles.text}>Este é um percurso agradável que se inicia na Casa do Estudante e acaba na belíssima marinha da Casqueira.
+                        Aproveita a calma das marinhas para ver o pôr do sol, ou ler um livro, enquanto ouves uma música relaxante.  </Text>
                 </View>
 
                 <View style={styles.descricao}>
@@ -182,11 +179,10 @@ const DescriptionPage = ({ navigation, route }) => {
 
                 <TouchableOpacity
                     style={styles.button2}
-                    onPress={() => navigation.navigate('PaginaAvaliacao', { percurso })}  // Passe o percurso como parâmetro
+                    onPress={() => navigation.navigate('OutraPagina')}
                 >
                     <Text style={styles.buttonText}>Let's UALK</Text>
                 </TouchableOpacity>
-
             </ScrollView>
         </View>
     );
