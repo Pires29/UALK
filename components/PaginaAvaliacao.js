@@ -1,25 +1,69 @@
-import React from 'react';
-import { SafeAreaView, View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView, View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import RatingScreen from "./componentsAvaliacao/percurso1/media";
 import Icon from "react-native-vector-icons/Ionicons";
 import RatingScreen2 from "./componentsAvaliacao/percurso2/media2";
+import { auth, db } from "../FireBase";
+import { onAuthStateChanged } from "firebase/auth";
+import { collection, addDoc } from "firebase/firestore";
 
 const PaginaAvaliacao = () => {
     const navigation = useNavigation();
     const route = useRoute();
     const { percurso } = route.params;  // Receba os parâmetros do percurso
-
     const AvaliacaoEstrelas = percurso.id === 1 ? RatingScreen : RatingScreen2;
+
+    const [authUser, setAuthUser] = useState(null);
+    const [comentario, setComentario] = useState('');
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setAuthUser(user);
+            } else {
+                setAuthUser(null);
+            }
+        });
+        return () => {
+            unsubscribe();
+        };
+    }, []);
+
+    const handleCommentSubmit = async () => {
+        if (!comentario.trim()) {
+            Alert.alert("Erro", "O comentário não pode estar vazio");
+            return;
+        }
+
+        if (authUser) {
+            try {
+                await addDoc(collection(db, "users"), {
+                    userId: authUser.uid,
+                    username: authUser.displayName || authUser.email,
+                    comment: comentario,
+                    percursoId: percurso.id,  // Associando o comentário ao percurso
+                    timestamp: new Date(),
+                });
+                Alert.alert("Sucesso", "Comentário adicionado com sucesso!");
+                setComentario('');
+            } catch (error) {
+                console.error("Erro ao adicionar comentário: ", error);
+                Alert.alert("Erro", "Não foi possível adicionar o comentário");
+            }
+        } else {
+            Alert.alert("Erro", "Usuário não autenticado");
+        }
+    };
 
     return (
         <View style={styles.container3}>
             <ScrollView>
                 <View>
-                <Image
-                    source={percurso.imagem}  // Use a imagem do percurso
-                    style={styles.imagemTopo}
-                />
+                    <Image
+                        source={percurso.imagem}  // Use a imagem do percurso
+                        style={styles.imagemTopo}
+                    />
                     <TouchableOpacity
                         style={styles.backButton}
                         onPress={() => navigation.goBack()}
@@ -61,11 +105,17 @@ const PaginaAvaliacao = () => {
                         placeholderTextColor="#9F9F9F"
                         style={styles.comentarioInput}
                         multiline
+                        value={comentario}
+                        onChangeText={setComentario}
                     />
+                    <TouchableOpacity style={styles.botaoSubmeter} onPress={handleCommentSubmit}>
+                        <Text style={styles.textoBotao}>Submeter Comentário</Text>
+                    </TouchableOpacity>
+
                     <Text style={styles.titulos}>Fotos</Text>
                     <Text style={styles.Texto}>Adiciona as tuas fotos do percurso</Text>
                     <View style={styles.exemplosImagens}>
-                        <Image source={require('../imagens/image 5.png')} style={styles.imagemExemplo}/>
+                        <Image source={require('../imagens/image 5.png')} style={styles.imagemExemplo} />
                         <Image source={{ uri: 'https://via.placeholder.com/100' }} style={styles.imagemExemplo} />
                         <Image source={{ uri: 'https://via.placeholder.com/100' }} style={styles.imagemExemplo} />
                     </View>
@@ -105,12 +155,20 @@ const styles = StyleSheet.create({
         height: 200,
         marginBottom: 10,
     },
+    backButton: {
+        position: 'absolute',
+        top: 10,
+        left: 10,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        padding: 10,
+        borderRadius: 20,
+    },
     nomePercurso: {
         color: 'white',
         fontSize: 25,
         fontWeight: 'bold',
         marginBottom: 10,
-        marginLeft: 20
+        marginLeft: 20,
     },
     avaliacao: {
         color: 'white',
@@ -124,7 +182,7 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 10,
         marginBottom: 10,
-        marginLeft: 20
+        marginLeft: 20,
     },
     data: {
         color: '#979797',
@@ -172,6 +230,15 @@ const styles = StyleSheet.create({
         marginRight: 10,
         borderRadius: 5,
     },
+    botaoSubmeter: {
+        backgroundColor: '#62BB76',  // Alterado para um tom de verde para melhor contraste
+        borderRadius: 5,
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        width: '70%',
+        alignItems: "center",
+        marginTop: 20,
+    },
     botaoTerminar: {
         backgroundColor: 'white',
         borderRadius: 5,
@@ -182,7 +249,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     textoBotao: {
-        color: '#000',
+        color: '#000',  // Texto do botão de terminar
         fontWeight: 'bold',
         fontSize: 18,
     },

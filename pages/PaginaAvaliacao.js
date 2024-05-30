@@ -1,12 +1,53 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { auth, db } from "../FireBase";
+import { onAuthStateChanged } from "firebase/auth";
+import { collection, addDoc } from "firebase/firestore";
 import StarRating from "../components/Avaliação";
 import Media from "../components/media";
 
-
 const PaginaAvaliacao = () => {
+    const [authUser, setAuthUser] = useState(null);
+    const [comentario, setComentario] = useState('');
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setAuthUser(user);
+            } else {
+                setAuthUser(null);
+            }
+        });
+        return () => {
+            unsubscribe();
+        };
+    }, []);
+
+    const handleCommentSubmit = async () => {
+        if (!comentario.trim()) {
+            Alert.alert("Erro", "O comentário não pode estar vazio");
+            return;
+        }
+
+        if (authUser) {
+            try {
+                await addDoc(collection(db, "comments"), {
+                    userId: authUser.uid,
+                    username: authUser.displayName || authUser.email,
+                    comment: comentario,
+                    timestamp: new Date(),
+                });
+                Alert.alert("Sucesso", "Comentário adicionado com sucesso!");
+                setComentario('');
+            } catch (error) {
+                console.error("Erro ao adicionar comentário: ", error);
+                Alert.alert("Erro", "Não foi possível adicionar o comentário");
+            }
+        } else {
+            Alert.alert("Erro", "Usuário não autenticado");
+        }
+    };
+
     return (
         <View style={styles.container3}>
             <ScrollView>
@@ -14,17 +55,13 @@ const PaginaAvaliacao = () => {
                     source={require('../assets/images/porsol.jpeg')}
                     style={styles.imagemTopo}
                 />
-                {/* Nome do percurso */}
                 <Text style={styles.nomePercurso}>Nome do Percurso</Text>
                 <Text style={styles.data}>27 de março de 2024</Text>
 
                 <Text style={styles.avaliacao}>Avaliação</Text>
                 <Text style={styles.descricaoAvaliacao}>Adiciona a tua avaliação</Text>
-                <Media/>
+                <Media />
 
-
-
-                {/* Data, avaliação e outras informações */}
                 <View style={styles.container2}>
                     <View style={styles.infoGroup}>
                         <Text style={styles.infoTitle}>Comprimento</Text>
@@ -35,6 +72,7 @@ const PaginaAvaliacao = () => {
                         <Text style={styles.infoValue}>2 horas</Text>
                     </View>
                 </View>
+
                 <View style={styles.container}>
                     <Text style={styles.titulos}>A tua rota</Text>
                     <Image
@@ -50,19 +88,20 @@ const PaginaAvaliacao = () => {
                         placeholderTextColor="#9F9F9F"
                         style={styles.comentarioInput}
                         multiline
+                        value={comentario}
+                        onChangeText={setComentario}
                     />
+                    <TouchableOpacity style={styles.botaoTerminar} onPress={handleCommentSubmit}>
+                        <Text style={styles.textoBotao}>Submeter Comentário</Text>
+                    </TouchableOpacity>
+
                     <Text style={styles.titulos}>Fotos</Text>
                     <Text style={styles.Texto}>Adiciona as tuas fotos do percurso</Text>
                     <View style={styles.exemplosImagens}>
-                        <Image source={require('../assets/images/menina.jpeg')} style={styles.imagemExemplo}/>
+                        <Image source={require('../assets/images/menina.jpeg')} style={styles.imagemExemplo} />
                         <Image source={require('../assets/images/menina.jpeg')} style={styles.imagemExemplo} />
                         <Image source={require('../assets/images/menina.jpeg')} style={styles.imagemExemplo} />
                     </View>
-
-                    {/* Botão Terminar */}
-                    <TouchableOpacity style={styles.botaoTerminar}>
-                        <Text style={styles.textoBotao}>Terminar</Text>
-                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </View>
@@ -78,13 +117,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         padding: 20,
-    },
-    containerstar:{
-        flex: 1,
-        marginLeft: 20,
-        marginBottom: 20,
-        flexDirection: 'row',
-
     },
     container2: {
         flexDirection: 'row',
@@ -107,10 +139,9 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold',
         marginBottom: 10,
-        marginLeft: 20
-
+        marginLeft: 20,
     },
-    avaliacao:{
+    avaliacao: {
         color: 'white',
         fontSize: 20,
         fontWeight: 'bold',
@@ -118,13 +149,12 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         alignSelf: 'flex-start',
     },
-    descricaoAvaliacao:{
+    descricaoAvaliacao: {
         color: 'white',
         fontSize: 10,
         marginBottom: 10,
-        marginLeft: 20
+        marginLeft: 20,
     },
-
     data: {
         color: '#979797',
         marginLeft: 20,
@@ -172,7 +202,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     botaoTerminar: {
-        backgroundColor: 'white',
+        backgroundColor: '#62BB76',  // Alterado para um tom de verde para melhor contraste
         borderRadius: 5,
         paddingVertical: 10,
         paddingHorizontal: 10,
@@ -181,7 +211,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     textoBotao: {
-        color: '#000',
+        color: 'white',  // Alterado para branco para melhor visibilidade
         fontWeight: 'bold',
         fontSize: 18,
     },
@@ -191,14 +221,15 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         fontSize: 10,
     },
-    titulos:{
+    titulos: {
         color: 'white',
         alignSelf: 'flex-start',
         marginBottom: 5,
         fontWeight: 'bold',
         fontSize: 20,
-    }
+    },
 });
 
 export default PaginaAvaliacao;
+
 
