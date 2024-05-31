@@ -31,14 +31,6 @@ function PesquisaMapa({ selectedMarker, setSelectedMarker }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="Enter city name"
-          onChangeText={handleOnChangeText}
-          value={input}
-          style={styles.input}
-        />
-      </View>
       <View style={styles.markerDetails}>
         <Text style={styles.heading}>Pontos</Text>
         {selectedMarker.length === 0 ? (

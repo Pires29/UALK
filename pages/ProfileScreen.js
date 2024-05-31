@@ -65,7 +65,7 @@ const FirstRoute = () => (
                     {/* Conteúdo para o botão 1 */}
                     <View style={styles.pontosinteresse}>
                         <Image
-                            source={require('../imagens/image 16.png')}
+                            source={require('../imagens/image 17.png')}
                             style={styles.smallImage}
                             resizeMode="contain"
                         />
@@ -87,7 +87,7 @@ const FirstRoute = () => (
 
                     <View style={styles.pontosinteresse}>
                         <Image
-                            source={require('../imagens/image 16.png')}
+                            source={require('../assets/images/menino.jpeg')}
                             style={styles.smallImage}
                             resizeMode="cover"
                         />

@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import UalkIcon from './imagens/icons/pegada.png';
-import HomeIcon from './imagens/icons/pegada.png';
+import HomeIcon from './imagens/icons/Home.png';
 import ProfileIcon from './imagens/icons/image 8.png';
 import Section2Icon from './imagens/icons/pegada.png';
 import Section3Icon from './imagens/icons/pegada.png';
@@ -119,7 +119,7 @@ const App = () => {
         }}/>
                     <Stack.Screen name="Map" component={Map} options={{ headerShown: false }} />
                     <Stack.Screen
-  name="MapMarkers"
+  name="Mapa"
   component={MapMarkers}
   options={({ navigation }) => ({
     headerShown: true,

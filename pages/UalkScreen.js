@@ -23,7 +23,7 @@ const UalkScreen = () => {
                     <AtividadesItem />
                 )}
             </ScrollView>
-            <TouchableOpacity style={styles.floatingButton} onPress={() => navigation.navigate('Map')}>
+            <TouchableOpacity style={styles.floatingButton} onPress={() => navigation.navigate('Mapa')}>
                 <Icon name="map-outline" size={40} color="#fffff" style={styles.mapaicone} />
             </TouchableOpacity>
         </View>

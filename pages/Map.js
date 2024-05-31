@@ -187,7 +187,7 @@ export default function Map() {
       <View style={styles.headerInfoContainer}>
         <View style={styles.headerBack}>
           <Image
-            source={require('../imagens/icons/Vector.png')} 
+            source={require('../imagens/icons/Vector White.png')} 
             style={{ width: 20, height: 20 }} 
           />
         </View>
