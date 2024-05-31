@@ -6,10 +6,7 @@ import SearchBar from "./SearchBar";
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from "../FireBase";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
-import AverageRating from "./componentsAvaliacao/percurso1/mediaTotal";
-import RatingScreen from "./componentsAvaliacao/percurso1/media";
-import RatingScreen2 from "./componentsAvaliacao/percurso2/media2";
-import AverageRating2 from "./componentsAvaliacao/percurso2/mediatotal2";
+
 
 
 const PercursoItem = () => {
