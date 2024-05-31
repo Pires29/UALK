@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import {AuthProvider} from "./components/componentsConta/gerirAutenticacao";
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -93,6 +94,8 @@ const App = () => {
     return (
         <GestureHandlerRootView>
         <NavigationContainer>
+            <AuthProvider>
+
             <View style={styles.container}>
                 <Stack.Navigator initialRouteName="HomeScreen">
                     <Stack.Screen name={"HomeScreen"} component={HomeScreen} options={{headerShown: false}}/>
@@ -128,7 +131,7 @@ const App = () => {
         backgroundColor: '#2C333C', // Define a cor de fundo como transparente
         elevation: 0, // remove shadow on Android
         shadowOpacity: 0, // remove shadow on iOS
-      }, 
+      },
       headerTintColor: 'white',
     headerLeft: () => (
       <TouchableOpacity onPress={() => navigation.navigate('outrapagina')} style={{ paddingLeft: 10}}>
@@ -142,6 +145,7 @@ const App = () => {
 />
                 </Stack.Navigator>
             </View>
+            </AuthProvider>
         </NavigationContainer>
         </GestureHandlerRootView>
     );
