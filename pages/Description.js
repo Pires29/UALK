@@ -17,7 +17,7 @@ const Description = ({ navigation, route }) => {
 
     useEffect(() => {
         setSelectedMarker([markers[3], markers[4]]); // Definindo ambos os marcadores ao mesmo tempo
-    
+
         console.log("selectedMarker", selectedMarker);
         console.log("Marker 0:", markers[2]);
         console.log("Marker 1:", markers[3]);
@@ -192,8 +192,9 @@ const Description = ({ navigation, route }) => {
 
                 <TouchableOpacity
                     onPress={() => navigation.navigate('Map',{ selectedMarker })}
+                    style={styles.buttonText}
                 >
-                    <Text style={styles.buttonText}>Let's UALK</ Text>
+                    <Text style={styles.fontes}>Let's UALK</ Text>
                 </TouchableOpacity>
 
             </ScrollView>
@@ -356,8 +357,18 @@ const styles = StyleSheet.create({
         marginTop: 35,
     },
     buttonText: {
-        fontSize: 16,
+        width: '44%',
+        backgroundColor: '#62BB76',
+        padding: 13,
+        borderRadius: 9,
+        marginVertical: 10,
+        alignItems: 'center',
+        alignSelf: 'center',
+        marginTop: 35,
         fontWeight: 'bold',
+    },
+    fontes:{
+        fontWeight: 'bold'
     },
     buttonText1botao: {
         fontSize: 14,
