@@ -6,12 +6,22 @@ import AverageRating from "../components/componentsAvaliacao/percurso1/mediaTota
 import AverageRating2 from "../components/componentsAvaliacao/percurso2/mediatotal2";
 import { db } from '../FireBase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
+import { markers } from '../components/Map/markers';
 
-const DescriptionPage = ({ navigation, route }) => {
+const Description = ({ navigation, route }) => {
     const { percurso } = route.params;
 
     const AvaliacaoQuantitativa = percurso.id === 1 ? AverageRating : AverageRating2;
 
+    const [selectedMarker, setSelectedMarker] = useState([]);
+
+    useEffect(() => {
+        setSelectedMarker([markers[3], markers[4]]); // Definindo ambos os marcadores ao mesmo tempo
+    
+        console.log("selectedMarker", selectedMarker);
+        console.log("Marker 0:", markers[2]);
+        console.log("Marker 1:", markers[3]);
+    }, []);
     const handleButtonPress = () => {
         navigation.navigate('colocarapagina');
     }
@@ -181,8 +191,7 @@ const DescriptionPage = ({ navigation, route }) => {
                 )}
 
                 <TouchableOpacity
-                    style={styles.button2}
-                    onPress={() => navigation.navigate('PaginaAvaliacao', { percurso })}  // Passe o percurso como parâmetro
+                    onPress={() => navigation.navigate('Map',{ selectedMarker })}
                 >
                     <Text style={styles.buttonText}>Let's UALK</ Text>
                 </TouchableOpacity>
@@ -416,4 +425,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default DescriptionPage;
+export default Description;

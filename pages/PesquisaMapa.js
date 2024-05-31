@@ -5,9 +5,10 @@ import { useNavigation } from '@react-navigation/native';
 function PesquisaMapa({ selectedMarker, setSelectedMarker }) {
   useEffect(() => {
     console.log("selectedMarker foi alterado:", selectedMarker);
-  }, [selectedMarker]); 
+  }, [selectedMarker]);
 
   const [input, setInput] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleOnChangeText = (text) => {
     setInput(text);
@@ -16,7 +17,12 @@ function PesquisaMapa({ selectedMarker, setSelectedMarker }) {
   const navigation = useNavigation();
 
   const handleMarkerSelect = () => {
-    navigation.navigate('Map', { selectedMarker });
+    if (selectedMarker.length !== 2) {
+      setErrorMessage("Please select exactly 2 markers.");
+    } else {
+      setErrorMessage("");
+      navigation.navigate('Map', { selectedMarker });
+    }
   };
 
   const handleRemoveMarker = (marker) => {
@@ -35,34 +41,37 @@ function PesquisaMapa({ selectedMarker, setSelectedMarker }) {
       </View>
       <View style={styles.markerDetails}>
         <Text style={styles.heading}>Pontos</Text>
-        {selectedMarker.map((marker, index) => (
-          <View key={index}>
-            <View style={styles.markerItem}>
-              <View>
-                <Image style={styles.image} source={marker.source} />
+        {selectedMarker.length === 0 ? (
+          <View style={styles.noMarkersContainer}>
+            <Text style={styles.noMarkersText}>No markers available.</Text>
+            <Text style={styles.noMarkersText}>Please add 2 markers.</Text>
+          </View>
+        ) : (
+          selectedMarker.map((marker, index) => (
+            <View key={index}>
+              <View style={styles.markerItem}>
+                <View>
+                  <Image style={styles.image} source={marker.source} />
+                </View>
+                <View style={styles.textContainer}>
+                  <Text style={styles.markerTitle}>{marker.title}</Text>
+                  <Text style={styles.markerDescription}>{marker.description}</Text>
+                </View>
+                <TouchableOpacity onPress={() => handleRemoveMarker(marker)} style={styles.removeButton}>
+                  <Image source={require('../imagens/icons/Remove.png')} style={styles.icon} />
+                </TouchableOpacity>
               </View>
-              <View style={styles.textContainer}>
-                <Text style={styles.markerTitle}>{marker.title}</Text>
-                <Text style={styles.markerDescription}>{marker.description}</Text>
-              </View>
-              <TouchableOpacity onPress={() => handleRemoveMarker(marker)} style={styles.removeButton}>
-                <Image source={require('../assets/favicon.png')} style={styles.icon} />
-              </TouchableOpacity>
+              <View style={styles.hr}></View>
             </View>
-            <View style={styles.hr}></View>
-          </View>
-        ))}
+          ))
+        )}
       </View>
-      <View style={styles.markerDetails}>
-        <View style={styles.markerItem}>
-          <Image
-            source={require('../assets/Add_round.png')}
-            style={styles.imagePlus}
-          />
-          <View style={styles.textContainer}>
-            <Text style={styles.text}>Adicionar Paragem</Text>
-          </View>
+      {errorMessage ? (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{errorMessage}</Text>
         </View>
+      ) : null}
+      <View style={styles.markerDetails}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={handleMarkerSelect} style={styles.button}>
             <Text style={styles.buttonText}>Começar</Text>
@@ -76,7 +85,7 @@ function PesquisaMapa({ selectedMarker, setSelectedMarker }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#2C333C',
     marginBottom: 50,
   },
   inputContainer: {
@@ -86,11 +95,12 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20
+    marginBottom: 20,
+    color:"white"
   },
   hr: {
     borderBottomWidth: 1,
-    borderBottomColor: 'black',
+    borderBottomColor: 'white',
     marginVertical: 20,
     width: '100%',
   },
@@ -110,6 +120,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
+    color:"white"
   },
   markerItem: {
     flexDirection: "row",
@@ -118,12 +129,13 @@ const styles = StyleSheet.create({
   markerDescription: {
     fontSize: 14,
     textAlign: 'center',
+    color:"white"
   },
   textContainer: {
     marginLeft: 20,
   },
   button: {
-    backgroundColor: 'grey',
+    backgroundColor: "#62BB76",
     paddingVertical: 15,
     width: 200,
     borderRadius: 15,
@@ -150,13 +162,33 @@ const styles = StyleSheet.create({
     marginLeft: 30,
   },
   icon: {
-    width: 24,
-    height: 24,
+    width: 15,
+    height: 15,
   },
   removeButtonText: {
     color: 'white',
     fontWeight: 'bold',
   },
+  text: {
+    color:"white"
+  },
+  noMarkersContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  noMarkersText: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: 'white',
+  },
+  errorContainer: {
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 16,
+  }
 });
 
 export default PesquisaMapa;

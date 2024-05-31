@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -10,6 +10,7 @@ import ProfileIcon from './imagens/icons/image 8.png';
 import Section2Icon from './imagens/icons/pegada.png';
 import Section3Icon from './imagens/icons/pegada.png';
 import RatingScreen from './components/componentsAvaliacao/percurso1/media'; // Importação do componente de avaliação
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 // Importar Screens
 import PaginaAvaliacao from './components/PaginaAvaliacao';
@@ -23,7 +24,7 @@ import HomeScreen from "./components/HomeScreen";
 import Section3 from "./pages/Section3";
 import Map from './pages/Map';
 import MapMarkers from './pages/MapMarkers';
-import DescriptionPage from "./pages/Description";
+import Description from './pages/Description';
 
 // Nomes das telas
 const homeName = "Home";
@@ -90,6 +91,7 @@ function NavBar() {
 
 const App = () => {
     return (
+        <GestureHandlerRootView>
         <NavigationContainer>
             <View style={styles.container}>
                 <Stack.Navigator initialRouteName="HomeScreen">
@@ -100,7 +102,7 @@ const App = () => {
                     <Stack.Screen name="PaginaAvaliacao" component={PaginaAvaliacao} options={{ headerShown: false }} />
                     {/* Adiciona o stack de navegação para a tela de avaliação */}
                     <Stack.Screen name="Avaliacao" component={RatingScreen} options={{ headerShown: false }} />
-                    <Stack.Screen name="Description" component={DescriptionPage} options={{ headerShown: false }} />
+                    <Stack.Screen name="Description" component={Description} options={{ headerShown: false }} />
                     <Stack.Screen name="Favorites" component={FavoritesPage} options={{
           headerTitle: "Atividade",
           headerTitleAlign: 'center',
@@ -116,10 +118,32 @@ const App = () => {
 
         }}/>
                     <Stack.Screen name="Map" component={Map} options={{ headerShown: false }} />
-                    <Stack.Screen name="MapMarkers" component={MapMarkers} options={{ headerShown: false }} />
+                    <Stack.Screen
+  name="MapMarkers"
+  component={MapMarkers}
+  options={({ navigation }) => ({
+    headerShown: true,
+    headerTitleAlign: 'center',
+    headerStyle: {
+        backgroundColor: '#2C333C', // Define a cor de fundo como transparente
+        elevation: 0, // remove shadow on Android
+        shadowOpacity: 0, // remove shadow on iOS
+      }, 
+      headerTintColor: 'white',
+    headerLeft: () => (
+      <TouchableOpacity onPress={() => navigation.navigate('outrapagina')} style={{ paddingLeft: 10}}>
+        <Image
+            source={require('./imagens/icons/Vector White.png')} // Substitua './caminho/para/sua/imagem.jpg' pelo caminho relativo da sua imagem
+            style={{ width: 20, height: 20 }} // Ajuste a largura e altura conforme necessário
+          />
+      </TouchableOpacity>
+    ),
+  })}
+/>
                 </Stack.Navigator>
             </View>
         </NavigationContainer>
+        </GestureHandlerRootView>
     );
 };
 

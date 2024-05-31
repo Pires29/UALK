@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     bottomSheetContainer: {
       height: SCREEN_HEIGHT,
       width: "100%",
-      backgroundColor: "white",
+      backgroundColor: "#2C333C",
       position: "absolute",
       top: SCREEN_HEIGHT,
       borderRadius: 25,
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     line: {
        width: 75,
        height: 4,
-       backgroundColor: "grey",
+       backgroundColor: "white",
        alignSelf: "center",
        marginVertical: 15,
        borderRadius: 2,
