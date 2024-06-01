@@ -1,19 +1,19 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import Slider from './CarouselComponent';
-import SearchBar from "./SearchBar";
+import Slider from '../CarouselComponent';
+import SearchBar from "../SearchBar";
 import { useNavigation } from '@react-navigation/native';
-import { auth, db } from "../FireBase";
+import { auth, db } from "../../FireBase";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 
 
 
 const PercursoItem = () => {
     const carouselData = [
-        require('../imagens/image 7.png'),
-        require('../imagens/image 7.png'),
-        require('../imagens/image 7.png')
+        require('../../imagens/image 7.png'),
+        require('../../imagens/image 7.png'),
+        require('../../imagens/image 7.png')
     ];
     const navigation = useNavigation();
 
@@ -31,27 +31,58 @@ const PercursoItem = () => {
         {
             id: 1,
             nome: 'Marinha da Casqueira',
-            imagem: require('../assets/images/porsol.jpeg'),
-            comprimento: '15Km',
+            imagem: require('../../assets/images/porsol.jpeg'),
+            passos: require('./imagesPercursos/imagesPassos/passosMarinha.png'),
+            comprimento: '1,7 Km',
             classificacao: '4.5',
             descricao: 'Aproveita a calma das marinhas para ver o pôr do sol, ou ler um livro,enquanto ouves uma música relaxante',
-            tempo: '25 min',
+            tempo: '21 min',
             dificuldade: 'Fácil',
             acessibilidade: 'Normal',
-            mapa: require('../assets/images/mapa.jpeg'),
+            mapa: require('../../assets/images/mapa.jpeg'),
         },
         {
             id: 2,
-            nome: 'Casa do Estudante',
-            imagem: require('../assets/images/casaestudante.jpeg'),
-            comprimento: '15Km',
+            nome: 'Casa do Estudante-Atleta',
+            imagem: require('../../assets/images/casaestudante.jpeg'),
+            passos: require('./imagesPercursos/imagesPassos/passosCasaEst1.png'),
+            comprimento: '1 Km',
             classificacao: '4.5',
             descricao: 'Conhece a Casa do Estudante-Atleta e o Museu do Desporto Universitário Português da FADU, espaço onde é contada a história da federação.',
-            tempo: '30 min',
+            tempo: '14 min',
             dificuldade: 'Difícil',
             acessibilidade: 'Normal',
-            mapa: require('../assets/images/mapa.jpeg'),
+            mapa: require('../../assets/images/mapa.jpeg'),
         },
+
+        {
+            id: 3,
+            nome: 'Bar Preto',
+            imagem: require('../../assets/images/porsol.jpeg'),
+            passos: require('./imagesPercursos/imagesPassos/passosBarPreto.png'),
+            comprimento: '1,4 Km',
+            classificacao: '4.5',
+            descricao: 'Bebe um chá (sem açúcar) e relaxa na esplanada',
+            tempo: '19 min',
+            dificuldade: 'Fácil',
+            acessibilidade: 'Normal',
+            mapa: require('../../assets/images/mapa.jpeg'),
+        },
+
+        {
+            id: 4,
+            nome: 'Loja Vol',
+            imagem: require('../../assets/images/porsol.jpeg'),
+            passos: require('./imagesPercursos/imagesPassos/passosLojaVol1.png'),
+            comprimento: '1,3 Km',
+            classificacao: '4.5',
+            descricao: 'Conhece o espaço do Programa de Voluntariado da UA e vê como podes participar nas várias atividades.',
+            tempo: '19 min',
+            dificuldade: 'Fácil',
+            acessibilidade: 'Normal',
+            mapa: require('../../assets/images/mapa.jpeg'),
+        },
+
 
     ];
 
