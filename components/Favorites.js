@@ -37,34 +37,35 @@ const FavoriteList = () => {
         }
     };
 
-    const navigateToDescription = (percurso) => {
-        navigation.navigate('Description', { percurso });
+    const navigateToDescription = (item) => {
+        const routeName = item.type === 'atividade' ? 'DescriptionAtividade' : 'Description';
+        navigation.navigate(routeName, { percurso: item });
     };
 
     return (
         <View style={styles.container}>
             {favoritos.length > 0 ? (
-                favoritos.map(percurso => (
+                favoritos.map((item, index) => (
                     <TouchableOpacity
-                        key={percurso.id}
+                        key={`${item.id}-${item.type}`} // Combinação de id e type para garantir unicidade
                         style={styles.container2}
-                        onPress={() => navigateToDescription(percurso)}
+                        onPress={() => navigateToDescription(item)}
                     >
                         <Image
-                            source={percurso.imagem}
+                            source={item.imagem}
                             style={styles.imagem}
                         />
                         <View style={styles.detalhes}>
-                            <Text style={styles.nome}>{percurso.nome}</Text>
-                            <Text style={styles.comprimento}>{percurso.comprimento}</Text>
-                            <Text style={styles.classificacao}>Classificação: {percurso.classificacao}</Text>
-                            <Text style={styles.descricao}>{percurso.descricao}</Text>
+                            <Text style={styles.nome}>{item.nome}</Text>
+                            <Text style={styles.comprimento}>{item.comprimento}</Text>
+                            <Text style={styles.classificacao}>Classificação: {item.classificacao}</Text>
+                            <Text style={styles.descricao}>{item.descricao}</Text>
                             <Icon
                                 name="star-circle-outline"
                                 size={30}
                                 color="#7D8995"
                                 style={styles.starIcon}
-                                onPress={() => removeFromFavorites(percurso.id)}
+                                onPress={() => removeFromFavorites(item.id)}
                             />
                         </View>
                     </TouchableOpacity>

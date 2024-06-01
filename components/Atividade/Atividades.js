@@ -7,7 +7,6 @@ import { useNavigation } from '@react-navigation/native';
 import { auth, db } from "../../FireBase";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 
-
 const AtividadeItem = () => {
     const carouselData = [
         require('../../imagens/image 7.png'),
@@ -15,16 +14,33 @@ const AtividadeItem = () => {
         require('../../imagens/image 7.png')
     ];
     const navigation = useNavigation();
-
+    const validateItem = (item) => {
+        return {
+            id: item.id || '',
+            nome: item.nome || '',
+            imagem: item.imagem || '',
+            comprimento: item.comprimento || '',
+            descricao: item.descricao || '',
+            type: item.type || ''
+        };
+    };
     const handleFavorite = async (atividade) => {
         const user = auth.currentUser;
         if (user) {
             const userRef = doc(db, "users", user.uid);
-            await updateDoc(userRef, {
-                favoritos: arrayUnion(atividade)
-            });
+            const validatedItem = validateItem({ ...atividade, type: 'atividade' });
+            try {
+                await updateDoc(userRef, {
+                    favoritos: arrayUnion(validatedItem)
+                });
+                console.log("Atividade adicionada aos favoritos com sucesso");
+            } catch (error) {
+                console.error("Erro ao adicionar atividade aos favoritos: ", error);
+            }
         }
     };
+
+
 
     const atividades = [
         {

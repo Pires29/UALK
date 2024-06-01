@@ -15,9 +15,6 @@ import AverageRating2 from "../componentsAvaliacao/percurso2/mediatotal2";
 import AverageRating3 from "../componentsAvaliacao/percurso3/mediaTotal3";
 import AverageRating4 from "../componentsAvaliacao/percurso4/mediaTotal4";
 
-
-
-
 const PercursoItem = () => {
     const carouselData = [
         require('../../imagens/image 7.png'),
@@ -26,15 +23,32 @@ const PercursoItem = () => {
     ];
     const navigation = useNavigation();
 
+    const validateItem = (item) => {
+        return {
+            id: item.id || '',
+            nome: item.nome || '',
+            imagem: item.imagem || '',
+            comprimento: item.comprimento || '',
+            descricao: item.descricao || '',
+            type: item.type || ''
+        };
+    };
     const handleFavorite = async (percurso) => {
         const user = auth.currentUser;
         if (user) {
             const userRef = doc(db, "users", user.uid);
-            await updateDoc(userRef, {
-                favoritos: arrayUnion(percurso)
-            });
+            const validatedItem = validateItem({ ...percurso, type: 'percurso' });
+            try {
+                await updateDoc(userRef, {
+                    favoritos: arrayUnion(validatedItem)
+                });
+                console.log("Percurso adicionado aos favoritos com sucesso");
+            } catch (error) {
+                console.error("Erro ao adicionar percurso aos favoritos: ", error);
+            }
         }
     };
+
 
     const percursos = [
         {
@@ -106,6 +120,7 @@ const PercursoItem = () => {
             {percursos.map(percurso => (
                 <TouchableOpacity
                     key={percurso.id}
+
                     style={styles.container2}
                     onPress={() => navigation.navigate('Description', { percurso: percurso })}
                 >
