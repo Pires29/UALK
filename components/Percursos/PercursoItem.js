@@ -6,6 +6,15 @@ import SearchBar from "../SearchBar";
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from "../../FireBase";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import RatingScreen from "../componentsAvaliacao/percurso1/media";
+import RatingScreen2 from "../componentsAvaliacao/percurso2/media2";
+import RatingScreen3 from "../componentsAvaliacao/percurso3/media3";
+import RatingScreen4 from "../componentsAvaliacao/percurso4/media4";
+import AverageRating from "../componentsAvaliacao/percurso1/mediaTotal";
+import AverageRating2 from "../componentsAvaliacao/percurso2/mediatotal2";
+import AverageRating3 from "../componentsAvaliacao/percurso3/mediaTotal3";
+import AverageRating4 from "../componentsAvaliacao/percurso4/mediaTotal4";
+
 
 
 
@@ -40,6 +49,8 @@ const PercursoItem = () => {
             dificuldade: 'Fácil',
             acessibilidade: 'Normal',
             mapa: require('../../assets/images/mapa.jpeg'),
+            avaliacaoEstrelas: <RatingScreen/>,
+            avaliacaoQuantitativa: <AverageRating/>,
         },
         {
             id: 2,
@@ -53,6 +64,8 @@ const PercursoItem = () => {
             dificuldade: 'Difícil',
             acessibilidade: 'Normal',
             mapa: require('../../assets/images/mapa.jpeg'),
+            avaliacaoEstrelas: <RatingScreen2/>,
+            avaliacaoQuantitativa: <AverageRating2/>,
         },
 
         {
@@ -67,6 +80,8 @@ const PercursoItem = () => {
             dificuldade: 'Fácil',
             acessibilidade: 'Normal',
             mapa: require('../../assets/images/mapa.jpeg'),
+            avaliacaoEstrelas: <RatingScreen3/>,
+            avaliacaoQuantitativa: <AverageRating3/>,
         },
 
         {
@@ -81,6 +96,8 @@ const PercursoItem = () => {
             dificuldade: 'Fácil',
             acessibilidade: 'Normal',
             mapa: require('../../assets/images/mapa.jpeg'),
+            avaliacaoEstrelas: <RatingScreen4/>,
+            avaliacaoQuantitativa: <AverageRating4/>,
         },
 
 

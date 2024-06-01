@@ -2,16 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { View, Image, Text, TouchableOpacity, StyleSheet, ScrollView, FlatList } from 'react-native';
 import RouteInfo from '../components/RouteInfoCaractPercurso';
 import Icon from 'react-native-vector-icons/Ionicons';
-import AverageRating from "../components/componentsAvaliacao/percurso1/mediaTotal";
-import AverageRating2 from "../components/componentsAvaliacao/percurso2/mediatotal2";
 import { db } from '../FireBase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { markers } from '../components/Map/markers';
+import PaginaAvaliacao from "../components/PaginaAvaliacao";
 
 const Description = ({ navigation, route }) => {
     const { percurso } = route.params;
 
-    const AvaliacaoQuantitativa = percurso.id === 1 ? AverageRating : AverageRating2;
 
     const [selectedMarker, setSelectedMarker] = useState([]);
 
@@ -78,7 +76,7 @@ const Description = ({ navigation, route }) => {
                         style={styles.smallImage2}
                         resizeMode="cover"
                     />
-                    <Text style={styles.textavaliacao}> <AvaliacaoQuantitativa/> </Text>
+                    <Text style={styles.textavaliacao}> {percurso.avaliacaoQuantitativa} </Text>
                 </View>
                 {/* Informações do trajeto */}
                 <RouteInfo time={percurso.tempo} difficulty={percurso.dificuldade} accessibility={percurso.acessibilidade} distance={percurso.comprimento} />
@@ -191,7 +189,7 @@ const Description = ({ navigation, route }) => {
                 )}
 
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('Map',{ selectedMarker })}
+                    onPress={() => navigation.navigate('PaginaAvaliacao',{ percurso: percurso })}
                     style={styles.buttonText}
                 >
                     <Text style={styles.fontes}>Let's UALK</ Text>
