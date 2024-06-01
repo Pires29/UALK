@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import NavPrincipal from './NavPrincipal';
 import PercursoItem from './Percursos/PercursoItem';
-import AtividadesItem from './Atividades';
+import AtividadesItem from './Atividade/Atividades';
 import NavBar from "./NavBar";
 
 const PaginaPrincipal = () => {

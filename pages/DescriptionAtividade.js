@@ -1,16 +1,30 @@
-import React, { useState } from 'react';
-import { View, Image, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import RouteInfo from '../components/RouteInfoCaractPercurso';  // Importe o novo componente
+import React, { useState, useEffect } from 'react';
+import { View, Image, Text, TouchableOpacity, StyleSheet, ScrollView, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import AverageRating from "./componentsAvaliacao/percurso1/mediaTotal";
+import { db } from '../FireBase';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { markers } from '../components/Map/markers';
+import PaginaAvaliacao from "../components/PaginaAvaliacao";
 
-const DescriptionPage = ({ navigation }) => {
+const DescriptionAtividades = ({ navigation, route }) => {
+    const { atividade } = route.params;
 
-    const handleButtonPress = () => {
-        navigation.navigate('colocarapagina');
-    }
+
+    const [selectedMarker, setSelectedMarker] = useState([]);
 
     const [selectedButton, setSelectedButton] = useState(1);
+    const [comments, setComments] = useState([]);
+
+    useEffect(() => {
+        const fetchComments = async () => {
+            const q = query(collection(db, 'comments'), where('atividadeId', '==', atividade.id));
+            const querySnapshot = await getDocs(q);
+            const commentsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            setComments(commentsData);
+        };
+
+        fetchComments();
+    }, [atividade.id]);
 
     const handleButtonPress2 = (buttonNumber) => {
         setSelectedButton(buttonNumber);
@@ -23,7 +37,7 @@ const DescriptionPage = ({ navigation }) => {
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <View style={styles.imageContainer}>
                     <Image
-                        source={require('../assets/images/porsol.jpeg')}
+                        source={atividade.imagem}
                         style={styles.image}
                         resizeMode="cover"
                     />
@@ -36,9 +50,9 @@ const DescriptionPage = ({ navigation }) => {
                 </View>
 
                 <View style={styles.field}>
-                    <Text style={styles.title}>Percurso da Marinha da Casqueira</Text>
+                    <Text style={styles.title}>Atividade {atividade.nome}</Text>
                     <Image
-                        source={require('../assets/images/passos.jpeg')}
+                        source={atividade.passos}
                         style={styles.smallpassos}
                         resizeMode="cover"
                     />
@@ -50,20 +64,16 @@ const DescriptionPage = ({ navigation }) => {
                         style={styles.smallImage2}
                         resizeMode="cover"
                     />
-                    <Text style={styles.textavaliacao}> <AverageRating/> </Text>
+                    <Text style={styles.textavaliacao}> {atividade.avaliacaoQuantitativa} </Text>
                 </View>
-
-                {/* Informações do trajeto */}
-                <RouteInfo time="25 min" difficulty="Fácil" accessibility="Normal" />
 
                 <View style={styles.descricao}>
                     <Text style={styles.subtitle}> Descrição </Text>
-                    <Text style={styles.text}>Este é um percurso agradável que se inicia na Casa do Estudante e acaba na belíssima marinha da Casqueira.
-                        Aproveita a calma das marinhas para ver o pôr do sol, ou ler um livro, enquanto ouves uma música relaxante.  </Text>
+                    <Text style={styles.text}>{atividade.descricao}</Text>
                 </View>
 
                 <View style={styles.descricao}>
-                    <Text style={styles.subtitle2}> Pontos de Interesse </Text>
+                    <Text style={styles.subtitle2}> Pontos de Interesse </ Text>
                 </View>
                 <View style={styles.pontosinteresse}>
                     <Image
@@ -72,8 +82,8 @@ const DescriptionPage = ({ navigation }) => {
                         resizeMode="cover"
                     />
                     <View style={styles.textContainer}>
-                        <Text style={styles.subsubtitle}> Casa do estudante </Text>
-                        <Text style={styles.text2}>Edifício que alberga a sede da Associação Académica da Universidade de Aveiro (AAUAv). </Text>
+                        <Text style={styles.subsubtitle}> Casa do estudante </ Text>
+                        <Text style={styles.text2}>Edifício que alberga a sede da Associação Académica da Universidade de Aveiro (AAUAv). </ Text>
                     </View>
                 </View>
 
@@ -84,39 +94,28 @@ const DescriptionPage = ({ navigation }) => {
                         resizeMode="cover"
                     />
                     <View style={styles.textContainer}>
-                        <Text style={styles.subsubtitle}> Marinha da Casqueira </Text>
-                        <Text style={styles.text3}>Marinha que se encontra junto à Universidade </Text>
+                        <Text style={styles.subsubtitle}> Marinha da Casqueira </ Text>
+                        <Text style={styles.text3}>Marinha que se encontra junto à Universidade </ Text>
                     </View>
                 </View>
 
                 <View style={styles.descricao}>
-                    <Text style={styles.subtitle2}> Mapa </Text>
+                    <Text style={styles.subtitle2}> Mapa </ Text>
                 </View>
-
-                <TouchableOpacity
-                    style={styles.buttonWithImage}
-                    onPress={handleButtonPress}
-                >
-                    <Image
-                        source={require('../assets/images/mapa.jpeg')}
-                        style={styles.buttonImage}
-                        resizeMode="contain"
-                    />
-                </TouchableOpacity>
 
                 <View style={styles.buttonsContainer}>
                     <TouchableOpacity
                         style={[styles.button, selectedButton === 1 && styles.selectedButton]}
                         onPress={() => handleButtonPress2(1)}
                     >
-                        <Text style={styles.buttonText2}>COMENTÁRIOS</Text>
+                        <Text style={styles.buttonText2}>COMENTÁRIOS</ Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         style={[styles.button, selectedButton === 2 && styles.selectedButton]}
                         onPress={() => handleButtonPress2(2)}
                     >
-                        <Text style={styles.buttonText2}>FOTOS</Text>
+                        <Text style={styles.buttonText2}>FOTOS</ Text>
                     </TouchableOpacity>
                 </View>
 
@@ -124,45 +123,33 @@ const DescriptionPage = ({ navigation }) => {
 
                 {selectedButton === 1 ? (
                     <View style={styles.content}>
-                        <View style={styles.pontosinteresse}>
-                            <Image
-                                source={require('../assets/images/menina.jpeg')}
-                                style={styles.smallImage}
-                                resizeMode="contain"
-                            />
-                            <View style={styles.textContainer}>
-                                <Text style={styles.subsubtitle}> Marta Dias </Text>
-                                <Image
-                                    source={require('../assets/images/estrelinhas.png')}
-                                    style={styles.smallImageEstrelinhas}
-                                    resizeMode="cover"
-                                />
-                            </View>
-                        </View>
-                        <View style={styles.textContainer}>
-                            <Text style={styles.textComentarios}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do </Text>
-                        </View>
-
-                        <View style={styles.separator} />
-
-                        <View style={styles.pontosinteresse}>
-                            <Image
-                                source={require('../assets/images/menino.jpeg')}
-                                style={styles.smallImage}
-                                resizeMode="cover"
-                            />
-                            <View style={styles.textContainer}>
-                                <Text style={styles.subsubtitle}> João Pais </ Text>
-                                <Image
-                                    source={require('../assets/images/estrelinhas.png')}
-                                    style={styles.smallImageEstrelinhas}
-                                    resizeMode="cover"
-                                />
-                            </View>
-                        </View>
-                        <View style={styles.textContainer}>
-                            <Text style={styles.textComentarios}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do </Text>
-                        </View>
+                        <FlatList
+                            data={comments}
+                            keyExtractor={(item) => item.id}
+                            renderItem={({ item }) => (
+                                <View>
+                                    <View style={styles.pontosinteresse}>
+                                        <Image
+                                            source={require('../imagens/icons/Profile.png')}
+                                            style={styles.smallImage}
+                                            resizeMode="contain"
+                                        />
+                                        <View style={styles.textContainer}>
+                                            <Text style={styles.subsubtitle}>{item.username}</ Text>
+                                            <Image
+                                                source={require('../assets/images/estrelinhas.png')}
+                                                style={styles.smallImageEstrelinhas}
+                                                resizeMode="cover"
+                                            />
+                                        </View>
+                                    </View>
+                                    <View style={styles.textContainer}>
+                                        <Text style={styles.textComentarios}>{item.comment}</ Text>
+                                    </View>
+                                    <View style={styles.separator} />
+                                </View>
+                            )}
+                        />
                         <TouchableOpacity
                             style={styles.button1}
                             onPress={() => navigation.navigate('OutraPagina')}
@@ -172,17 +159,17 @@ const DescriptionPage = ({ navigation }) => {
                     </View>
                 ) : (
                     <View style={styles.content}>
-                        <Text>Conteúdo do botão 2</Text>
+                        <Text>Conteúdo do botão 2</ Text>
                     </View>
                 )}
 
-
                 <TouchableOpacity
-                    style={styles.button2}
-                    onPress={() => navigation.navigate('OutraPagina')}
+                    onPress={() => navigation.navigate('PaginaAvaliacao',{ atividade: atividade })}
+                    style={styles.buttonText}
                 >
-                    <Text style={styles.buttonText}>Let's UALK</Text>
+                    <Text style={styles.fontes}>Let's UALK</ Text>
                 </TouchableOpacity>
+
             </ScrollView>
         </View>
     );
@@ -243,9 +230,9 @@ const styles = StyleSheet.create({
         marginLeft: 20,
     },
     smallpassos: {
-        width: 50,
-        height: 50,
-        marginRight: 20,
+        width: 70,
+        height: 70,
+        marginRight: 30,
     },
     text: {
         fontSize: 14,
@@ -343,8 +330,18 @@ const styles = StyleSheet.create({
         marginTop: 35,
     },
     buttonText: {
-        fontSize: 16,
+        width: '44%',
+        backgroundColor: '#62BB76',
+        padding: 13,
+        borderRadius: 9,
+        marginVertical: 10,
+        alignItems: 'center',
+        alignSelf: 'center',
+        marginTop: 35,
         fontWeight: 'bold',
+    },
+    fontes:{
+        fontWeight: 'bold'
     },
     buttonText1botao: {
         fontSize: 14,
@@ -410,7 +407,6 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 5,
     },
-
 });
 
-export default DescriptionPage;
+export default DescriptionAtividades;

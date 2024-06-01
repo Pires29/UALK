@@ -26,6 +26,7 @@ import Section3 from "./pages/Section3";
 import Map from './pages/Map';
 import MapMarkers from './pages/MapMarkers';
 import Description from './pages/Description';
+import DescriptionAtividades from "./pages/DescriptionAtividade";
 
 // Nomes das telas
 const homeName = "Home";
@@ -106,6 +107,7 @@ const App = () => {
                     {/* Adiciona o stack de navegação para a tela de avaliação */}
                     <Stack.Screen name="Avaliacao" component={RatingScreen} options={{ headerShown: false }} />
                     <Stack.Screen name="Description" component={Description} options={{ headerShown: false }} />
+                    <Stack.Screen name="DescriptionAtividade" component={DescriptionAtividades} options={{ headerShown: false }} />
                     <Stack.Screen name="Favorites" component={FavoritesPage} options={{
           headerTitle: "Atividade",
           headerTitleAlign: 'center',
