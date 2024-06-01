@@ -55,7 +55,7 @@ const PercursoItem = () => {
         {
             id: 2,
             nome: 'Casa do Estudante-Atleta',
-            imagem: require('../../assets/images/casaestudante.jpeg'),
+            imagem: require('./imagesPercursos/fadu.jpg'),
             passos: require('./imagesPercursos/imagesPassos/passosCasaEst1.png'),
             comprimento: '1 Km',
             classificacao: '4.5',
@@ -71,7 +71,7 @@ const PercursoItem = () => {
         {
             id: 3,
             nome: 'Bar Preto',
-            imagem: require('../../assets/images/porsol.jpeg'),
+            imagem: require('./imagesPercursos/BarPretoImage.png'),
             passos: require('./imagesPercursos/imagesPassos/passosBarPreto.png'),
             comprimento: '1,4 Km',
             classificacao: '4.5',
@@ -87,7 +87,7 @@ const PercursoItem = () => {
         {
             id: 4,
             nome: 'Loja Vol',
-            imagem: require('../../assets/images/porsol.jpeg'),
+            imagem: require('./imagesPercursos/lojaVol.png'),
             passos: require('./imagesPercursos/imagesPassos/passosLojaVol1.png'),
             comprimento: '1,3 Km',
             classificacao: '4.5',
