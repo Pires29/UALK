@@ -111,13 +111,13 @@ const FirstRoute = () => (
                     </TouchableOpacity>
                 </View>
   );
-  
+
   const SecondRoute = () => (
     <View style={{marginTop: 30}}>
         <GridExample/>
     </View>
   );
-  
+
   const renderScene = SceneMap({
     first: FirstRoute,
     second: SecondRoute,
@@ -126,13 +126,13 @@ const FirstRoute = () => (
 
 export function TabViewExample() {
     const layout = useWindowDimensions();
-  
+
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
       { key: 'first', title: 'Comentários' },
       { key: 'second', title: 'Fotos' },
     ]);
-  
+
     return (
         <TabView  style={{ marginHorizontal: 40 }}
           renderTabBar={renderTabBar}
@@ -141,7 +141,7 @@ export function TabViewExample() {
           onIndexChange={setIndex}
           initialLayout={{ width: layout.width }}
         />
-      
+
     );
   }
 
@@ -149,8 +149,8 @@ export function TabViewExample() {
     <TabBar
     {...props}
     indicatorStyle={{
-    backgroundColor: 'green',
-    height: 2,
+    backgroundColor: '#62BB76',
+    height: 4,
   }}
   indicatorContainerStyle={{
     backgroundColor: "white",
@@ -160,7 +160,7 @@ export function TabViewExample() {
     style={{ backgroundColor: 'none' }}
     renderLabel={({ route, focused }) => {
         return focused ? (
-            <Text style={{ color: 'green', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
+            <Text style={{ color: '#62BB76', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
         ) : (
             <Text style={{ color: 'white', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
         );
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
         height: "100%",
         alignItems: "center",
         justifyContent: "center"
-    }, 
+    },
     itemGrid: {
         width: '30%',
         aspectRatio: 1, // Garante que as células tenham o mesmo tamanho

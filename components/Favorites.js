@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from "../FireBase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const FavoriteList = () => {
@@ -24,6 +24,23 @@ const FavoriteList = () => {
         fetchFavorites();
     }, []);
 
+    const removeFromFavorites = async (percursoId) => {
+        const user = auth.currentUser;
+        if (user) {
+            const userRef = doc(db, "users", user.uid);
+            const userDoc = await getDoc(userRef);
+            if (userDoc.exists()) {
+                const updatedFavoritos = userDoc.data().favoritos.filter(percurso => percurso.id !== percursoId);
+                await updateDoc(userRef, { favoritos: updatedFavoritos });
+                setFavoritos(updatedFavoritos);
+            }
+        }
+    };
+
+    const navigateToDescription = (percurso) => {
+        navigation.navigate('Description', { percurso });
+    };
+
     return (
         <View style={styles.container}>
             {favoritos.length > 0 ? (
@@ -31,7 +48,7 @@ const FavoriteList = () => {
                     <TouchableOpacity
                         key={percurso.id}
                         style={styles.container2}
-                        onPress={() => navigation.navigate('PaginaAvaliacao')}
+                        onPress={() => navigateToDescription(percurso)}
                     >
                         <Image
                             source={percurso.imagem}
@@ -43,10 +60,11 @@ const FavoriteList = () => {
                             <Text style={styles.classificacao}>Classificação: {percurso.classificacao}</Text>
                             <Text style={styles.descricao}>{percurso.descricao}</Text>
                             <Icon
-                                name="star-circle"
+                                name="star-circle-outline"
                                 size={30}
-                                color="#FFD700"
+                                color="#7D8995"
                                 style={styles.starIcon}
+                                onPress={() => removeFromFavorites(percurso.id)}
                             />
                         </View>
                     </TouchableOpacity>

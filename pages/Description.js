@@ -10,24 +10,15 @@ import { markers } from '../components/Map/markers';
 
 const Description = ({ navigation, route }) => {
     const { percurso } = route.params;
-
     const AvaliacaoQuantitativa = percurso.id === 1 ? AverageRating : AverageRating2;
 
     const [selectedMarker, setSelectedMarker] = useState([]);
-
-    useEffect(() => {
-        setSelectedMarker([markers[3], markers[4]]); // Definindo ambos os marcadores ao mesmo tempo
-
-        console.log("selectedMarker", selectedMarker);
-        console.log("Marker 0:", markers[2]);
-        console.log("Marker 1:", markers[3]);
-    }, []);
-    const handleButtonPress = () => {
-        navigation.navigate('colocarapagina');
-    }
-
     const [selectedButton, setSelectedButton] = useState(1);
     const [comments, setComments] = useState([]);
+
+    useEffect(() => {
+        setSelectedMarker([markers[3], markers[4]]);
+    }, []);
 
     useEffect(() => {
         const fetchComments = async () => {
@@ -47,7 +38,6 @@ const Description = ({ navigation, route }) => {
     return (
         <View style={styles.container}>
             <View style={styles.background} />
-
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <View style={styles.imageContainer}>
                     <Image
@@ -78,18 +68,18 @@ const Description = ({ navigation, route }) => {
                         style={styles.smallImage2}
                         resizeMode="cover"
                     />
-                    <Text style={styles.textavaliacao}> <AvaliacaoQuantitativa/> </Text>
+                    <Text style={styles.textavaliacao}><AvaliacaoQuantitativa /></Text>
                 </View>
-                {/* Informações do trajeto */}
+
                 <RouteInfo time={percurso.tempo} difficulty={percurso.dificuldade} accessibility={percurso.acessibilidade} />
 
                 <View style={styles.descricao}>
-                    <Text style={styles.subtitle}> Descrição </Text>
+                    <Text style={styles.subtitle}>Descrição</Text>
                     <Text style={styles.text}>{percurso.descricao}</Text>
                 </View>
 
                 <View style={styles.descricao}>
-                    <Text style={styles.subtitle2}> Pontos de Interesse </ Text>
+                    <Text style={styles.subtitle2}>Pontos de Interesse</Text>
                 </View>
                 <View style={styles.pontosinteresse}>
                     <Image
@@ -98,8 +88,8 @@ const Description = ({ navigation, route }) => {
                         resizeMode="cover"
                     />
                     <View style={styles.textContainer}>
-                        <Text style={styles.subsubtitle}> Casa do estudante </ Text>
-                        <Text style={styles.text2}>Edifício que alberga a sede da Associação Académica da Universidade de Aveiro (AAUAv). </ Text>
+                        <Text style={styles.subsubtitle}>Casa do estudante</Text>
+                        <Text style={styles.text2}>Edifício que alberga a sede da Associação Académica da Universidade de Aveiro (AAUAv).</Text>
                     </View>
                 </View>
 
@@ -110,18 +100,18 @@ const Description = ({ navigation, route }) => {
                         resizeMode="cover"
                     />
                     <View style={styles.textContainer}>
-                        <Text style={styles.subsubtitle}> Marinha da Casqueira </ Text>
-                        <Text style={styles.text3}>Marinha que se encontra junto à Universidade </ Text>
+                        <Text style={styles.subsubtitle}>Marinha da Casqueira</Text>
+                        <Text style={styles.text3}>Marinha que se encontra junto à Universidade</Text>
                     </View>
                 </View>
 
                 <View style={styles.descricao}>
-                    <Text style={styles.subtitle2}> Mapa </ Text>
+                    <Text style={styles.subtitle2}>Mapa</Text>
                 </View>
 
                 <TouchableOpacity
                     style={styles.buttonWithImage}
-                    onPress={handleButtonPress}
+                    onPress={() => navigation.navigate('Map', { selectedMarker })}
                 >
                     <Image
                         source={require('../assets/images/mapa.jpeg')}
@@ -135,14 +125,13 @@ const Description = ({ navigation, route }) => {
                         style={[styles.button, selectedButton === 1 && styles.selectedButton]}
                         onPress={() => handleButtonPress2(1)}
                     >
-                        <Text style={styles.buttonText2}>COMENTÁRIOS</ Text>
+                        <Text style={styles.buttonText2}>COMENTÁRIOS</Text>
                     </TouchableOpacity>
-
                     <TouchableOpacity
                         style={[styles.button, selectedButton === 2 && styles.selectedButton]}
                         onPress={() => handleButtonPress2(2)}
                     >
-                        <Text style={styles.buttonText2}>FOTOS</ Text>
+                        <Text style={styles.buttonText2}>FOTOS</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -162,41 +151,35 @@ const Description = ({ navigation, route }) => {
                                             resizeMode="contain"
                                         />
                                         <View style={styles.textContainer}>
-                                            <Text style={styles.subsubtitle}>{item.username}</ Text>
-                                            <Image
-                                                source={require('../assets/images/estrelinhas.png')}
-                                                style={styles.smallImageEstrelinhas}
-                                                resizeMode="cover"
-                                            />
+                                            <Text style={styles.subsubtitle}>{item.username}</Text>
+                                            {/* Aqui exibimos o username junto com o comentário */}
+                                            <Text style={styles.textComentarios}>{item.comment}</Text>
                                         </View>
-                                    </View>
-                                    <View style={styles.textContainer}>
-                                        <Text style={styles.textComentarios}>{item.comment}</ Text>
                                     </View>
                                     <View style={styles.separator} />
                                 </View>
                             )}
                         />
+
                         <TouchableOpacity
                             style={styles.button1}
                             onPress={() => navigation.navigate('OutraPagina')}
                         >
-                            <Text style={styles.buttonText1botao}> Ver Todos </ Text>
+                            <Text style={styles.buttonText1botao}>Ver Todos</Text>
                         </TouchableOpacity>
                     </View>
                 ) : (
                     <View style={styles.content}>
-                        <Text>Conteúdo do botão 2</ Text>
+                        <Text>Conteúdo do botão 2</Text>
                     </View>
                 )}
 
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('Map',{ selectedMarker })}
                     style={styles.buttonText}
+                    onPress={() => navigation.navigate('colocarapagina')}
                 >
-                    <Text style={styles.fontes}>Let's UALK</ Text>
+                    <Text style={styles.fontes}>Let's UALK</Text>
                 </TouchableOpacity>
-
             </ScrollView>
         </View>
     );
@@ -346,16 +329,6 @@ const styles = StyleSheet.create({
         borderColor: '#62BB76',
         backgroundColor: 'transparent',
     },
-    button2: {
-        width: '44%',
-        backgroundColor: 'white',
-        padding: 13,
-        borderRadius: 9,
-        marginVertical: 10,
-        alignItems: 'center',
-        alignSelf: 'center',
-        marginTop: 35,
-    },
     buttonText: {
         width: '44%',
         backgroundColor: '#62BB76',
@@ -367,8 +340,9 @@ const styles = StyleSheet.create({
         marginTop: 35,
         fontWeight: 'bold',
     },
-    fontes:{
-        fontWeight: 'bold'
+    fontes: {
+        fontWeight: 'bold',
+        color: 'white',
     },
     buttonText1botao: {
         fontSize: 14,
@@ -426,7 +400,6 @@ const styles = StyleSheet.create({
     content: {
         marginTop: 20,
     },
-
     backButton: {
         position: 'absolute',
         top: 20,
