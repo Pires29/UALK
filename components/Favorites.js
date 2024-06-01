@@ -24,13 +24,13 @@ const FavoriteList = () => {
         fetchFavorites();
     }, []);
 
-    const removeFromFavorites = async (percursoId) => {
+    const removeFromFavorites = async (itemId, itemType) => {
         const user = auth.currentUser;
         if (user) {
             const userRef = doc(db, "users", user.uid);
             const userDoc = await getDoc(userRef);
             if (userDoc.exists()) {
-                const updatedFavoritos = userDoc.data().favoritos.filter(percurso => percurso.id !== percursoId);
+                const updatedFavoritos = userDoc.data().favoritos.filter(item => !(item.id === itemId && item.type === itemType));
                 await updateDoc(userRef, { favoritos: updatedFavoritos });
                 setFavoritos(updatedFavoritos);
             }
@@ -65,7 +65,7 @@ const FavoriteList = () => {
                                 size={30}
                                 color="#7D8995"
                                 style={styles.starIcon}
-                                onPress={() => removeFromFavorites(item.id)}
+                                onPress={() => removeFromFavorites(item.id, item.type)}
                             />
                         </View>
                     </TouchableOpacity>
