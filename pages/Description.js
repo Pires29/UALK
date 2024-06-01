@@ -56,7 +56,7 @@ const Description = ({ navigation, route }) => {
                 <View style={styles.field}>
                     <Text style={styles.title}>Percurso {percurso.nome}</Text>
                     <Image
-                        source={require('../assets/images/passos.jpeg')}
+                        source={percurso.passos}
                         style={styles.smallpassos}
                         resizeMode="cover"
                     />
@@ -70,8 +70,13 @@ const Description = ({ navigation, route }) => {
                     />
                     <Text style={styles.textavaliacao}><AvaliacaoQuantitativa /></Text>
                 </View>
+<<<<<<< HEAD
 
                 <RouteInfo time={percurso.tempo} difficulty={percurso.dificuldade} accessibility={percurso.acessibilidade} />
+=======
+                {/* Informações do trajeto */}
+                <RouteInfo time={percurso.tempo} difficulty={percurso.dificuldade} accessibility={percurso.acessibilidade} distance={percurso.comprimento} />
+>>>>>>> 8f853cd9765b076ea4455bc74a744b13e99789cb
 
                 <View style={styles.descricao}>
                     <Text style={styles.subtitle}>Descrição</Text>
@@ -240,9 +245,9 @@ const styles = StyleSheet.create({
         marginLeft: 20,
     },
     smallpassos: {
-        width: 50,
-        height: 50,
-        marginRight: 20,
+        width: 70,
+        height: 70,
+        marginRight: 30,
     },
     text: {
         fontSize: 14,
