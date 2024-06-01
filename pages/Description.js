@@ -70,13 +70,13 @@ const Description = ({ navigation, route }) => {
                     />
                     <Text style={styles.textavaliacao}><AvaliacaoQuantitativa /></Text>
                 </View>
-<<<<<<< HEAD
+
 
                 <RouteInfo time={percurso.tempo} difficulty={percurso.dificuldade} accessibility={percurso.acessibilidade} />
-=======
+
                 {/* Informações do trajeto */}
                 <RouteInfo time={percurso.tempo} difficulty={percurso.dificuldade} accessibility={percurso.acessibilidade} distance={percurso.comprimento} />
->>>>>>> 8f853cd9765b076ea4455bc74a744b13e99789cb
+
 
                 <View style={styles.descricao}>
                     <Text style={styles.subtitle}>Descrição</Text>
@@ -185,6 +185,7 @@ const Description = ({ navigation, route }) => {
                 >
                     <Text style={styles.fontes}>Let's UALK</Text>
                 </TouchableOpacity>
+
             </ScrollView>
         </View>
     );
