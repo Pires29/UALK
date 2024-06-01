@@ -11,7 +11,6 @@ import Section2Icon from './imagens/icons/pegada.png';
 import Section3Icon from './imagens/icons/pegada.png';
 import RatingScreen from './components/componentsAvaliacao/percurso1/media'; // Importação do componente de avaliação
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-
 // Importar Screens
 import PaginaAvaliacao from './components/PaginaAvaliacao';
 import CriarConta from './components/componentsConta/CriarConta';
@@ -101,7 +100,7 @@ const App = () => {
                     <Stack.Screen name="NavBar" component={NavBar} options={{ headerShown: false }} />
                     <Stack.Screen name="PaginaAvaliacao" component={PaginaAvaliacao} options={{ headerShown: false }} />
                     {/* Adiciona o stack de navegação para a tela de avaliação */}
-                    <Stack.Screen name="Avaliacao" component={RatingScreen} options={{ headerShown: false }} />
+                    <Stack.Screen name="Avaliacao" component={PaginaAvaliacao} options={{ headerShown: false }} />
                     <Stack.Screen name="Description" component={Description} options={{ headerShown: false }} />
                     <Stack.Screen name="Favorites" component={FavoritesPage} options={{
           headerTitle: "Atividade",

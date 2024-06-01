@@ -1,13 +1,17 @@
-import { Dimensions, StyleSheet, View, Text, Button, TouchableOpacity, Image } from 'react-native';
+import { Dimensions, StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 import React, { useEffect, useState, useRef } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { requestForegroundPermissionsAsync, getCurrentPositionAsync, LocationAccuracy, watchPositionAsync } from 'expo-location';
 import { useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyBl6uQw0SyA0_I2utXTJJAj1BtBPhSoLDE';
 
 export default function Map() {
+
+  const navigation = useNavigation();
+  
   const route = useRoute();
   const { selectedMarker } = route.params;
 
@@ -16,18 +20,21 @@ export default function Map() {
   const [duration, setDuration] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
   const [isTracking, setIsTracking] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
+  const [showStopButton, setShowStopButton] = useState(false);
+  const [showResumeAndEndButtons, setShowResumeAndEndButtons] = useState(false);
   const mapRef = useRef(null);
   const locationSubscription = useRef(null);
 
-  console.log("selectedmarker", selectedMarker);
+  console.log("selectedMarker", selectedMarker);
 
   useEffect(() => {
     async function fetchDirections() {
       if (!currentLocation || selectedMarker.length < 2) return;
 
       const origin = `${currentLocation.coords.latitude},${currentLocation.coords.longitude}`;
-      const waypoints = `${selectedMarker[0].latitude},${selectedMarker[0].longitude}`;
-      const destination = `${selectedMarker[1].latitude},${selectedMarker[1].longitude}`;
+      const waypoints = selectedMarker.slice(0, -1).map(marker => `${marker.latitude},${marker.longitude}`).join('|');
+      const destination = `${selectedMarker[selectedMarker.length - 1].latitude},${selectedMarker[selectedMarker.length - 1].longitude}`;
       const apiUrl = `https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&waypoints=${waypoints}&mode=walking&key=${GOOGLE_MAPS_APIKEY}`;
 
       try {
@@ -52,10 +59,12 @@ export default function Map() {
     const { granted } = await requestForegroundPermissionsAsync();
 
     if (granted) {
-      const currentPosition = await getCurrentPositionAsync();
+      const currentPosition = await getCurrentPositionAsync({ accuracy: LocationAccuracy.Highest });
       setCurrentLocation(currentPosition);
       setLocation(currentPosition);
       console.log("Localização atual", currentPosition);
+    } else {
+      console.log("Permissão de localização negada");
     }
   }
 
@@ -90,6 +99,8 @@ export default function Map() {
       }
     }
     setIsTracking(!isTracking);
+    setIsStarted(true); // Marca que o rastreamento foi iniciado
+    setShowStopButton(true);
   }
 
   const stopTrack = () => {
@@ -98,6 +109,20 @@ export default function Map() {
       locationSubscription.current = null;
     }
     setIsTracking(false);
+    setShowStopButton(false);
+    setShowResumeAndEndButtons(true);
+  }
+
+  const resumeTrack = () => {
+    startTrack();
+    setShowResumeAndEndButtons(false);
+    setShowStopButton(true);
+  }
+
+  const endTrack = () => {
+    setShowResumeAndEndButtons(false);
+    setIsStarted(false);
+    navigation.navigate('PaginaAvaliacao');
   }
 
   const [region, setRegion] = useState({
@@ -106,6 +131,15 @@ export default function Map() {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
+
+  const CustomMarker = ({ coordinate, title, description }) => (
+    <Marker coordinate={coordinate}>
+      <Image
+        source={require("../imagens/image 5.png")}
+        style={{ width: 40, height: 40 }} // Ajuste o tamanho da imagem conforme necessário
+      />
+    </Marker>
+  );
 
   return (
     <View style={styles.container}>
@@ -123,14 +157,14 @@ export default function Map() {
           provider='google'
         >
           {currentLocation && (
-            <Marker
-              coordinate={{
-                latitude: currentLocation.coords.latitude,
-                longitude: currentLocation.coords.longitude,
-              }}
-              title="Sua Localização"
-              description="Você está aqui"
-            />
+            <CustomMarker
+      coordinate={{
+        latitude: currentLocation.coords.latitude,
+        longitude: currentLocation.coords.longitude,
+      }}
+      title="Sua Localização"
+      description="Você está aqui"
+    />
           )}
           {selectedMarker.map((marker, index) => (
             <Marker
@@ -143,8 +177,8 @@ export default function Map() {
           {currentLocation && selectedMarker.length > 1 && (
             <MapViewDirections
               origin={{ latitude: currentLocation.coords.latitude, longitude: currentLocation.coords.longitude }}
-              waypoints={[{ latitude: selectedMarker[0].latitude, longitude: selectedMarker[0].longitude }]}
-              destination={{ latitude: selectedMarker[1].latitude, longitude: selectedMarker[1].longitude }}
+              waypoints={selectedMarker.slice(0, -1).map(marker => ({ latitude: marker.latitude, longitude: marker.longitude }))}
+              destination={{ latitude: selectedMarker[selectedMarker.length - 1].latitude, longitude: selectedMarker[selectedMarker.length - 1].longitude }}
               apikey={GOOGLE_MAPS_APIKEY}
               strokeWidth={4}
               strokeColor="blue"
@@ -163,45 +197,63 @@ export default function Map() {
             </View>
             <View>
               <Text style={styles.routeText}>{distance}</Text>
-              <Text style={styles.routeCateText}>Distancia</Text>
+              <Text style={styles.routeCateText}>Distância</Text>
             </View>
           </View>
           <View style={styles.buttonRow}>
-            <TouchableOpacity
-              style={styles.button2}
-              onPress={startTrack}
-            >
-              <Text style={styles.buttonText}>{isTracking ? "Parar" : "Iniciar"}</Text>
-            </TouchableOpacity>
-            {isTracking && (
+            {!isStarted && (
+              <TouchableOpacity
+                style={styles.button2}
+                onPress={startTrack}
+              >
+                <Text style={styles.buttonText}>Iniciar</Text>
+              </TouchableOpacity>
+            )}
+            {showStopButton && (
               <TouchableOpacity
                 style={styles.button2}
                 onPress={stopTrack}
               >
-                <Text style={styles.buttonText}>Terminar</Text>
+                <Text style={styles.buttonText}>Parar</Text>
               </TouchableOpacity>
             )}
-          </View>
+            </View>
+            {showResumeAndEndButtons && (
+              <View style={styles.buttonRow2}>
+                <TouchableOpacity
+                  style={styles.button3}
+                  onPress={resumeTrack}
+                >
+                  <Text style={styles.buttonText}>Retomar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button2}
+                  onPress={endTrack}
+                >
+                  <Text style={styles.buttonText}>Terminar</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
         </View>
       )}
       <View style={styles.headerInfoContainer}>
-        <View style={styles.headerBack}>
+        <TouchableOpacity style={styles.headerBack} onPress={() => navigation.navigate('Mapa')}>
           <Image
             source={require('../imagens/icons/Vector White.png')} 
             style={{ width: 20, height: 20 }} 
           />
-        </View>
+        </TouchableOpacity>
         <View style={styles.headerInfo}>
           <Text style={styles.headerText}>{selectedMarker[0].title}</Text>
           <Image
             source={require('../imagens/icons/back-arrow.png')} 
             style={{ width: 20, height: 20, marginHorizontal: 10 }} 
           />
-          <Text style={styles.headerText}>{selectedMarker[1].title}</Text>
+          <Text style={styles.headerText}>{selectedMarker[selectedMarker.length - 1].title}</Text>
         </View>
       </View>
     </View>
-    
   );
 }
 
@@ -250,7 +302,9 @@ const styles = StyleSheet.create({
     left: 0,
     width: '100%',
     backgroundColor: '#2C333C',
-    padding: 20,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+    paddingTop: 40,
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
     borderBottomLeftRadius: 20,
@@ -261,10 +315,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerInfo: {
-    flex: 1, // Adicionado para ocupar o espaço restante
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center', // Centraliza o conteúdo do headerInfo
+    justifyContent: 'center',
   },
   headerBack: {
     justifyContent: 'center',
@@ -283,7 +337,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 18,
-    color:"white"
+    color: "white"
   },
   startButtonContainer: {
     alignItems: 'center',
@@ -302,12 +356,44 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 35,
   },
+  button3: {
+    width: '44%',
+    borderColor: "#62BB76",
+    borderWidth: 2,
+    padding: 12,
+    borderRadius: 9,
+    marginVertical: 10,
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginTop: 35,
+  },
+  buttonNoBackground: {
+    width: '44%',
+    backgroundColor: 'transparent',
+    padding: 13,
+    borderRadius: 9,
+    marginVertical: 10,
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginTop: 35,
+    borderColor: "#62BB76",
+    borderWidth: 2,
+  },
   buttonText: {
     fontSize: 16,
     fontWeight: 'bold',
     color: "white"
   },
+  buttonTextNoBackground: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: "#62BB76",
+  },
   buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  buttonRow2: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
