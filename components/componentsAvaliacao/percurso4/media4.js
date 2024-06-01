@@ -39,7 +39,7 @@ const RatingScreen4 = ({ percurso }) => {
                 });
             }
 
-            alert("Avaliação4 salva com sucesso!");
+            alert("Avaliação salva com sucesso!");
         } catch (error) {
             console.error("Erro ao salvar avaliação: ", error);
             alert("Erro ao salvar avaliação. Tente novamente.");
@@ -49,7 +49,8 @@ const RatingScreen4 = ({ percurso }) => {
     return (
         <View style={{ padding: 20 }}>
             <StarRating4 onRatingChange={handleRatingChange} />
-            <Button title="Submeter Avaliação" onPress={handleSubmit} />
+
+            <Button title="Submeter Avaliação" onPress={handleSubmit} color="#62BB76"/>
         </View>
     );
 };

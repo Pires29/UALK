@@ -20,7 +20,7 @@ const StarRating3 = ({ onRatingChange }) => {
                     <Icon
                         name={star <= rating ? 'star' : 'star-o'}
                         size={30}
-                        color="#FFD700"
+                        color="white"
                         style={styles.star}
                     />
                 </TouchableOpacity>

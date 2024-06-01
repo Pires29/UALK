@@ -43,7 +43,6 @@ const PercursoItem = () => {
             imagem: require('../../assets/images/porsol.jpeg'),
             passos: require('./imagesPercursos/imagesPassos/passosMarinha.png'),
             comprimento: '1,7 Km',
-            classificacao: '4.5',
             descricao: 'Aproveita a calma das marinhas para ver o pôr do sol, ou ler um livro,enquanto ouves uma música relaxante',
             tempo: '21 min',
             dificuldade: 'Fácil',
@@ -54,11 +53,10 @@ const PercursoItem = () => {
         },
         {
             id: 2,
-            nome: 'Casa do Estudante-Atleta',
+            nome: 'FADU',
             imagem: require('./imagesPercursos/fadu.jpg'),
             passos: require('./imagesPercursos/imagesPassos/passosCasaEst1.png'),
             comprimento: '1 Km',
-            classificacao: '4.5',
             descricao: 'Conhece a Casa do Estudante-Atleta e o Museu do Desporto Universitário Português da FADU, espaço onde é contada a história da federação.',
             tempo: '14 min',
             dificuldade: 'Difícil',
@@ -74,7 +72,6 @@ const PercursoItem = () => {
             imagem: require('./imagesPercursos/BarPretoImage.png'),
             passos: require('./imagesPercursos/imagesPassos/passosBarPreto.png'),
             comprimento: '1,4 Km',
-            classificacao: '4.5',
             descricao: 'Bebe um chá (sem açúcar) e relaxa na esplanada',
             tempo: '19 min',
             dificuldade: 'Fácil',
@@ -90,7 +87,6 @@ const PercursoItem = () => {
             imagem: require('./imagesPercursos/lojaVol.png'),
             passos: require('./imagesPercursos/imagesPassos/passosLojaVol1.png'),
             comprimento: '1,3 Km',
-            classificacao: '4.5',
             descricao: 'Conhece o espaço do Programa de Voluntariado da UA e vê como podes participar nas várias atividades.',
             tempo: '19 min',
             dificuldade: 'Fácil',
@@ -120,7 +116,7 @@ const PercursoItem = () => {
                     <View style={styles.detalhes}>
                         <Text style={styles.nome}>{percurso.nome}</Text>
                         <Text style={styles.comprimento}>{percurso.comprimento}</Text>
-                        <Text style={styles.classificacao}>Classificação: {percurso.classificacao}</Text>
+                        <Text style={styles.avaliacaoQualitativa}>Classificação: {percurso.avaliacaoQuantitativa} </Text>
                         <Text style={styles.descricao}>{percurso.descricao}</Text>
                         <Icon
                             name="star-circle-outline"
@@ -161,9 +157,10 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         color: 'white',
     },
-    classificacao: {
+    avaliacaoQualitativa: {
         color: 'white',
         marginBottom: 5,
+        fontSize: 14,
     },
     comprimento: {
         color: 'white',
