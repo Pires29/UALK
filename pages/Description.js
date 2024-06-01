@@ -2,22 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { View, Image, Text, TouchableOpacity, StyleSheet, ScrollView, FlatList } from 'react-native';
 import RouteInfo from '../components/RouteInfoCaractPercurso';
 import Icon from 'react-native-vector-icons/Ionicons';
-import AverageRating from "../components/componentsAvaliacao/percurso1/mediaTotal";
-import AverageRating2 from "../components/componentsAvaliacao/percurso2/mediatotal2";
 import { db } from '../FireBase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { markers } from '../components/Map/markers';
+import PaginaAvaliacao from "../components/PaginaAvaliacao";
 
 const Description = ({ navigation, route }) => {
     const { percurso } = route.params;
 
-    const AvaliacaoQuantitativa = percurso.id === 1 ? AverageRating : AverageRating2;
 
     const [selectedMarker, setSelectedMarker] = useState([]);
 
     useEffect(() => {
         setSelectedMarker([markers[3], markers[4]]); // Definindo ambos os marcadores ao mesmo tempo
-    
+
         console.log("selectedMarker", selectedMarker);
         console.log("Marker 0:", markers[2]);
         console.log("Marker 1:", markers[3]);
@@ -66,7 +64,7 @@ const Description = ({ navigation, route }) => {
                 <View style={styles.field}>
                     <Text style={styles.title}>Percurso {percurso.nome}</Text>
                     <Image
-                        source={require('../assets/images/passos.jpeg')}
+                        source={percurso.passos}
                         style={styles.smallpassos}
                         resizeMode="cover"
                     />
@@ -78,10 +76,10 @@ const Description = ({ navigation, route }) => {
                         style={styles.smallImage2}
                         resizeMode="cover"
                     />
-                    <Text style={styles.textavaliacao}> <AvaliacaoQuantitativa/> </Text>
+                    <Text style={styles.textavaliacao}> {percurso.avaliacaoQuantitativa} </Text>
                 </View>
                 {/* Informações do trajeto */}
-                <RouteInfo time={percurso.tempo} difficulty={percurso.dificuldade} accessibility={percurso.acessibilidade} />
+                <RouteInfo time={percurso.tempo} difficulty={percurso.dificuldade} accessibility={percurso.acessibilidade} distance={percurso.comprimento} />
 
                 <View style={styles.descricao}>
                     <Text style={styles.subtitle}> Descrição </Text>
@@ -191,9 +189,10 @@ const Description = ({ navigation, route }) => {
                 )}
 
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('Map',{ selectedMarker })}
+                    onPress={() => navigation.navigate('PaginaAvaliacao',{ percurso: percurso })}
+                    style={styles.buttonText}
                 >
-                    <Text style={styles.buttonText}>Let's UALK</ Text>
+                    <Text style={styles.fontes}>Let's UALK</ Text>
                 </TouchableOpacity>
 
             </ScrollView>
@@ -256,9 +255,9 @@ const styles = StyleSheet.create({
         marginLeft: 20,
     },
     smallpassos: {
-        width: 50,
-        height: 50,
-        marginRight: 20,
+        width: 70,
+        height: 70,
+        marginRight: 30,
     },
     text: {
         fontSize: 14,
@@ -356,8 +355,18 @@ const styles = StyleSheet.create({
         marginTop: 35,
     },
     buttonText: {
-        fontSize: 16,
+        width: '44%',
+        backgroundColor: '#62BB76',
+        padding: 13,
+        borderRadius: 9,
+        marginVertical: 10,
+        alignItems: 'center',
+        alignSelf: 'center',
+        marginTop: 35,
         fontWeight: 'bold',
+    },
+    fontes:{
+        fontWeight: 'bold'
     },
     buttonText1botao: {
         fontSize: 14,

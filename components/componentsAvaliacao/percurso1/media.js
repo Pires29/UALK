@@ -49,7 +49,7 @@ const RatingScreen = ({ percurso }) => {
     return (
         <View style={{ padding: 20 }}>
             <StarRating onRatingChange={handleRatingChange} />
-            <Button title="Submeter Avaliação" onPress={handleSubmit} />
+            <Button title="Submeter Avaliação" onPress={handleSubmit} color="#62BB76"/>
         </View>
     );
 };

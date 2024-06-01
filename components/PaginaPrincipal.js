@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import NavPrincipal from './NavPrincipal';
-import PercursoItem from './PercursoItem';
-import AtividadesItem from './Atividades';
+import PercursoItem from './Percursos/PercursoItem';
+import AtividadesItem from './Atividade/Atividades';
 import NavBar from "./NavBar";
 
 const PaginaPrincipal = () => {
@@ -14,7 +14,7 @@ const PaginaPrincipal = () => {
 
     return (
         <View style={styles.container}>
-            
+
             <NavPrincipal onSelect={handleSelectOption} />
             <ScrollView style={styles.content}>
                 {selectedOption === 'Percursos' ? (
@@ -24,7 +24,7 @@ const PaginaPrincipal = () => {
                 )}
             </ScrollView>
             <NavBar/>
-            
+
         </View>
     );
 };

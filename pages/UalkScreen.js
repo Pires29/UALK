@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import NavPrincipal from '../components/NavPrincipal';
-import PercursoItem from '../components/PercursoItem';
-import AtividadesItem from '../components/Atividades';
+import PercursoItem from '../components/Percursos/PercursoItem';
+import AtividadesItem from '../components/Atividade/Atividades';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from "@react-navigation/native";
 

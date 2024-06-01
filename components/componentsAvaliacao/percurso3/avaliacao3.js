@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome'; // Instale usando `npm install react-native-vector-icons`
 
-const StarRating2 = ({ onRatingChange }) => {
+const StarRating3 = ({ onRatingChange }) => {
     const [rating, setRating] = useState(0);
 
     const handleStarPress = (star) => {
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default StarRating2;
+export default StarRating3;

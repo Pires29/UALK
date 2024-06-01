@@ -4,8 +4,10 @@ import { FlatList, View, Image } from 'react-native';
 // Exemplo de dados para o slider
 const data = [
     require('../imagens/image4.png'),
-    require('../imagens/image 6.png'),
-    require('../imagens/image 5.png'),
+    require('../components/Percursos/imagesPercursos/fadu.jpg'),
+    require('../components/Percursos/imagesPercursos/BarPretoImage.png'),
+    require('../components/Percursos/imagesPercursos/lojaVol.png'),
+    require('../assets/images/porsol.jpeg'),
 ];
 
 const Slider = () => {

@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Instale usando `npm install react-native-vector-icons`
 
-const StarRating = ({ onRatingChange }) => {
+const StarRating4 = ({ onRatingChange }) => {
     const [rating, setRating] = useState(0);
 
     const handleStarPress = (star) => {
         const newRating = star === rating ? 0 : star; // Se clicar na mesma estrela, reseta para 0
         setRating(newRating);
-        onRatingChange(newRating);
+        if (onRatingChange) {
+            onRatingChange(newRating);
+        }
     };
 
     return (
@@ -18,7 +20,7 @@ const StarRating = ({ onRatingChange }) => {
                     <Icon
                         name={star <= rating ? 'star' : 'star-o'}
                         size={30}
-                        color="#FFD700"
+                        color="white"
                         style={styles.star}
                     />
                 </TouchableOpacity>
@@ -38,4 +40,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default StarRating;
+export default StarRating4;

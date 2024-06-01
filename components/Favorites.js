@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from "../FireBase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const FavoriteList = () => {
@@ -24,29 +24,48 @@ const FavoriteList = () => {
         fetchFavorites();
     }, []);
 
+    const removeFromFavorites = async (percursoId) => {
+        const user = auth.currentUser;
+        if (user) {
+            const userRef = doc(db, "users", user.uid);
+            const userDoc = await getDoc(userRef);
+            if (userDoc.exists()) {
+                const updatedFavoritos = userDoc.data().favoritos.filter(percurso => percurso.id !== percursoId);
+                await updateDoc(userRef, { favoritos: updatedFavoritos });
+                setFavoritos(updatedFavoritos);
+            }
+        }
+    };
+
+    const navigateToDescription = (item) => {
+        const routeName = item.type === 'atividade' ? 'DescriptionAtividade' : 'Description';
+        navigation.navigate(routeName, { percurso: item });
+    };
+
     return (
         <View style={styles.container}>
             {favoritos.length > 0 ? (
-                favoritos.map(percurso => (
+                favoritos.map((item, index) => (
                     <TouchableOpacity
-                        key={percurso.id}
+                        key={`${item.id}-${item.type}`} // Combinação de id e type para garantir unicidade
                         style={styles.container2}
-                        onPress={() => navigation.navigate('PaginaAvaliacao')}
+                        onPress={() => navigateToDescription(item)}
                     >
                         <Image
-                            source={percurso.imagem}
+                            source={item.imagem}
                             style={styles.imagem}
                         />
                         <View style={styles.detalhes}>
-                            <Text style={styles.nome}>{percurso.nome}</Text>
-                            <Text style={styles.comprimento}>{percurso.comprimento}</Text>
-                            <Text style={styles.classificacao}>Classificação: {percurso.classificacao}</Text>
-                            <Text style={styles.descricao}>{percurso.descricao}</Text>
+                            <Text style={styles.nome}>{item.nome}</Text>
+                            <Text style={styles.comprimento}>{item.comprimento}</Text>
+                            <Text style={styles.classificacao}>Classificação: {item.classificacao}</Text>
+                            <Text style={styles.descricao}>{item.descricao}</Text>
                             <Icon
-                                name="star-circle"
+                                name="star-circle-outline"
                                 size={30}
-                                color="#FFD700"
+                                color="#7D8995"
                                 style={styles.starIcon}
+                                onPress={() => removeFromFavorites(item.id)}
                             />
                         </View>
                     </TouchableOpacity>

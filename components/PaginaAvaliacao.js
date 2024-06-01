@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import RatingScreen from "./componentsAvaliacao/percurso1/media";
 import Icon from "react-native-vector-icons/Ionicons";
-import RatingScreen2 from "./componentsAvaliacao/percurso2/media2";
 import { auth, db } from "../FireBase";
 import { onAuthStateChanged } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore";
+import {collection, addDoc, doc, getDoc} from "firebase/firestore";
 
 const PaginaAvaliacao = () => {
     const navigation = useNavigation();
     const route = useRoute();
     const { percurso } = route.params;  // Receba os parâmetros do percurso
-    const AvaliacaoEstrelas = percurso.id === 1 ? RatingScreen : RatingScreen2;
 
     const [authUser, setAuthUser] = useState(null);
     const [comentario, setComentario] = useState('');
@@ -38,10 +35,12 @@ const PaginaAvaliacao = () => {
 
         if (authUser) {
             try {
-                const username = authUser.displayName || authUser.email;  // Altere aqui para usar o displayName se estiver disponível
+
+                const userRef = doc(db, "users", authUser.uid);
+                const userDoc = await getDoc(userRef); // Altere aqui para usar o displayName se estiver disponível
                 await addDoc(collection(db, "comments"), {
                     userId: authUser.uid,
-                    username: username,  // Use o displayName do usuário
+                    username: userDoc.data().username,  // Use o displayName do usuário
                     comment: comentario,
                     percursoId: percurso.id,  // Associando o comentário ao percurso
                     timestamp: new Date(),
@@ -78,11 +77,11 @@ const PaginaAvaliacao = () => {
                 <Text style={styles.avaliacao}>Avaliação</Text>
                 <Text style={styles.descricaoAvaliacao}>Adiciona a tua avaliação</Text>
 
-                <AvaliacaoEstrelas />
+                {percurso.avaliacaoEstrelas}
 
                 <View style={styles.container2}>
                     <View style={styles.infoGroup}>
-                        <Text style={styles.infoTitle}>Comprimento</Text>
+                        <Text style={styles.infoTitle}>Distância</Text>
                         <Text style={styles.infoValue}>{percurso.comprimento}</Text>
                     </View>
                     <View style={styles.infoGroup}>

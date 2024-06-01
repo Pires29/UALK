@@ -7,7 +7,7 @@ export default function HomeScreen({ navigation }) {
 
                 <Image
                     source={require('../imagens/Logo.png')} // Substitua './caminho/para/sua/imagem.jpg' pelo caminho relativo da sua imagem
-                    style={{ width: 200, height: 200 }} // Ajuste a largura e altura conforme necessário
+                    style={{ width: 300, height: 300, marginTop: 140 }} // Ajuste a largura e altura conforme necessário
                 />
 
         </TouchableOpacity>

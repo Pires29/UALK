@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { View, Button, Text } from 'react-native';
-import { db, auth } from '../../FireBase'; // Certifique-se de que o caminho esteja correto
-import { doc, setDoc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
-import StarRating from './avaliacao';
+import { db, auth } from '../../../FireBase';
+import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
+import StarRating4 from './avaliacao4'; // Importando o componente corrigido
 
-const RatingScreen = () => {
+const RatingScreen4 = ({ percurso }) => {
     const [rating, setRating] = useState(0);
-    const userId = auth.currentUser.uid;
+    const userId = auth.currentUser ? auth.currentUser.uid : null;
 
     const handleRatingChange = (newRating) => {
         setRating(newRating);
@@ -18,6 +18,11 @@ const RatingScreen = () => {
             return;
         }
 
+        if (!userId) {
+            alert("Usuário não autenticado.");
+            return;
+        }
+
         try {
             const userRef = doc(db, 'users', userId);
             const userDoc = await getDoc(userRef);
@@ -25,12 +30,12 @@ const RatingScreen = () => {
             if (userDoc.exists()) {
                 // Atualize a avaliação no Firestore
                 await updateDoc(userRef, {
-                    avaliacao: rating,
+                    avaliacao4: rating,
                 });
             } else {
                 // Crie o documento com a avaliação inicial se não existir
                 await setDoc(userRef, {
-                    avaliacao: rating,
+                    avaliacao4: rating,
                 });
             }
 
@@ -43,10 +48,11 @@ const RatingScreen = () => {
 
     return (
         <View style={{ padding: 20 }}>
-            <StarRating onRatingChange={handleRatingChange} />
-            <Button title="Submeter Avaliação" onPress={handleSubmit} />
+            <StarRating4 onRatingChange={handleRatingChange} />
+
+            <Button title="Submeter Avaliação" onPress={handleSubmit} color="#62BB76"/>
         </View>
     );
 };
 
-export default RatingScreen;
+export default RatingScreen4;

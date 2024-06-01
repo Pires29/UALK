@@ -1,14 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, TextInput, Text, Alert, Image, TouchableOpacity } from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '../../FireBase';
 import { useNavigation } from '@react-navigation/native';
 import { collection, query, where, getDocs } from 'firebase/firestore';
+import {useAuth} from "./gerirAutenticacao";
+
 
 const Login = () => {
+    const { user } = useAuth();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigation = useNavigation();
+
+    useEffect(() => {
+        if (user) {
+            navigation.navigate('NavBar');
+        }
+    }, [user]);
 
     const LogIn = async () => {
         try {
@@ -20,6 +29,7 @@ const Login = () => {
             await signInWithEmailAndPassword(auth, email, password);
             Alert.alert('Login com sucesso');
             navigation.navigate('NavBar');
+
         } catch (error) {
             console.error(error);
             Alert.alert('Erro ao fazer login', error.message);
