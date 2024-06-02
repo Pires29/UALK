@@ -1,215 +1,173 @@
-import * as React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, useWindowDimensions, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Image, Text, TouchableOpacity, StyleSheet, ScrollView, FlatList } from 'react-native';
+import { db, auth } from '../FireBase';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import AuthDetails from "../components/Autenticado";
-import FavoriteList from "../components/Favorites";
 import { useNavigation } from '@react-navigation/native';
-import Favorites from './FavoritesPage';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { useWindowDimensions } from 'react-native';
 
-export default function ProfileScreen() {
-
+const ProfileScreen = () => {
     const navigation = useNavigation();
+    const [comments, setComments] = useState([]);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const fetchUser = () => {
+            const currentUser = auth.currentUser;
+            if (currentUser) {
+                console.log("Current User:", currentUser);
+                setUser(currentUser);
+                fetchComments(currentUser.uid);
+            } else {
+                console.log("No user is logged in.");
+            }
+        };
+
+        fetchUser();
+    }, []);
+
+    const fetchComments = async (userId) => {
+        console.log("Fetching comments for user ID:", userId);
+        const q = query(collection(db, 'comments'), where('userId', '==', userId));
+        const querySnapshot = await getDocs(q);
+        const commentsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        console.log("Fetched comments data:", commentsData);
+        setComments(commentsData);
+    };
 
     const goToOtherComponent = () => {
         navigation.navigate('Favorites');
     };
 
+    const FirstRoute = () => (
+        <View style={styles.content}>
+            <FlatList
+                data={comments}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                    <View style={styles.pontosinteresse}>
+                        <Image
+                            source={require('../imagens/icons/Profile.png')}
+                            style={styles.smallImage}
+                            resizeMode="contain"
+                        />
+                        <View style={styles.textContainer}>
+                            <Text style={styles.subsubtitle}>{item.username}</Text>
+                            <Text style={styles.textComentarios}>{item.comment}</Text>
+                        </View>
+                    </View>
+                )}
+            />
+        </View>
+    );
+
+    const SecondRoute = () => (
+        <View style={{ marginTop: 30 }}>
+            <Text style={{ color: 'white' }}>Fotos</Text>
+        </View>
+    );
+
+    const renderScene = SceneMap({
+        first: FirstRoute,
+        second: SecondRoute,
+    });
+
+    const renderTabBar = props => (
+        <TabBar
+            {...props}
+            indicatorStyle={{
+                backgroundColor: '#62BB76',
+                height: 4,
+            }}
+            indicatorContainerStyle={{
+                backgroundColor: "white",
+                height: 2,
+                marginTop: 46,
+            }}
+            style={{ backgroundColor: 'none' }}
+            renderLabel={({ route, focused }) => {
+                return focused ? (
+                    <Text style={{ color: '#62BB76', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
+                ) : (
+                    <Text style={{ color: 'white', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
+                );
+            }}
+        />
+    );
+
+    const layout = useWindowDimensions();
+    const [index, setIndex] = useState(0);
+    const [routes] = useState([
+        { key: 'first', title: 'Comentários' },
+        { key: 'second', title: 'Fotos' },
+    ]);
+
     return (
-        <ScrollView style={{ flex: 1, backgroundColor: "#2C333C"}}>
-            <View style={{width: "100%", padding: 40,}}>
-                <View style={{alignItems: 'center', justifyContent: 'center', marginBottom: 30}}>
+        <ScrollView style={{ flex: 1, backgroundColor: "#2C333C" }}>
+            <View style={{ width: "100%", padding: 40 }}>
+                <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 30 }}>
                     <Image
                         source={require('../imagens/image 17.png')}
                         style={{ width: 120, height: 120 }}
                     />
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={{ color: 'green', fontSize: 24 }}>Olá,</Text>
+                        {user && <Text style={{ color: 'white', fontSize: 18 }}>{user.displayName}</Text>}
                         <AuthDetails />
                     </View>
                 </View>
                 <TouchableOpacity onPress={goToOtherComponent}>
-                <View style={styles.containerN}>
-                    <View style={styles.innerContainer}>
-                        <Text style={styles.maintext}>Atividade</Text>
-                        <Image
-                            source={require('../imagens/icons/back-arrow.png')}
-                            style={{ width: 20, height: 20 }}
-                        />
+                    <View style={styles.containerN}>
+                        <View style={styles.innerContainer}>
+                            <Text style={styles.maintext}>Atividade</Text>
+                            <Image
+                                source={require('../imagens/icons/back-arrow.png')}
+                                style={{ width: 20, height: 20 }}
+                            />
+                        </View>
+                        <View style={styles.innerContainer2}>
+                            <View style={styles.statItem}>
+                                <Text style={styles.statNumber}>6</Text>
+                                <Text style={styles.statLabel}>Concluídos</Text>
+                            </View>
+                            <View style={styles.statItem}>
+                                <Text style={styles.statNumber}>3</Text>
+                                <Text style={styles.statLabel}>Favoritos</Text>
+                            </View>
+                            <View style={styles.statItem}>
+                                <Text style={styles.statNumber}>5</Text>
+                                <Text style={styles.statLabel}>Eventos</Text>
+                            </View>
+                        </View>
                     </View>
-                    <View style={styles.innerContainer2}>
-                        <View style={styles.statItem}>
-                            <Text style={styles.statNumber}>6</Text>
-                            <Text style={styles.statLabel}>Concluídos</Text>
-                        </View>
-                        <View style={styles.statItem}>
-                            <Text style={styles.statNumber}>3</Text>
-                            <Text style={styles.statLabel}>Favoritos</Text>
-                        </View>
-                        <View style={styles.statItem}>
-                            <Text style={styles.statNumber}>5</Text>
-                            <Text style={styles.statLabel}>Eventos</Text>
-                        </View>
-                    </View>
-                </View>
                 </TouchableOpacity>
             </View>
 
-            <TabViewExample/>
+            <TabView
+                style={{ marginHorizontal: 40 }}
+                renderTabBar={renderTabBar}
+                navigationState={{ index, routes }}
+                renderScene={renderScene}
+                onIndexChange={setIndex}
+                initialLayout={{ width: layout.width }}
+            />
         </ScrollView>
     );
-}
+};
 
-
-const FirstRoute = () => (
-    <View style={styles.content}>
-                    {/* Conteúdo para o botão 1 */}
-                    <View style={styles.pontosinteresse}>
-                        <Image
-                            source={require('../imagens/image 17.png')}
-                            style={styles.smallImage}
-                            resizeMode="contain"
-                        />
-                        <View style={styles.textContainer}>
-                            <Text style={styles.subsubtitle}> Marta Dias </Text>
-                            <Image
-                                source={require('../assets/images/Group 9.png')}
-                                style={styles.smallImageEstrelinhas}
-                                resizeMode="cover"
-                            />
-                        </View>
-                    </View>
-                    <View style={styles.textContainer}>
-                        <Text style={styles.textComentarios}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do </Text>
-                    </View>
-
-                    {/* Barra separadora */}
-                    <View style={styles.separator} />
-
-                    <View style={styles.pontosinteresse}>
-                        <Image
-                            source={require('../assets/images/menino.jpeg')}
-                            style={styles.smallImage}
-                            resizeMode="cover"
-                        />
-                        <View style={styles.textContainer}>
-                            <Text style={styles.subsubtitle}> João Pais </Text>
-                            <Image
-                                source={require('../assets/images/Group 9.png')}
-                                style={styles.smallImageEstrelinhas}
-                                resizeMode="cover"
-                            />
-                        </View>
-                    </View>
-                    <View style={styles.textContainer}>
-                        <Text style={styles.textComentarios}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do </Text>
-                    </View>
-                    <TouchableOpacity
-                        style={styles.button1}
-                        onPress={() => navigation.navigate('OutraPagina')}
-                    >
-                        <Text style={styles.buttonText1botao}> Ver Todos </Text>
-                    </TouchableOpacity>
-                </View>
-  );
-
-  const SecondRoute = () => (
-    <View style={{marginTop: 30}}>
-        <GridExample/>
-    </View>
-  );
-
-  const renderScene = SceneMap({
-    first: FirstRoute,
-    second: SecondRoute,
-  });
-
-
-export function TabViewExample() {
-    const layout = useWindowDimensions();
-
-    const [index, setIndex] = React.useState(0);
-    const [routes] = React.useState([
-      { key: 'first', title: 'Comentários' },
-      { key: 'second', title: 'Fotos' },
-    ]);
-
-    return (
-        <TabView  style={{ marginHorizontal: 40 }}
-          renderTabBar={renderTabBar}
-          navigationState={{ index, routes }}
-          renderScene={renderScene}
-          onIndexChange={setIndex}
-          initialLayout={{ width: layout.width }}
-        />
-
-    );
-  }
-
-  const renderTabBar = props => (
-    <TabBar
-    {...props}
-    indicatorStyle={{
-    backgroundColor: '#62BB76',
-    height: 4,
-  }}
-  indicatorContainerStyle={{
-    backgroundColor: "white",
-    height: 2,
-    marginTop: 46,
-  }}
-    style={{ backgroundColor: 'none' }}
-    renderLabel={({ route, focused }) => {
-        return focused ? (
-            <Text style={{ color: '#62BB76', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
-        ) : (
-            <Text style={{ color: 'white', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
-        );
-    }}
-/>
-  );
-
-  export function GridExample() {
-    // Array de imagens de exemplo
-    const images = [
-        require('../assets/images/image 7.png'),
-        require('../assets/images/image 7.png'),
-        require('../assets/images/image 7.png'),
-        require('../assets/images/image 7.png'),
-        require('../assets/images/image 7.png'),
-        require('../assets/images/image 7.png'),
-        require('../assets/images/image 7.png'),
-        require('../assets/images/image 7.png'),
-        require('../assets/images/image 7.png'),
-    ];
-
-    return (
-        <View style={styles.containerGrid}>
-            {images.map((image, index) => (
-                <View key={index} style={styles.itemGrid}>
-                    {index === 0 ? (
-                        <View style={styles.placeholder}>
-                            <Image source={require('../imagens/icons/back-arrow.png')} style={{width: 25, height: 25}}/>
-                        </View>
-                    ) : (
-                        <Image source={image} style={styles.imageGrid} />
-                    )}
-                </View>
-            ))}
-        </View>
-    );
-}
+export default ProfileScreen;
 
 const styles = StyleSheet.create({
-
     containerGrid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         flex: 1,
         justifyContent: 'space-between',
     },
-    placeholder:{
-        borderColor: 'white', // Cor da borda
-        borderWidth: 1, // Largura da borda
+    placeholder: {
+        borderColor: 'white',
+        borderWidth: 1,
         borderRadius: 10,
         width: "100%",
         height: "100%",
@@ -218,13 +176,13 @@ const styles = StyleSheet.create({
     },
     itemGrid: {
         width: '30%',
-        aspectRatio: 1, // Garante que as células tenham o mesmo tamanho
-        marginBottom: '3%', // Margem inferior para separar as linhas
+        aspectRatio: 1,
+        marginBottom: '3%',
     },
     imageGrid: {
         width: '100%',
         height: '100%',
-        borderRadius: 10, // Border radius para as imagens
+        borderRadius: 10,
     },
     container: {
         flex: 1,
@@ -302,23 +260,16 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'justify',
         marginTop: 8,
-        marginBottom: 8,
+        marginBottom: 5,
+        marginLeft: 5,
+        width: "95%",
     },
-    button1: {
-        width: '40%',
-        padding: 12,
-        borderRadius: 5,
-        marginTop: 35,
-        marginVertical: 10,
-        marginLeft: 25,
-        alignItems: 'center',
-        borderWidth: 2,
-        borderColor: '#62BB76',
-        backgroundColor: 'transparent',
-    },
-    buttonText1botao: {
-        fontSize: 14,
-        color: '#62BB76',
-        fontWeight: 'bold',
+    timestamp: {
+        fontSize: 12,
+        color: 'grey',
+        textAlign: 'right',
+        marginTop: 5,
+        marginLeft: 5,
+        width: "95%",
     },
 });
