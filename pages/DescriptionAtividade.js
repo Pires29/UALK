@@ -5,9 +5,13 @@ import { db } from '../FireBase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { markers } from '../components/Map/markers';
 import PaginaAvaliacao from "../components/PaginaAvaliacao";
+import RouteInfoAtividade from "../components/RouteInfoCaractAtividade";
+
+
 
 const DescriptionAtividades = ({ navigation, route }) => {
     const { atividade } = route.params;
+    const {percurso} = route.params;
 
     const [selectedMarker, setSelectedMarker] = useState([]);
 
@@ -15,9 +19,12 @@ const DescriptionAtividades = ({ navigation, route }) => {
     const [comments, setComments] = useState([]);
 
     const handleButtonPress = () => {
-        navigation.navigate('colocarapagina');
+        navigation.navigate('Description', {percursoId});
     }
 
+    const handlePress = (percurso) => {
+        navigation.navigate('Description', { percurso });
+    };
 
     useEffect(() => {
         const fetchComments = async () => {
@@ -61,11 +68,13 @@ const DescriptionAtividades = ({ navigation, route }) => {
                     >
                         <Image
                             source={require('../components/Atividade/imagensAtividades/estrela.png')}
-                            style={styles.smallpassos}
+                            style={styles.favoritos}
                             resizeMode="cover"
                         />
                     </TouchableOpacity>
                 </View>
+
+                <RouteInfoAtividade time={atividade.tempo} difficulty={atividade.dificuldade} accessibility={atividade.acessibilidade} />
 
                 <View style={styles.descricao}>
                     <Text style={styles.subtitle}> Descrição </Text>
@@ -73,8 +82,22 @@ const DescriptionAtividades = ({ navigation, route }) => {
                 </View>
 
                 <View style={styles.descricao}>
-                    <Text style={styles.subtitle2}> Percursos </ Text>
+                    <Text style={styles.subtitle2}> Percursos </Text>
                 </View>
+
+                <View style={styles.percursoscontainer}>
+                    <TouchableOpacity onPress={() => navigation.navigate('Description', { percurso: atividade.percursoAssociado})} style={styles.buttonpercurso}>
+                        <Image source={atividade.percursoAssociado.imagem} style={styles.imagePercurso} />
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => navigation.navigate('Description', {percurso: atividade.percursoAssociado2})} style={styles.buttonpercurso}>
+                        <Image source={atividade.percursoAssociado2.imagem} style={styles.imagePercurso} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Description', { percurso: atividade.percursoAssociado3 })} style={styles.buttonpercurso}>
+                        <Image source={atividade.percursoAssociado3.imagem} style={styles.imagePercurso} />
+                    </TouchableOpacity>
+                </View>
+
 
                 <View style={styles.buttonsContainer}>
                     <TouchableOpacity
@@ -162,10 +185,12 @@ const styles = StyleSheet.create({
         height: '100%',
         backgroundColor: '#2C333C',
     },
+    imageContainer: {
+        position: 'relative',
+    },
     image: {
         width: '100%',
-        height: 200,
-        marginTop: 20,
+        height: 250,
     },
     field: {
         flexDirection: 'row',
@@ -202,10 +227,9 @@ const styles = StyleSheet.create({
         marginRight: 5,
         marginLeft: 20,
     },
-    smallpassos: {
+    favoritos: {
         width: 70,
         height: 70,
-        marginRight: 30,
     },
     text: {
         fontSize: 14,
@@ -334,8 +358,8 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
     },
     buttonWithImage: {
-        width: 320,
-        height: 122,
+        width: 70,
+        height: 70,
         alignItems: 'center',
         justifyContent: 'center',
         alignSelf: 'center',
@@ -372,7 +396,6 @@ const styles = StyleSheet.create({
     content: {
         marginTop: 20,
     },
-
     backButton: {
         position: 'absolute',
         top: 20,
@@ -380,6 +403,27 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 5,
     },
+
+    percursoscontainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 10,
+    },
+
+    buttonpercurso: {
+        width: '30%', // Aproximadamente um terço do container
+        aspectRatio: 1, // Para manter as imagens quadradas
+        margin: 5,
+    },
+    imagePercurso: {
+        width: '100%',
+        height: '110%',
+        resizeMode: 'cover',
+        borderRadius: 20,
+    },
+
+
+
 });
 
 export default DescriptionAtividades;

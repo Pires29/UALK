@@ -10,7 +10,6 @@ import PaginaAvaliacao from "../components/PaginaAvaliacao";
 const Description = ({ navigation, route }) => {
     const { percurso } = route.params;
 
-
     const [selectedMarker, setSelectedMarker] = useState([]);
 
     useEffect(() => {
@@ -216,8 +215,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: '100%',
-        height: 200,
-        marginTop: 20,
+        height: 250,
     },
     field: {
         flexDirection: 'row',
