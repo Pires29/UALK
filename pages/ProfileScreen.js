@@ -1,15 +1,107 @@
-import * as React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, useWindowDimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Image, Text, TouchableOpacity, StyleSheet, ScrollView, FlatList } from 'react-native';
+import { db, auth } from '../FireBase';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import AuthDetails from "../components/Autenticado";
 import { useNavigation } from '@react-navigation/native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { useWindowDimensions } from 'react-native';
 
 const ProfileScreen = () => {
     const navigation = useNavigation();
+    const [comments, setComments] = useState([]);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const fetchUser = () => {
+            const currentUser = auth.currentUser;
+            if (currentUser) {
+                console.log("Current User:", currentUser);
+                setUser(currentUser);
+                fetchComments(currentUser.uid);
+            } else {
+                console.log("No user is logged in.");
+            }
+        };
+
+        fetchUser();
+    }, []);
+
+    const fetchComments = async (userId) => {
+        console.log("Fetching comments for user ID:", userId);
+        const q = query(collection(db, 'comments'), where('userId', '==', userId));
+        const querySnapshot = await getDocs(q);
+        const commentsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        console.log("Fetched comments data:", commentsData);
+        setComments(commentsData);
+    };
 
     const goToOtherComponent = () => {
         navigation.navigate('Favorites');
     };
+
+    const FirstRoute = () => (
+        <View style={styles.content}>
+            <FlatList
+                data={comments}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                    <View style={styles.pontosinteresse}>
+                        <Image
+                            source={require('../imagens/icons/Profile.png')}
+                            style={styles.smallImage}
+                            resizeMode="contain"
+                        />
+                        <View style={styles.textContainer}>
+                            <Text style={styles.subsubtitle}>{item.username}</Text>
+                            <Text style={styles.textComentarios}>{item.comment}</Text>
+                        </View>
+                    </View>
+                )}
+            />
+        </View>
+    );
+
+    const SecondRoute = () => (
+        <View style={{ marginTop: 30 }}>
+            <Text style={{ color: 'white' }}>Fotos</Text>
+        </View>
+    );
+
+    const renderScene = SceneMap({
+        first: FirstRoute,
+        second: SecondRoute,
+    });
+
+    const renderTabBar = props => (
+        <TabBar
+            {...props}
+            indicatorStyle={{
+                backgroundColor: '#62BB76',
+                height: 4,
+            }}
+            indicatorContainerStyle={{
+                backgroundColor: "white",
+                height: 2,
+                marginTop: 46,
+            }}
+            style={{ backgroundColor: 'none' }}
+            renderLabel={({ route, focused }) => {
+                return focused ? (
+                    <Text style={{ color: '#62BB76', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
+                ) : (
+                    <Text style={{ color: 'white', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
+                );
+            }}
+        />
+    );
+
+    const layout = useWindowDimensions();
+    const [index, setIndex] = useState(0);
+    const [routes] = useState([
+        { key: 'first', title: 'Comentários' },
+        { key: 'second', title: 'Fotos' },
+    ]);
 
     return (
         <View style={{ flex: 1, backgroundColor: "#2C333C"}}>
@@ -21,6 +113,7 @@ const ProfileScreen = () => {
                     />
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={{ color: 'green', fontSize: 24 }}>Olá,</Text>
+                        {user && <Text style={{ color: 'white', fontSize: 18 }}>{user.displayName}</Text>}
                         <AuthDetails />
                     </View>
                 </View>
@@ -213,13 +306,13 @@ const styles = StyleSheet.create({
     },
     itemGrid: {
         width: '30%',
-        aspectRatio: 1, // Garante que as células tenham o mesmo tamanho
-        marginBottom: '3%', // Margem inferior para separar as linhas
+        aspectRatio: 1,
+        marginBottom: '3%',
     },
     imageGrid: {
         width: '100%',
         height: '100%',
-        borderRadius: 10, // Border radius para as imagens
+        borderRadius: 10,
     },
     container: {
         flex: 1,
@@ -297,24 +390,17 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'justify',
         marginTop: 8,
-        marginBottom: 8,
+        marginBottom: 5,
+        marginLeft: 5,
+        width: "95%",
     },
-    button1: {
-        width: '40%',
-        padding: 12,
-        borderRadius: 5,
-        marginTop: 35,
-        marginVertical: 10,
-        marginLeft: 25,
-        alignItems: 'center',
-        borderWidth: 2,
-        borderColor: '#62BB76',
-        backgroundColor: 'transparent',
-    },
-    buttonText1botao: {
-        fontSize: 14,
-        color: '#62BB76',
-        fontWeight: 'bold',
+    timestamp: {
+        fontSize: 12,
+        color: 'grey',
+        textAlign: 'right',
+        marginTop: 5,
+        marginLeft: 5,
+        width: "95%",
     },
 });
 

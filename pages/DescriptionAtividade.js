@@ -9,11 +9,15 @@ import PaginaAvaliacao from "../components/PaginaAvaliacao";
 const DescriptionAtividades = ({ navigation, route }) => {
     const { atividade } = route.params;
 
-
     const [selectedMarker, setSelectedMarker] = useState([]);
 
     const [selectedButton, setSelectedButton] = useState(1);
     const [comments, setComments] = useState([]);
+
+    const handleButtonPress = () => {
+        navigation.navigate('colocarapagina');
+    }
+
 
     useEffect(() => {
         const fetchComments = async () => {
@@ -51,20 +55,16 @@ const DescriptionAtividades = ({ navigation, route }) => {
 
                 <View style={styles.field}>
                     <Text style={styles.title}>Atividade {atividade.nome}</Text>
-                    <Image
-                        source={atividade.passos}
-                        style={styles.smallpassos}
-                        resizeMode="cover"
-                    />
-                </View>
-
-                <View style={styles.avaliacao}>
-                    <Image
-                        source={require('../assets/images/estrela.png')}
-                        style={styles.smallImage2}
-                        resizeMode="cover"
-                    />
-                    <Text style={styles.textavaliacao}> {atividade.avaliacaoQuantitativa} </Text>
+                    <TouchableOpacity
+                        style={styles.buttonWithImage}
+                        onPress={handleButtonPress}
+                    >
+                        <Image
+                            source={require('../components/Atividade/imagensAtividades/estrela.png')}
+                            style={styles.smallpassos}
+                            resizeMode="cover"
+                        />
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.descricao}>
@@ -73,34 +73,7 @@ const DescriptionAtividades = ({ navigation, route }) => {
                 </View>
 
                 <View style={styles.descricao}>
-                    <Text style={styles.subtitle2}> Pontos de Interesse </ Text>
-                </View>
-                <View style={styles.pontosinteresse}>
-                    <Image
-                        source={require('../assets/images/casaestudante.jpeg')}
-                        style={styles.smallImage}
-                        resizeMode="cover"
-                    />
-                    <View style={styles.textContainer}>
-                        <Text style={styles.subsubtitle}> Casa do estudante </ Text>
-                        <Text style={styles.text2}>Edifício que alberga a sede da Associação Académica da Universidade de Aveiro (AAUAv). </ Text>
-                    </View>
-                </View>
-
-                <View style={styles.pontosinteresse}>
-                    <Image
-                        source={require('../assets/images/porsol.jpeg')}
-                        style={styles.smallImage}
-                        resizeMode="cover"
-                    />
-                    <View style={styles.textContainer}>
-                        <Text style={styles.subsubtitle}> Marinha da Casqueira </ Text>
-                        <Text style={styles.text3}>Marinha que se encontra junto à Universidade </ Text>
-                    </View>
-                </View>
-
-                <View style={styles.descricao}>
-                    <Text style={styles.subtitle2}> Mapa </ Text>
+                    <Text style={styles.subtitle2}> Percursos </ Text>
                 </View>
 
                 <View style={styles.buttonsContainer}>
