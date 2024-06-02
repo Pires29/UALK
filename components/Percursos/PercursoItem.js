@@ -84,7 +84,7 @@ const PercursoItem = () => {
             id: 3,
             nome: 'Bar Preto',
             imagem: require('./imagesPercursos/BarPretoImage.png'),
-            passos: require('./imagesPercursos/imagesPassos/passosBarPreto.png'),
+            /*passos: require('./imagesPercursos/imagesPassos/passosBarPreto.png'),*/
             comprimento: '1,4 Km',
             descricao: 'Bebe um chá (sem açúcar) e relaxa na esplanada',
             tempo: '19 min',

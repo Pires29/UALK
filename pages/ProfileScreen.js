@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, useWindowDimensions, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, useWindowDimensions } from 'react-native';
 import AuthDetails from "../components/Autenticado";
 import FavoriteList from "../components/Favorites";
 import { useNavigation } from '@react-navigation/native';
@@ -15,7 +15,7 @@ export default function ProfileScreen() {
     };
 
     return (
-        <ScrollView style={{ flex: 1, backgroundColor: "#2C333C"}}>
+        <View style={{ flex: 1, backgroundColor: "#2C333C"}}>
             <View style={{width: "100%", padding: 40,}}>
                 <View style={{alignItems: 'center', justifyContent: 'center', marginBottom: 30}}>
                     <Image
@@ -55,7 +55,7 @@ export default function ProfileScreen() {
             </View>
 
             <TabViewExample/>
-        </ScrollView>
+        </View>
     );
 }
 
@@ -198,6 +198,7 @@ export function TabViewExample() {
         </View>
     );
 }
+
 
 const styles = StyleSheet.create({
 
