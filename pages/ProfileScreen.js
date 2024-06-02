@@ -104,9 +104,9 @@ const ProfileScreen = () => {
     ]);
 
     return (
-        <ScrollView style={{ flex: 1, backgroundColor: "#2C333C" }}>
-            <View style={{ width: "100%", padding: 40 }}>
-                <View style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 30 }}>
+        <View style={{ flex: 1, backgroundColor: "#2C333C"}}>
+            <View style={{width: "100%", padding: 40,}}>
+                <View style={{alignItems: 'center', justifyContent: 'center', marginBottom: 30}}>
                     <Image
                         source={require('../imagens/image 17.png')}
                         style={{ width: 120, height: 120 }}
@@ -144,19 +144,149 @@ const ProfileScreen = () => {
                 </TouchableOpacity>
             </View>
 
-            <TabView
-                style={{ marginHorizontal: 40 }}
-                renderTabBar={renderTabBar}
-                navigationState={{ index, routes }}
-                renderScene={renderScene}
-                onIndexChange={setIndex}
-                initialLayout={{ width: layout.width }}
-            />
-        </ScrollView>
+            <TabViewExample/>
+        </View>
     );
 };
 
-export default ProfileScreen;
+const FirstRoute = () => (
+    <View style={styles.content}>
+        {/* Conteúdo para o botão 1 */}
+        <View style={styles.pontosinteresse}>
+            <Image
+                source={require('../imagens/image 17.png')}
+                style={styles.smallImage}
+                resizeMode="contain"
+            />
+            <View style={styles.textContainer}>
+                <Text style={styles.subsubtitle}> Marta Dias </Text>
+                <Image
+                    source={require('../assets/images/Group 9.png')}
+                    style={styles.smallImageEstrelinhas}
+                    resizeMode="cover"
+                />
+            </View>
+        </View>
+        <View style={styles.textContainer}>
+            <Text style={styles.textComentarios}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do </Text>
+        </View>
+
+        {/* Barra separadora */}
+        <View style={styles.separator} />
+
+        <View style={styles.pontosinteresse}>
+            <Image
+                source={require('../assets/images/menino.jpeg')}
+                style={styles.smallImage}
+                resizeMode="cover"
+            />
+            <View style={styles.textContainer}>
+                <Text style={styles.subsubtitle}> João Pais </Text>
+                <Image
+                    source={require('../assets/images/Group 9.png')}
+                    style={styles.smallImageEstrelinhas}
+                    resizeMode="cover"
+                />
+            </View>
+        </View>
+        <View style={styles.textContainer}>
+            <Text style={styles.textComentarios}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do </Text>
+        </View>
+        <TouchableOpacity
+            style={styles.button1}
+            onPress={() => navigation.navigate('OutraPagina')}
+        >
+            <Text style={styles.buttonText1botao}> Ver Todos </Text>
+        </TouchableOpacity>
+    </View>
+);
+
+const SecondRoute = () => (
+    <View style={{ marginTop: 30 }}>
+        <GridExample />
+    </View>
+);
+
+const renderScene = SceneMap({
+    first: FirstRoute,
+    second: SecondRoute,
+});
+
+const TabViewExample = () => {
+    const layout = useWindowDimensions();
+
+    const [index, setIndex] = React.useState(0);
+    const [routes] = React.useState([
+        { key: 'first', title: 'Comentários' },
+        { key: 'second', title: 'Fotos' },
+    ]);
+
+    return (
+        <TabView
+            style={{ marginHorizontal: 40 }}
+            renderTabBar={renderTabBar}
+            navigationState={{ index, routes }}
+            renderScene={renderScene}
+            onIndexChange={setIndex}
+            initialLayout={{ width: layout.width }}
+        />
+    );
+};
+
+const renderTabBar = props => (
+    <TabBar
+        {...props}
+        indicatorStyle={{
+            backgroundColor: '#62BB76',
+            height: 4,
+        }}
+        indicatorContainerStyle={{
+            backgroundColor: "white",
+            height: 2,
+            marginTop: 46,
+        }}
+        style={{ backgroundColor: 'none' }}
+        renderLabel={({ route, focused }) => {
+            return focused ? (
+                <Text style={{ color: '#62BB76', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
+            ) : (
+                <Text style={{ color: 'white', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
+            );
+        }}
+    />
+);
+
+const GridExample = () => {
+    // Array de imagens de exemplo
+    const images = [
+        require('../assets/images/image 7.png'),
+        require('../assets/images/image 7.png'),
+        require('../assets/images/image 7.png'),
+        require('../assets/images/image 7.png'),
+        require('../assets/images/image 7.png'),
+        require('../assets/images/image 7.png'),
+        require('../assets/images/image 7.png'),
+        require('../assets/images/image 7.png'),
+        require('../assets/images/image 7.png'),
+    ];
+
+    return (
+        <View style={styles.containerGrid}>
+            {images.map((image, index) => (
+                <View key={index} style={styles.itemGrid}>
+                    {index === 0 ? (
+                        <View style={styles.placeholder}>
+                            <Image source={require('../imagens/icons/back-arrow.png')} style={{ width: 25, height: 25 }} />
+                        </View>
+                    ) : (
+                        <Image source={image} style={styles.imageGrid} />
+                    )}
+                </View>
+            ))}
+        </View>
+    );
+}
+
 
 const styles = StyleSheet.create({
     containerGrid: {
@@ -166,8 +296,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     placeholder: {
-        borderColor: 'white',
-        borderWidth: 1,
+        borderColor: 'white', // Cor da borda
+        borderWidth: 1, // Largura da borda
         borderRadius: 10,
         width: "100%",
         height: "100%",
@@ -273,3 +403,5 @@ const styles = StyleSheet.create({
         width: "95%",
     },
 });
+
+export default ProfileScreen;

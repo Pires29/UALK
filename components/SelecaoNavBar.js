@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import NavPrincipal from './NavPrincipal';
 
-const App = () => {
+const SelecaoNavBar = () => {
     const [ setSelectedOption] = useState('');
 
     const handleSelectOption = (option) => {
@@ -27,4 +27,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default App;
+export default SelecaoNavBar;
