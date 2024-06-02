@@ -46,9 +46,9 @@ const AtividadeItem = () => {
         {
             id: 1,
             nome: 'Sessão de Yoga',
-            imagem: require('../../assets/images/porsol.jpeg'),
+            imagem: require('./imagensAtividades/yoga.jpeg'),
             comprimento: '1,7 Km',
-            descricao: 'Aproveita a calma das marinhas para ver o pôr do sol, ou ler um livro,enquanto ouves uma música relaxante',
+            descricao: 'Os yogis espalhados pelo mundo ainda se questionam como é que o yoga não tem ainda mais praticantes.',
             tempo: '21 min',
             dificuldade: 'Fácil',
             acessibilidade: 'Normal',
@@ -56,10 +56,10 @@ const AtividadeItem = () => {
         },
         {
             id: 2,
-            nome: 'Concerto - Rapazes de Verde',
-            imagem: require('../../assets/images/porsol.jpeg'),
+            nome: 'Jogar setas',
+            imagem: require('./imagensAtividades/setas.jpg'),
             comprimento: '1 Km',
-            descricao: 'Conhece a Casa do Estudante-Atleta e o Museu do Desporto Universitário Português da FADU, espaço onde é contada a história da federação.',
+            descricao: 'Passa pelo CUA e joga umas setas com os teus amigos',
             tempo: '14 min',
             dificuldade: 'Difícil',
             acessibilidade: 'Normal',
@@ -68,8 +68,8 @@ const AtividadeItem = () => {
 
         {
             id: 3,
-            nome: 'Atividade 3',
-            imagem: require('../../assets/images/porsol.jpeg'),
+            nome: 'Berber chá',
+            imagem: require('./imagensAtividades/cha.jpg'),
             comprimento: '1,4 Km',
             descricao: 'Bebe um chá (sem açúcar) e relaxa na esplanada',
             tempo: '19 min',
@@ -81,10 +81,10 @@ const AtividadeItem = () => {
 
         {
             id: 4,
-            nome: 'Atividade 4',
-            imagem: require('../../assets/images/porsol.jpeg'),
+            nome: 'Caminhada em Grupo',
+            imagem: require('./imagensAtividades/caminhada.jpg'),
             comprimento: '1,3 Km',
-            descricao: 'Conhece o espaço do Programa de Voluntariado da UA e vê como podes participar nas várias atividades.',
+            descricao: 'Não estejas sozinh@ nas tuas caminhadas. Diz quais percursos queres participar e junta-te a um novo grupo.',
             tempo: '19 min',
             dificuldade: 'Fácil',
             acessibilidade: 'Normal',
