@@ -1,13 +1,10 @@
 import * as React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, useWindowDimensions } from 'react-native';
 import AuthDetails from "../components/Autenticado";
-import FavoriteList from "../components/Favorites";
 import { useNavigation } from '@react-navigation/native';
-import Favorites from './FavoritesPage';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 
-export default function ProfileScreen() {
-
+const ProfileScreen = () => {
     const navigation = useNavigation();
 
     const goToOtherComponent = () => {
@@ -28,147 +25,145 @@ export default function ProfileScreen() {
                     </View>
                 </View>
                 <TouchableOpacity onPress={goToOtherComponent}>
-                <View style={styles.containerN}>
-                    <View style={styles.innerContainer}>
-                        <Text style={styles.maintext}>Atividade</Text>
-                        <Image
-                            source={require('../imagens/icons/back-arrow.png')}
-                            style={{ width: 20, height: 20 }}
-                        />
+                    <View style={styles.containerN}>
+                        <View style={styles.innerContainer}>
+                            <Text style={styles.maintext}>Atividade</Text>
+                            <Image
+                                source={require('../imagens/icons/back-arrow.png')}
+                                style={{ width: 20, height: 20 }}
+                            />
+                        </View>
+                        <View style={styles.innerContainer2}>
+                            <View style={styles.statItem}>
+                                <Text style={styles.statNumber}>6</Text>
+                                <Text style={styles.statLabel}>Concluídos</Text>
+                            </View>
+                            <View style={styles.statItem}>
+                                <Text style={styles.statNumber}>3</Text>
+                                <Text style={styles.statLabel}>Favoritos</Text>
+                            </View>
+                            <View style={styles.statItem}>
+                                <Text style={styles.statNumber}>5</Text>
+                                <Text style={styles.statLabel}>Eventos</Text>
+                            </View>
+                        </View>
                     </View>
-                    <View style={styles.innerContainer2}>
-                        <View style={styles.statItem}>
-                            <Text style={styles.statNumber}>6</Text>
-                            <Text style={styles.statLabel}>Concluídos</Text>
-                        </View>
-                        <View style={styles.statItem}>
-                            <Text style={styles.statNumber}>3</Text>
-                            <Text style={styles.statLabel}>Favoritos</Text>
-                        </View>
-                        <View style={styles.statItem}>
-                            <Text style={styles.statNumber}>5</Text>
-                            <Text style={styles.statLabel}>Eventos</Text>
-                        </View>
-                    </View>
-                </View>
                 </TouchableOpacity>
             </View>
 
             <TabViewExample/>
         </View>
     );
-}
-
+};
 
 const FirstRoute = () => (
     <View style={styles.content}>
-                    {/* Conteúdo para o botão 1 */}
-                    <View style={styles.pontosinteresse}>
-                        <Image
-                            source={require('../imagens/image 17.png')}
-                            style={styles.smallImage}
-                            resizeMode="contain"
-                        />
-                        <View style={styles.textContainer}>
-                            <Text style={styles.subsubtitle}> Marta Dias </Text>
-                            <Image
-                                source={require('../assets/images/Group 9.png')}
-                                style={styles.smallImageEstrelinhas}
-                                resizeMode="cover"
-                            />
-                        </View>
-                    </View>
-                    <View style={styles.textContainer}>
-                        <Text style={styles.textComentarios}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do </Text>
-                    </View>
+        {/* Conteúdo para o botão 1 */}
+        <View style={styles.pontosinteresse}>
+            <Image
+                source={require('../imagens/image 17.png')}
+                style={styles.smallImage}
+                resizeMode="contain"
+            />
+            <View style={styles.textContainer}>
+                <Text style={styles.subsubtitle}> Marta Dias </Text>
+                <Image
+                    source={require('../assets/images/Group 9.png')}
+                    style={styles.smallImageEstrelinhas}
+                    resizeMode="cover"
+                />
+            </View>
+        </View>
+        <View style={styles.textContainer}>
+            <Text style={styles.textComentarios}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do </Text>
+        </View>
 
-                    {/* Barra separadora */}
-                    <View style={styles.separator} />
+        {/* Barra separadora */}
+        <View style={styles.separator} />
 
-                    <View style={styles.pontosinteresse}>
-                        <Image
-                            source={require('../assets/images/menino.jpeg')}
-                            style={styles.smallImage}
-                            resizeMode="cover"
-                        />
-                        <View style={styles.textContainer}>
-                            <Text style={styles.subsubtitle}> João Pais </Text>
-                            <Image
-                                source={require('../assets/images/Group 9.png')}
-                                style={styles.smallImageEstrelinhas}
-                                resizeMode="cover"
-                            />
-                        </View>
-                    </View>
-                    <View style={styles.textContainer}>
-                        <Text style={styles.textComentarios}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do </Text>
-                    </View>
-                    <TouchableOpacity
-                        style={styles.button1}
-                        onPress={() => navigation.navigate('OutraPagina')}
-                    >
-                        <Text style={styles.buttonText1botao}> Ver Todos </Text>
-                    </TouchableOpacity>
-                </View>
-  );
-
-  const SecondRoute = () => (
-    <View style={{marginTop: 30}}>
-        <GridExample/>
+        <View style={styles.pontosinteresse}>
+            <Image
+                source={require('../assets/images/menino.jpeg')}
+                style={styles.smallImage}
+                resizeMode="cover"
+            />
+            <View style={styles.textContainer}>
+                <Text style={styles.subsubtitle}> João Pais </Text>
+                <Image
+                    source={require('../assets/images/Group 9.png')}
+                    style={styles.smallImageEstrelinhas}
+                    resizeMode="cover"
+                />
+            </View>
+        </View>
+        <View style={styles.textContainer}>
+            <Text style={styles.textComentarios}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do </Text>
+        </View>
+        <TouchableOpacity
+            style={styles.button1}
+            onPress={() => navigation.navigate('OutraPagina')}
+        >
+            <Text style={styles.buttonText1botao}> Ver Todos </Text>
+        </TouchableOpacity>
     </View>
-  );
+);
 
-  const renderScene = SceneMap({
+const SecondRoute = () => (
+    <View style={{ marginTop: 30 }}>
+        <GridExample />
+    </View>
+);
+
+const renderScene = SceneMap({
     first: FirstRoute,
     second: SecondRoute,
-  });
+});
 
-
-export function TabViewExample() {
+const TabViewExample = () => {
     const layout = useWindowDimensions();
 
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
-      { key: 'first', title: 'Comentários' },
-      { key: 'second', title: 'Fotos' },
+        { key: 'first', title: 'Comentários' },
+        { key: 'second', title: 'Fotos' },
     ]);
 
     return (
-        <TabView  style={{ marginHorizontal: 40 }}
-          renderTabBar={renderTabBar}
-          navigationState={{ index, routes }}
-          renderScene={renderScene}
-          onIndexChange={setIndex}
-          initialLayout={{ width: layout.width }}
+        <TabView
+            style={{ marginHorizontal: 40 }}
+            renderTabBar={renderTabBar}
+            navigationState={{ index, routes }}
+            renderScene={renderScene}
+            onIndexChange={setIndex}
+            initialLayout={{ width: layout.width }}
         />
-
     );
-  }
+};
 
-  const renderTabBar = props => (
+const renderTabBar = props => (
     <TabBar
-    {...props}
-    indicatorStyle={{
-    backgroundColor: '#62BB76',
-    height: 4,
-  }}
-  indicatorContainerStyle={{
-    backgroundColor: "white",
-    height: 2,
-    marginTop: 46,
-  }}
-    style={{ backgroundColor: 'none' }}
-    renderLabel={({ route, focused }) => {
-        return focused ? (
-            <Text style={{ color: '#62BB76', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
-        ) : (
-            <Text style={{ color: 'white', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
-        );
-    }}
-/>
-  );
+        {...props}
+        indicatorStyle={{
+            backgroundColor: '#62BB76',
+            height: 4,
+        }}
+        indicatorContainerStyle={{
+            backgroundColor: "white",
+            height: 2,
+            marginTop: 46,
+        }}
+        style={{ backgroundColor: 'none' }}
+        renderLabel={({ route, focused }) => {
+            return focused ? (
+                <Text style={{ color: '#62BB76', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
+            ) : (
+                <Text style={{ color: 'white', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
+            );
+        }}
+    />
+);
 
-  export function GridExample() {
+const GridExample = () => {
     // Array de imagens de exemplo
     const images = [
         require('../assets/images/image 7.png'),
@@ -188,7 +183,7 @@ export function TabViewExample() {
                 <View key={index} style={styles.itemGrid}>
                     {index === 0 ? (
                         <View style={styles.placeholder}>
-                            <Image source={require('../imagens/icons/back-arrow.png')} style={{width: 25, height: 25}}/>
+                            <Image source={require('../imagens/icons/back-arrow.png')} style={{ width: 25, height: 25 }} />
                         </View>
                     ) : (
                         <Image source={image} style={styles.imageGrid} />
@@ -201,14 +196,13 @@ export function TabViewExample() {
 
 
 const styles = StyleSheet.create({
-
     containerGrid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         flex: 1,
         justifyContent: 'space-between',
     },
-    placeholder:{
+    placeholder: {
         borderColor: 'white', // Cor da borda
         borderWidth: 1, // Largura da borda
         borderRadius: 10,
@@ -323,3 +317,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
+
+export default ProfileScreen;
