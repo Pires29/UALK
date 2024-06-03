@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Text, TouchableOpacity, StyleSheet, ScrollView, FlatList } from 'react-native';
+import { View, Image, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import { db, auth } from '../FireBase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import AuthDetails from "../components/Autenticado";
 import { useNavigation } from '@react-navigation/native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { useWindowDimensions } from 'react-native';
+import Icon from "react-native-vector-icons/FontAwesome";
+
 
 const ProfileScreen = () => {
     const navigation = useNavigation();
@@ -47,10 +49,11 @@ const ProfileScreen = () => {
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                     <View style={styles.pontosinteresse}>
-                        <Image
-                            source={require('../imagens/icons/Profile.png')}
-                            style={styles.smallImage}
-                            resizeMode="contain"
+                        <Icon
+                        name="user-circle-o"
+                        size={50}
+                        color="#ffffff"
+                        padding={10}
                         />
                         <View style={styles.textContainer}>
                             <Text style={styles.subsubtitle}>{item.username}</Text>
