@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Slider from '../CarouselComponent';
@@ -14,12 +14,14 @@ import RatingScreen3 from "../componentsAvaliacao/percurso3/media3";
 import AverageRating3 from "../componentsAvaliacao/percurso3/mediaTotal3";
 
 const AtividadeItem = () => {
+    const [searchText, setSearchText] = useState('');
+    const navigation = useNavigation();
     const carouselData = [
         require('../../imagens/image 7.png'),
         require('../../imagens/image 7.png'),
         require('../../imagens/image 7.png')
     ];
-    const navigation = useNavigation();
+
     const validateItem = (item) => {
         return {
             id: item.id || '',
@@ -254,16 +256,19 @@ const AtividadeItem = () => {
 
 
     ];
+    const filteredAtividades = atividades.filter(atividade =>
+        atividade.nome.toLowerCase().includes(searchText.toLowerCase())
+    );
 
     return (
         <View>
             <Slider data={carouselData} />
-            <SearchBar/>
-            {atividades.map(atividade => (
+            <SearchBar onSearch={setSearchText} />
+            {filteredAtividades.map(atividade => (
                 <TouchableOpacity
                     key={atividade.id}
                     style={styles.container2}
-                    onPress={() => navigation.navigate('DescriptionAtividade', {atividade: atividade })}
+                    onPress={() => navigation.navigate('DescriptionAtividade', { atividade: atividade })}
                 >
                     <Image
                         source={atividade.imagem}

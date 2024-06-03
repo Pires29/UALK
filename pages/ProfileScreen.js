@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Text, TouchableOpacity, StyleSheet, ScrollView, FlatList } from 'react-native';
+import { View, Image, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import { db, auth } from '../FireBase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import AuthDetails from "../components/Autenticado";
 import { useNavigation } from '@react-navigation/native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { useWindowDimensions } from 'react-native';
+import Icon from "react-native-vector-icons/FontAwesome";
+
 
 const ProfileScreen = () => {
     const navigation = useNavigation();
@@ -47,10 +49,11 @@ const ProfileScreen = () => {
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                     <View style={styles.pontosinteresse}>
-                        <Image
-                            source={require('../imagens/icons/Profile.png')}
-                            style={styles.smallImage}
-                            resizeMode="contain"
+                        <Icon
+                        name="user-circle-o"
+                        size={50}
+                        color="#ffffff"
+                        padding={10}
                         />
                         <View style={styles.textContainer}>
                             <Text style={styles.subsubtitle}>{item.username}</Text>
@@ -61,10 +64,9 @@ const ProfileScreen = () => {
             />
         </View>
     );
-
     const SecondRoute = () => (
         <View style={{ marginTop: 30 }}>
-            <Text style={{ color: 'white' }}>Fotos</Text>
+            <GridExample />
         </View>
     );
 
@@ -72,6 +74,27 @@ const ProfileScreen = () => {
         first: FirstRoute,
         second: SecondRoute,
     });
+
+    const TabViewExample = () => {
+        const layout = useWindowDimensions();
+
+        const [index, setIndex] = React.useState(0);
+        const [routes] = React.useState([
+            { key: 'first', title: 'Comentários' },
+            { key: 'second', title: 'Fotos' },
+        ]);
+
+        return (
+            <TabView
+                style={{ marginHorizontal: 40 }}
+                renderTabBar={renderTabBar}
+                navigationState={{ index, routes }}
+                renderScene={renderScene}
+                onIndexChange={setIndex}
+                initialLayout={{ width: layout.width }}
+            />
+        );
+    };
 
     const renderTabBar = props => (
         <TabBar
@@ -96,13 +119,36 @@ const ProfileScreen = () => {
         />
     );
 
-    const layout = useWindowDimensions();
-    const [index, setIndex] = useState(0);
-    const [routes] = useState([
-        { key: 'first', title: 'Comentários' },
-        { key: 'second', title: 'Fotos' },
-    ]);
+    const GridExample = () => {
+        // Array de imagens de exemplo
+        const images = [
+            require('../assets/images/image 7.png'),
+            require('../assets/images/image 7.png'),
+            require('../assets/images/image 7.png'),
+            require('../assets/images/image 7.png'),
+            require('../assets/images/image 7.png'),
+            require('../assets/images/image 7.png'),
+            require('../assets/images/image 7.png'),
+            require('../assets/images/image 7.png'),
+            require('../assets/images/image 7.png'),
+        ];
 
+        return (
+            <View style={styles.containerGrid}>
+                {images.map((image, index) => (
+                    <View key={index} style={styles.itemGrid}>
+                        {index === 0 ? (
+                            <View style={styles.placeholder}>
+                                <Image source={require('../imagens/icons/back-arrow.png')} style={{ width: 25, height: 25 }} />
+                            </View>
+                        ) : (
+                            <Image source={image} style={styles.imageGrid} />
+                        )}
+                    </View>
+                ))}
+            </View>
+        );
+    }
     return (
         <View style={{ flex: 1, backgroundColor: "#2C333C"}}>
             <View style={{width: "100%", padding: 40,}}>
@@ -149,143 +195,7 @@ const ProfileScreen = () => {
     );
 };
 
-const FirstRoute = () => (
-    <View style={styles.content}>
-        {/* Conteúdo para o botão 1 */}
-        <View style={styles.pontosinteresse}>
-            <Image
-                source={require('../imagens/image 17.png')}
-                style={styles.smallImage}
-                resizeMode="contain"
-            />
-            <View style={styles.textContainer}>
-                <Text style={styles.subsubtitle}> Marta Dias </Text>
-                <Image
-                    source={require('../assets/images/Group 9.png')}
-                    style={styles.smallImageEstrelinhas}
-                    resizeMode="cover"
-                />
-            </View>
-        </View>
-        <View style={styles.textContainer}>
-            <Text style={styles.textComentarios}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do </Text>
-        </View>
 
-        {/* Barra separadora */}
-        <View style={styles.separator} />
-
-        <View style={styles.pontosinteresse}>
-            <Image
-                source={require('../assets/images/menino.jpeg')}
-                style={styles.smallImage}
-                resizeMode="cover"
-            />
-            <View style={styles.textContainer}>
-                <Text style={styles.subsubtitle}> João Pais </Text>
-                <Image
-                    source={require('../assets/images/Group 9.png')}
-                    style={styles.smallImageEstrelinhas}
-                    resizeMode="cover"
-                />
-            </View>
-        </View>
-        <View style={styles.textContainer}>
-            <Text style={styles.textComentarios}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do </Text>
-        </View>
-        <TouchableOpacity
-            style={styles.button1}
-            onPress={() => navigation.navigate('OutraPagina')}
-        >
-            <Text style={styles.buttonText1botao}> Ver Todos </Text>
-        </TouchableOpacity>
-    </View>
-);
-
-const SecondRoute = () => (
-    <View style={{ marginTop: 30 }}>
-        <GridExample />
-    </View>
-);
-
-const renderScene = SceneMap({
-    first: FirstRoute,
-    second: SecondRoute,
-});
-
-const TabViewExample = () => {
-    const layout = useWindowDimensions();
-
-    const [index, setIndex] = React.useState(0);
-    const [routes] = React.useState([
-        { key: 'first', title: 'Comentários' },
-        { key: 'second', title: 'Fotos' },
-    ]);
-
-    return (
-        <TabView
-            style={{ marginHorizontal: 40 }}
-            renderTabBar={renderTabBar}
-            navigationState={{ index, routes }}
-            renderScene={renderScene}
-            onIndexChange={setIndex}
-            initialLayout={{ width: layout.width }}
-        />
-    );
-};
-
-const renderTabBar = props => (
-    <TabBar
-        {...props}
-        indicatorStyle={{
-            backgroundColor: '#62BB76',
-            height: 4,
-        }}
-        indicatorContainerStyle={{
-            backgroundColor: "white",
-            height: 2,
-            marginTop: 46,
-        }}
-        style={{ backgroundColor: 'none' }}
-        renderLabel={({ route, focused }) => {
-            return focused ? (
-                <Text style={{ color: '#62BB76', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
-            ) : (
-                <Text style={{ color: 'white', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
-            );
-        }}
-    />
-);
-
-const GridExample = () => {
-    // Array de imagens de exemplo
-    const images = [
-        require('../assets/images/image 7.png'),
-        require('../assets/images/image 7.png'),
-        require('../assets/images/image 7.png'),
-        require('../assets/images/image 7.png'),
-        require('../assets/images/image 7.png'),
-        require('../assets/images/image 7.png'),
-        require('../assets/images/image 7.png'),
-        require('../assets/images/image 7.png'),
-        require('../assets/images/image 7.png'),
-    ];
-
-    return (
-        <View style={styles.containerGrid}>
-            {images.map((image, index) => (
-                <View key={index} style={styles.itemGrid}>
-                    {index === 0 ? (
-                        <View style={styles.placeholder}>
-                            <Image source={require('../imagens/icons/back-arrow.png')} style={{ width: 25, height: 25 }} />
-                        </View>
-                    ) : (
-                        <Image source={image} style={styles.imageGrid} />
-                    )}
-                </View>
-            ))}
-        </View>
-    );
-}
 
 
 const styles = StyleSheet.create({
