@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Slider from '../CarouselComponent';
@@ -16,13 +16,13 @@ import AverageRating3 from "../componentsAvaliacao/percurso3/mediaTotal3";
 import AverageRating4 from "../componentsAvaliacao/percurso4/mediaTotal4";
 
 const PercursoItem = () => {
+    const [searchText, setSearchText] = useState('');
+    const navigation = useNavigation();
     const carouselData = [
         require('../../imagens/image 7.png'),
         require('../../imagens/image 7.png'),
         require('../../imagens/image 7.png')
     ];
-    const navigation = useNavigation();
-
     const validateItem = (item) => {
         return {
             id: item.id || '',
@@ -112,15 +112,17 @@ const PercursoItem = () => {
 
 
     ];
+    const filteredPercursos = percursos.filter(percurso =>
+        percurso.nome.toLowerCase().includes(searchText.toLowerCase())
+    );
 
     return (
         <View>
             <Slider data={carouselData} />
-            <SearchBar/>
-            {percursos.map(percurso => (
+            <SearchBar onSearch={setSearchText} />
+            {filteredPercursos.map(percurso => (
                 <TouchableOpacity
                     key={percurso.id}
-
                     style={styles.container2}
                     onPress={() => navigation.navigate('Description', { percurso: percurso })}
                 >
@@ -146,6 +148,7 @@ const PercursoItem = () => {
         </View>
     );
 };
+
 
 const styles = StyleSheet.create({
     container2: {

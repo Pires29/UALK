@@ -2,13 +2,14 @@ import React from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const SearchBar = () => {
+const SearchBar = ({ onSearch }) => {
     return (
         <View style={styles.searchBarContainer}>
             <Icon name="search" size={20} style={styles.icon} />
             <TextInput
                 placeholder="Destino?"
                 style={styles.input}
+                onChangeText={onSearch}
             />
             <Icon name="options" size={20} style={styles.icon} />
         </View>
@@ -33,7 +34,6 @@ const styles = StyleSheet.create({
         height: 40,
         color: 'white'
     },
-
 });
 
 export default SearchBar;
