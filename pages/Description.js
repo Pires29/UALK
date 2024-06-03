@@ -7,44 +7,75 @@ import { collection, query, where, getDocs } from 'firebase/firestore';
 import { markers } from '../components/Map/markers';
 import PaginaAvaliacao from "../components/PaginaAvaliacao";
 
+
 const Description = ({ navigation, route }) => {
     const { percurso } = route.params;
-
     const [selectedMarker, setSelectedMarker] = useState([]);
-
-    useEffect(() => {
-        setSelectedMarker([markers[3], markers[4]]); // Definindo ambos os marcadores ao mesmo tempo
-
-        console.log("selectedMarker", selectedMarker);
-        console.log("Marker 0:", markers[2]);
-        console.log("Marker 1:", markers[3]);
-    }, []);
-    const handleButtonPress = () => {
-        navigation.navigate('colocarapagina');
-    }
-
     const [selectedButton, setSelectedButton] = useState(1);
     const [comments, setComments] = useState([]);
+    const [userRatings, setUserRatings] = useState({});
 
     useEffect(() => {
-        const fetchComments = async () => {
-            const q = query(collection(db, 'comments'), where('percursoId', '==', percurso.id));
-            const querySnapshot = await getDocs(q);
-            const commentsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            setComments(commentsData);
+        setSelectedMarker([markers[3], markers[4]]);
+    }, []);
+
+    useEffect(() => {
+        const fetchCommentsAndRatings = async () => {
+            // Fetch comments
+            const commentsQuery = query(collection(db, 'comments'), where('percursoId', '==', percurso.id));
+            const commentsSnapshot = await getDocs(commentsQuery);
+            const commentsData = commentsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+            // Fetch ratings
+            const ratingsQuery = query(collection(db, 'ratings'));
+            const ratingsSnapshot = await getDocs(ratingsQuery);
+            const ratingsData = ratingsSnapshot.docs.map(doc => doc.data());
+
+            // Organize ratings by comment ID
+            const ratingsByCommentId = {};
+            ratingsData.forEach(rating => {
+                if (!ratingsByCommentId[rating.commentId]) {
+                    ratingsByCommentId[rating.commentId] = [];
+                }
+                ratingsByCommentId[rating.commentId].push(rating);
+            });
+
+            // Fetch user data for ratings
+            const usersQuery = query(collection(db, 'users'));
+            const usersSnapshot = await getDocs(usersQuery);
+            const usersData = usersSnapshot.docs.map(doc => doc.data());
+
+            // Organize user ratings
+            const userRatingsObj = {};
+            usersData.forEach(user => {
+                userRatingsObj[user.userId] = user.ratings;
+            });
+            setUserRatings(userRatingsObj);
+
+            // Merge comments with their ratings
+            const commentsWithRatings = commentsData.map(comment => {
+                const ratings = ratingsByCommentId[comment.id] || [];
+                const totalStars = ratings.reduce((acc, curr) => acc + curr.rating, 0);
+                const averageRating = ratings.length > 0 ? totalStars / ratings.length : 0;
+                return { ...comment, rating: averageRating };
+            });
+
+
+            setComments(commentsWithRatings);
+
         };
 
-        fetchComments();
+        fetchCommentsAndRatings();
     }, [percurso.id]);
 
     const handleButtonPress2 = (buttonNumber) => {
         setSelectedButton(buttonNumber);
     };
 
+
     return (
         <View style={styles.container}>
             <View style={styles.background} />
-
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
                 <View style={styles.imageContainer}>
                     <Image
@@ -59,7 +90,6 @@ const Description = ({ navigation, route }) => {
                         <Icon name="arrow-back" size={24} color="white" />
                     </TouchableOpacity>
                 </View>
-
                 <View style={styles.field}>
                     <Text style={styles.title}>Percurso {percurso.nome}</Text>
                     <Image
@@ -68,7 +98,6 @@ const Description = ({ navigation, route }) => {
                         resizeMode="cover"
                     />
                 </View>
-
                 <View style={styles.avaliacao}>
                     <Image
                         source={require('../assets/images/estrela.png')}
@@ -77,48 +106,42 @@ const Description = ({ navigation, route }) => {
                     />
                     <Text style={styles.textavaliacao}> {percurso.avaliacaoQuantitativa} </Text>
                 </View>
-                {/* Informações do trajeto */}
                 <RouteInfo time={percurso.tempo} difficulty={percurso.dificuldade} accessibility={percurso.acessibilidade} distance={percurso.comprimento} />
-
                 <View style={styles.descricao}>
                     <Text style={styles.subtitle}> Descrição </Text>
                     <Text style={styles.text}>{percurso.descricao}</Text>
                 </View>
-
                 <View style={styles.descricao}>
                     <Text style={styles.subtitle2}> Pontos de Interesse </ Text>
                 </View>
                 <View style={styles.pontosinteresse}>
                     <Image
-                        source={require('../assets/images/casaestudante.jpeg')}
+                        source={percurso.pontoInteresse1}
                         style={styles.smallImage}
                         resizeMode="cover"
                     />
                     <View style={styles.textContainer}>
-                        <Text style={styles.subsubtitle}> Casa do estudante </ Text>
-                        <Text style={styles.text2}>Edifício que alberga a sede da Associação Académica da Universidade de Aveiro (AAUAv). </ Text>
+                        <Text style={styles.subsubtitle}> {percurso.nome}</ Text>
+                        <Text style={styles.text2}>{percurso.descricao} </ Text>
                     </View>
                 </View>
-
                 <View style={styles.pontosinteresse}>
                     <Image
-                        source={require('../assets/images/porsol.jpeg')}
+                        source={percurso.pontoInteresse2}
                         style={styles.smallImage}
                         resizeMode="cover"
                     />
                     <View style={styles.textContainer}>
-                        <Text style={styles.subsubtitle}> Marinha da Casqueira </ Text>
-                        <Text style={styles.text3}>Marinha que se encontra junto à Universidade </ Text>
+                        <Text style={styles.subsubtitle}> {percurso.tituloPonto} </ Text>
+                        <Text style={styles.text3}>{percurso.textoPonto}</ Text>
                     </View>
                 </View>
-
                 <View style={styles.descricao}>
                     <Text style={styles.subtitle2}> Mapa </ Text>
                 </View>
-
                 <TouchableOpacity
                     style={styles.buttonWithImage}
-                    onPress={handleButtonPress}
+                    onPress={() => navigation.navigate('colocarapagina')}
                 >
                     <Image
                         source={require('../assets/images/mapa.jpeg')}
@@ -126,7 +149,6 @@ const Description = ({ navigation, route }) => {
                         resizeMode="contain"
                     />
                 </TouchableOpacity>
-
                 <View style={styles.buttonsContainer}>
                     <TouchableOpacity
                         style={[styles.button, selectedButton === 1 && styles.selectedButton]}
@@ -134,7 +156,6 @@ const Description = ({ navigation, route }) => {
                     >
                         <Text style={styles.buttonText2}>COMENTÁRIOS</ Text>
                     </TouchableOpacity>
-
                     <TouchableOpacity
                         style={[styles.button, selectedButton === 2 && styles.selectedButton]}
                         onPress={() => handleButtonPress2(2)}
@@ -142,9 +163,7 @@ const Description = ({ navigation, route }) => {
                         <Text style={styles.buttonText2}>FOTOS</ Text>
                     </TouchableOpacity>
                 </View>
-
                 <View style={[styles.bar, { marginLeft: selectedButton === 1 ? 0 : '50%' }]} />
-
                 {selectedButton === 1 ? (
                     <View style={styles.content}>
                         <FlatList
@@ -160,11 +179,16 @@ const Description = ({ navigation, route }) => {
                                         />
                                         <View style={styles.textContainer}>
                                             <Text style={styles.subsubtitle}>{item.username}</ Text>
-                                            <Image
-                                                source={require('../assets/images/estrelinhas.png')}
-                                                style={styles.smallImageEstrelinhas}
-                                                resizeMode="cover"
-                                            />
+                                            <View style={styles.starContainer}>
+                                                {[1, 2, 3, 4, 5].map((star) => (
+                                                    <Icon
+                                                        key={star}
+                                                        name={star <= item.rating ? 'star' : 'star-outline'}
+                                                        size={20}
+                                                        color="white"
+                                                    />
+                                                ))}
+                                            </View>
                                         </View>
                                     </View>
                                     <View style={styles.textContainer}>
@@ -186,20 +210,17 @@ const Description = ({ navigation, route }) => {
                         <Text>Conteúdo do botão 2</ Text>
                     </View>
                 )}
-
                 <TouchableOpacity
                     onPress={() => navigation.navigate('PaginaAvaliacao',{ percurso: percurso })}
                     style={styles.buttonText}
                 >
                     <Text style={styles.fontes}>Let's UALK</ Text>
                 </TouchableOpacity>
-
             </ScrollView>
         </View>
     );
 };
-
-const styles = StyleSheet.create({
+        const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: '100%',
@@ -275,7 +296,7 @@ const styles = StyleSheet.create({
         fontSize: 13,
         color: 'white',
         textAlign: 'justify',
-        width: '75%',
+        width: '70%',
         marginLeft: 9,
     },
     textComentarios: {
@@ -430,6 +451,14 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 5,
     },
+            starContainer: {
+                flexDirection: 'row',
+                justifyContent: 'center',
+                margin: 5,
+            },
+            star: {
+                marginHorizontal: 5,
+            },
 });
 
 export default Description;
