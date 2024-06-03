@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from "../FireBase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
@@ -44,6 +44,8 @@ const FavoriteList = () => {
 
     return (
         <View style={styles.container}>
+            <ScrollView>
+
             {favoritos.length > 0 ? (
                 favoritos.map((item, index) => (
                     <TouchableOpacity
@@ -73,6 +75,7 @@ const FavoriteList = () => {
             ) : (
                 <Text style={{ color: 'white', textAlign: 'center', marginTop: 20 }}>Nenhum favorito encontrado</Text>
             )}
+            </ScrollView>
         </View>
     );
 };
