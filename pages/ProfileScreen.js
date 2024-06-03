@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import { db, auth } from '../FireBase';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, onSnapshot } from 'firebase/firestore';
 import AuthDetails from "../components/Autenticado";
 import { useNavigation } from '@react-navigation/native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { useWindowDimensions } from 'react-native';
 import Icon from "react-native-vector-icons/FontAwesome";
 
-
 const ProfileScreen = () => {
     const navigation = useNavigation();
     const [comments, setComments] = useState([]);
     const [user, setUser] = useState(null);
+    const [favoritesCount, setFavoritesCount] = useState(0);
 
     useEffect(() => {
         const fetchUser = () => {
@@ -21,6 +21,7 @@ const ProfileScreen = () => {
                 console.log("Current User:", currentUser);
                 setUser(currentUser);
                 fetchComments(currentUser.uid);
+                subscribeToFavorites(currentUser.uid);
             } else {
                 console.log("No user is logged in.");
             }
@@ -38,6 +39,21 @@ const ProfileScreen = () => {
         setComments(commentsData);
     };
 
+    const subscribeToFavorites = (userId) => {
+        const userRef = doc(db, "users", userId);
+
+        const unsubscribe = onSnapshot(userRef, (doc) => {
+            if (doc.exists()) {
+                const favoritos = doc.data().favoritos || [];
+                console.log("Fetched favorites data:", favoritos);
+                setFavoritesCount(favoritos.length);
+            }
+        });
+
+        // Cleanup the subscription on unmount
+        return () => unsubscribe();
+    };
+
     const goToOtherComponent = () => {
         navigation.navigate('Favorites');
     };
@@ -50,10 +66,10 @@ const ProfileScreen = () => {
                 renderItem={({ item }) => (
                     <View style={styles.pontosinteresse}>
                         <Icon
-                        name="user-circle-o"
-                        size={50}
-                        color="#ffffff"
-                        padding={10}
+                            name="user-circle-o"
+                            size={50}
+                            color="#ffffff"
+                            padding={10}
                         />
                         <View style={styles.textContainer}>
                             <Text style={styles.subsubtitle}>{item.username}</Text>
@@ -64,6 +80,7 @@ const ProfileScreen = () => {
             />
         </View>
     );
+
     const SecondRoute = () => (
         <View style={{ marginTop: 30 }}>
             <GridExample />
@@ -120,7 +137,6 @@ const ProfileScreen = () => {
     );
 
     const GridExample = () => {
-        // Array de imagens de exemplo
         const images = [
             require('../assets/images/image 7.png'),
             require('../assets/images/image 7.png'),
@@ -149,6 +165,7 @@ const ProfileScreen = () => {
             </View>
         );
     }
+
     return (
         <View style={{ flex: 1, backgroundColor: "#2C333C"}}>
             <View style={{width: "100%", padding: 40,}}>
@@ -178,7 +195,7 @@ const ProfileScreen = () => {
                                 <Text style={styles.statLabel}>Concluídos</Text>
                             </View>
                             <View style={styles.statItem}>
-                                <Text style={styles.statNumber}>3</Text>
+                                <Text style={styles.statNumber}>{favoritesCount}</Text>
                                 <Text style={styles.statLabel}>Favoritos</Text>
                             </View>
                             <View style={styles.statItem}>
@@ -195,9 +212,6 @@ const ProfileScreen = () => {
     );
 };
 
-
-
-
 const styles = StyleSheet.create({
     containerGrid: {
         flexDirection: 'row',
@@ -206,8 +220,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     placeholder: {
-        borderColor: 'white', // Cor da borda
-        borderWidth: 1, // Largura da borda
+        borderColor: 'white',
+        borderWidth: 1,
         borderRadius: 10,
         width: "100%",
         height: "100%",
