@@ -165,11 +165,17 @@ const PercursoItem = () => {
         },
     ];*/
     
+
+    const filteredPercursos = Percursos.filter(percurso =>
+        percurso.nome.toLowerCase().includes(searchText.toLowerCase())
+    );
+
+
     return (
         <View>
             <Slider data={carouselData} />
-            <SearchBar/>
-            {Percursos.map(percurso => (
+            <SearchBar onSearch={setSearchText} />
+            {filteredPercursos.map(percurso => (
                 <TouchableOpacity
                     key={percurso.id}
                     style={styles.container2}
