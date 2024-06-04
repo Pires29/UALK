@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dimensions, StyleSheet, View, Text, Alert, TouchableOpacity } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
-import { markers } from '../components/Map/markers';
+import { Percursos  } from '../components/Percursos/Percursos';
 import CustBottomSheet from '../components/Map/CustBottomSheet';
 
 export default function MapMarkers() {
+
+  
   const initialLocation = {
     latitude: 40.6405,
     longitude: -8.6538,
@@ -204,11 +206,12 @@ export default function MapMarkers() {
     }
   ]
 
-  const [selectedMarker, setSelectedMarker] = useState([]);
+  const [selectedPercursos, setSelectedPercursos] = useState([]);
+
 
   const handleMarkerPress = (marker) => {
     // Verifica se o marcador já está na lista
-    const isMarkerExist = selectedMarker.some(
+    const isMarkerExist = selectedPercursos.some(
       selected => selected.latitude === marker.latitude && selected.longitude === marker.longitude
     );
 
@@ -217,46 +220,49 @@ export default function MapMarkers() {
       return;
     }
 
-    if (selectedMarker.length >= 2) {
+    if (selectedPercursos.length >= 2) {
       Alert.alert("Limite alcançado", "Você só pode adicionar dois pontos.");
       return;
     }
 
-    setSelectedMarker([...selectedMarker, marker]);
+    setSelectedPercursos([...selectedPercursos, marker]);
   };
 
-  console.log("Markers", selectedMarker);
 
   return (
     <View style={styles.container}>
       <MapView
-      customMapStyle={mapDarkStyle}
+        customMapStyle={mapDarkStyle}
         style={styles.map}
         region={region}
         onRegionChangeComplete={setRegion}
         provider='google'
       >
-        {markers.map((marker, index) => (
-          <Marker
-            key={index}
-            coordinate={{
-              latitude: marker.latitude,
-              longitude: marker.longitude,
-            }}
-          >
-            <Callout tooltip onPress={() => handleMarkerPress(marker)} style={styles.calloutContainer}>
-              <Text style={styles.title}>{marker.title}</Text>
-              <Text style={styles.description}>{marker.description}</Text>
-              <View style={styles.buttonContainer}>
-                <TouchableOpacity onPress={() => handleMarkerPress(marker)} style={styles.button}>
-                  <Text style={styles.buttonText}>Adicionar</Text>
-                </TouchableOpacity>
-              </View>
-            </Callout>
-          </Marker>
+        {Percursos.map((percurso, index) => (
+          <React.Fragment key={index}>
+            {[percurso.coordenadas.pontoA, percurso.coordenadas.pontoB].map((ponto, pontoIndex) => (
+              <Marker
+                key={pontoIndex}
+                coordinate={{
+                  latitude: ponto.latitude,
+                  longitude: ponto.longitude,
+                }}
+              >
+                <Callout tooltip onPress={() => handleMarkerPress(ponto)} style={styles.calloutContainer}>
+                  <Text style={styles.title}>{ponto.title}</Text>
+                  <Text style={styles.description}>{ponto.description}</Text>
+                  <View style={styles.buttonContainer}>
+                    <TouchableOpacity onPress={() => handleMarkerPress(ponto)} style={styles.button}>
+                      <Text style={styles.buttonText}>Adicionar</Text>
+                    </TouchableOpacity>
+                  </View>
+                </Callout>
+              </Marker>
+            ))}
+          </React.Fragment>
         ))}
       </MapView>
-      <CustBottomSheet numero={1} selectedMarker={selectedMarker} setSelectedMarker={setSelectedMarker} />
+      <CustBottomSheet numero={1} selectedPercursos={selectedPercursos} setSelectedPercursos={setSelectedPercursos} />
     </View>
   );
 }

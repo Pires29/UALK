@@ -13,7 +13,7 @@ const Description = ({ navigation, route }) => {
     const [selectedMarker, setSelectedMarker] = useState([]);
 
     useEffect(() => {
-        setSelectedMarker([markers[3], markers[4]]); // Definindo ambos os marcadores ao mesmo tempo
+        setSelectedMarker([markers[0], markers[4]]); // Definindo ambos os marcadores ao mesmo tempo
 
         console.log("selectedMarker", selectedMarker);
         console.log("Marker 0:", markers[2]);
@@ -188,7 +188,7 @@ const Description = ({ navigation, route }) => {
                 )}
 
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('PaginaAvaliacao',{ percurso: percurso })}
+                    onPress={() => navigation.navigate('Map',{ percurso: percurso})}
                     style={styles.buttonText}
                 >
                     <Text style={styles.fontes}>Let's UALK</ Text>

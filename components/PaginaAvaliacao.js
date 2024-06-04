@@ -9,7 +9,7 @@ import {collection, addDoc, doc, getDoc} from "firebase/firestore";
 const PaginaAvaliacao = () => {
     const navigation = useNavigation();
     const route = useRoute();
-    const { percurso } = route.params;  // Receba os parâmetros do percurso
+    const { percurso, distance, duration } = route.params;  // Receba os parâmetros do percurso
 
     const [authUser, setAuthUser] = useState(null);
     const [comentario, setComentario] = useState('');
@@ -81,11 +81,11 @@ const PaginaAvaliacao = () => {
 
                 <View style={styles.container2}>
                     <View style={styles.infoGroup}>
-                        <Text style={styles.infoTitle}>Distância</Text>
+                        <Text style={styles.infoTitle}>{distance}</Text>
                         <Text style={styles.infoValue}>{percurso.comprimento}</Text>
                     </View>
                     <View style={styles.infoGroup}>
-                        <Text style={styles.infoTitle}>Tempo</Text>
+                        <Text style={styles.infoTitle}>{duration}</Text>
                         <Text style={styles.infoValue}>{percurso.tempo}</Text>
                     </View>
                 </View>

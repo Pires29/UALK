@@ -9,11 +9,10 @@ import { useNavigation } from '@react-navigation/native';
 const GOOGLE_MAPS_APIKEY = 'AIzaSyBl6uQw0SyA0_I2utXTJJAj1BtBPhSoLDE';
 
 export default function Map() {
-
   const navigation = useNavigation();
-  
   const route = useRoute();
-  const { selectedMarker } = route.params;
+  const { percurso, selectedPercursos } = route.params;
+
 
   const [location, setLocation] = useState(null);
   const [distance, setDistance] = useState(null);
@@ -26,15 +25,22 @@ export default function Map() {
   const mapRef = useRef(null);
   const locationSubscription = useRef(null);
 
-  console.log("selectedMarker", selectedMarker);
+  let pontoA, pontoB;
+  if (selectedPercursos && selectedPercursos.length > 0) {
+    pontoA = selectedPercursos[0];
+    pontoB = selectedPercursos[1];
+  } else if (percurso && percurso.coordenadas) {
+    pontoA = percurso.coordenadas.pontoA;
+    pontoB = percurso.coordenadas.pontoB;
+  }
 
   useEffect(() => {
     async function fetchDirections() {
-      if (!currentLocation || selectedMarker.length < 2) return;
+      if (!currentLocation || !pontoA || !pontoB) return;
 
       const origin = `${currentLocation.coords.latitude},${currentLocation.coords.longitude}`;
-      const waypoints = selectedMarker.slice(0, -1).map(marker => `${marker.latitude},${marker.longitude}`).join('|');
-      const destination = `${selectedMarker[selectedMarker.length - 1].latitude},${selectedMarker[selectedMarker.length - 1].longitude}`;
+      const waypoints = `${pontoA.latitude},${pontoA.longitude}`;
+      const destination = `${pontoB.latitude},${pontoB.longitude}`;
       const apiUrl = `https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&waypoints=${waypoints}&mode=walking&key=${GOOGLE_MAPS_APIKEY}`;
 
       try {
@@ -53,7 +59,7 @@ export default function Map() {
       }
     }
     fetchDirections();
-  }, [currentLocation, selectedMarker]);
+  }, [currentLocation, pontoA, pontoB]);
 
   async function requestLocationPermissions() {
     const { granted } = await requestForegroundPermissionsAsync();
@@ -122,12 +128,12 @@ export default function Map() {
   const endTrack = () => {
     setShowResumeAndEndButtons(false);
     setIsStarted(false);
-    navigation.navigate('PaginaAvaliacao');
+    navigation.navigate('PaginaAvaliacao', { percurso: percurso, distance: distance, duration: duration });
   }
 
   const [region, setRegion] = useState({
-    latitude: 40.6405,
-    longitude: -8.6538,
+    latitude: pontoA.latitude,
+    longitude: pontoA.longitude,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
@@ -148,8 +154,8 @@ export default function Map() {
           ref={mapRef}
           style={styles.map}
           initialRegion={{
-            latitude: currentLocation ? currentLocation.coords.latitude : selectedMarker.length > 0 ? selectedMarker[0].latitude : 40.6405,
-            longitude: currentLocation ? currentLocation.coords.longitude : selectedMarker.length > 0 ? selectedMarker[0].longitude : -8.6538,
+            latitude: currentLocation ? currentLocation.coords.latitude : pontoA.latitude,
+            longitude: currentLocation ? currentLocation.coords.longitude : pontoA.longitude,
             latitudeDelta: 0.005,
             longitudeDelta: 0.005,
           }}
@@ -158,27 +164,27 @@ export default function Map() {
         >
           {currentLocation && (
             <CustomMarker
-      coordinate={{
-        latitude: currentLocation.coords.latitude,
-        longitude: currentLocation.coords.longitude,
-      }}
-      title="Sua Localização"
-      description="Você está aqui"
-    />
+              coordinate={{
+                latitude: currentLocation.coords.latitude,
+                longitude: currentLocation.coords.longitude,
+              }}
+              title="Sua Localização"
+              description="Você está aqui"
+            />
           )}
-          {selectedMarker.map((marker, index) => (
+          {[pontoA, pontoB].map((ponto, index) => (
             <Marker
               key={index}
-              coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
-              title={marker.title}
-              description={marker.description}
+              coordinate={{ latitude: ponto.latitude, longitude: ponto.longitude }}
+              title={ponto.title}
+              description={ponto.description}
             />
           ))}
-          {currentLocation && selectedMarker.length > 1 && (
+          {currentLocation && (
             <MapViewDirections
               origin={{ latitude: currentLocation.coords.latitude, longitude: currentLocation.coords.longitude }}
-              waypoints={selectedMarker.slice(0, -1).map(marker => ({ latitude: marker.latitude, longitude: marker.longitude }))}
-              destination={{ latitude: selectedMarker[selectedMarker.length - 1].latitude, longitude: selectedMarker[selectedMarker.length - 1].longitude }}
+              waypoints={[{ latitude: pontoA.latitude, longitude: pontoA.longitude }]}
+              destination={{ latitude: pontoB.latitude, longitude: pontoB.longitude }}
               apikey={GOOGLE_MAPS_APIKEY}
               strokeWidth={4}
               strokeColor="blue"
@@ -189,7 +195,7 @@ export default function Map() {
       )}
       {distance && duration && (
         <View style={styles.routeInfoContainer}>
-          <Text style={styles.routeTitle}>Nome do Percurso</Text>
+          <Text style={styles.routeTitle}>Percurso</Text>
           <View style={styles.routeInfo}>
             <View>
               <Text style={styles.routeText}>{duration}</Text>
@@ -217,40 +223,39 @@ export default function Map() {
                 <Text style={styles.buttonText}>Parar</Text>
               </TouchableOpacity>
             )}
+          </View>
+          {showResumeAndEndButtons && (
+            <View style={styles.buttonRow2}>
+              <TouchableOpacity
+                style={styles.button3}
+                onPress={resumeTrack}
+              >
+                <Text style={styles.buttonText}>Retomar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button2}
+                onPress={endTrack}
+              >
+                <Text style={styles.buttonText}>Terminar</Text>
+              </TouchableOpacity>
             </View>
-            {showResumeAndEndButtons && (
-              <View style={styles.buttonRow2}>
-                <TouchableOpacity
-                  style={styles.button3}
-                  onPress={resumeTrack}
-                >
-                  <Text style={styles.buttonText}>Retomar</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.button2}
-                  onPress={endTrack}
-                >
-                  <Text style={styles.buttonText}>Terminar</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-
+          )}
         </View>
       )}
       <View style={styles.headerInfoContainer}>
-        <TouchableOpacity style={styles.headerBack} onPress={() => navigation.navigate('Mapa')}>
+        <TouchableOpacity style={styles.headerBack} onPress={() => navigation.goBack()}>
           <Image
-            source={require('../imagens/icons/Vector White.png')} 
-            style={{ width: 20, height: 20 }} 
+            source={require('../imagens/icons/Vector White.png')}
+            style={{ width: 20, height: 20 }}
           />
         </TouchableOpacity>
         <View style={styles.headerInfo}>
-          <Text style={styles.headerText}>{selectedMarker[0].title}</Text>
+          <Text style={styles.headerText}>{pontoA.title}</Text>
           <Image
-            source={require('../imagens/icons/back-arrow.png')} 
-            style={{ width: 20, height: 20, marginHorizontal: 10 }} 
+            source={require('../imagens/icons/back-arrow.png')}
+            style={{ width: 20, height: 20, marginHorizontal: 10 }}
           />
-          <Text style={styles.headerText}>{selectedMarker[selectedMarker.length - 1].title}</Text>
+          <Text style={styles.headerText}>{pontoB.title}</Text>
         </View>
       </View>
     </View>

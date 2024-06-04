@@ -14,6 +14,7 @@ import AverageRating from "../componentsAvaliacao/percurso1/mediaTotal";
 import AverageRating2 from "../componentsAvaliacao/percurso2/mediatotal2";
 import AverageRating3 from "../componentsAvaliacao/percurso3/mediaTotal3";
 import AverageRating4 from "../componentsAvaliacao/percurso4/mediaTotal4";
+import { Percursos } from './Percursos';
 
 const PercursoItem = () => {
     const carouselData = [
@@ -50,7 +51,7 @@ const PercursoItem = () => {
     };
 
 
-    const percursos = [
+ /*)   const percursos = [
         {
             id: 1,
             nome: 'Marinha da Casqueira',
@@ -62,8 +63,22 @@ const PercursoItem = () => {
             dificuldade: 'Fácil',
             acessibilidade: 'Normal',
             mapa: require('../../assets/images/mapa.jpeg'),
-            avaliacaoEstrelas: <RatingScreen/>,
-            avaliacaoQuantitativa: <AverageRating/>,
+            avaliacaoEstrelas: <RatingScreen />,
+            avaliacaoQuantitativa: <AverageRating />,
+            coordenadas: {
+                pontoA: {
+                    latitude: 40.6405,
+                    longitude: -8.6538,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005,
+                },
+                pontoB: {
+                    latitude: 40.6455,
+                    longitude: -8.6588,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005,
+                },
+            },
         },
         {
             id: 2,
@@ -76,25 +91,50 @@ const PercursoItem = () => {
             dificuldade: 'Difícil',
             acessibilidade: 'Normal',
             mapa: require('../../assets/images/mapa.jpeg'),
-            avaliacaoEstrelas: <RatingScreen2/>,
-            avaliacaoQuantitativa: <AverageRating2/>,
+            avaliacaoEstrelas: <RatingScreen2 />,
+            avaliacaoQuantitativa: <AverageRating2 />,
+            coordenadas: {
+                pontoA: {
+                    latitude: 40.6405,
+                    longitude: -8.6488,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005,
+                },
+                pontoB: {
+                    latitude: 40.6455,
+                    longitude: -8.6538,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005,
+                },
+            },
         },
-
         {
             id: 3,
             nome: 'Bar Preto',
             imagem: require('./imagesPercursos/BarPretoImage.png'),
-            /*passos: require('./imagesPercursos/imagesPassos/passosBarPreto.png'),*/
             comprimento: '1,4 Km',
             descricao: 'Bebe um chá (sem açúcar) e relaxa na esplanada',
             tempo: '19 min',
             dificuldade: 'Fácil',
             acessibilidade: 'Normal',
             mapa: require('../../assets/images/mapa.jpeg'),
-            avaliacaoEstrelas: <RatingScreen3/>,
-            avaliacaoQuantitativa: <AverageRating3/>,
+            avaliacaoEstrelas: <RatingScreen3 />,
+            avaliacaoQuantitativa: <AverageRating3 />,
+            coordenadas: {
+                pontoA: {
+                    latitude: 40.6455,
+                    longitude: -8.6538,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005,
+                },
+                pontoB: {
+                    latitude: 40.6505,
+                    longitude: -8.6588,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005,
+                },
+            },
         },
-
         {
             id: 4,
             nome: 'Loja Vol',
@@ -106,18 +146,30 @@ const PercursoItem = () => {
             dificuldade: 'Fácil',
             acessibilidade: 'Normal',
             mapa: require('../../assets/images/mapa.jpeg'),
-            avaliacaoEstrelas: <RatingScreen4/>,
-            avaliacaoQuantitativa: <AverageRating4/>,
+            avaliacaoEstrelas: <RatingScreen4 />,
+            avaliacaoQuantitativa: <AverageRating4 />,
+            coordenadas: {
+                pontoA: {
+                    latitude: 40.6405,
+                    longitude: -8.6588,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005,
+                },
+                pontoB: {
+                    latitude: 40.6455,
+                    longitude: -8.6638,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005,
+                },
+            },
         },
-
-
-    ];
-
+    ];*/
+    
     return (
         <View>
             <Slider data={carouselData} />
             <SearchBar/>
-            {percursos.map(percurso => (
+            {Percursos.map(percurso => (
                 <TouchableOpacity
                     key={percurso.id}
 

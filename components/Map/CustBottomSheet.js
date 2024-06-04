@@ -8,7 +8,7 @@ const {height: SCREEN_HEIGHT} = Dimensions.get("window")
 
 const MAX_TRANSLATE_Y = -SCREEN_HEIGHT + 50;
 
-function CustBottomSheet({numero, selectedMarker, setSelectedMarker}) {
+function CustBottomSheet({numero, selectedPercursos, setSelectedPercursos}) {
 
     const translateY = useSharedValue(0)
 
@@ -34,7 +34,7 @@ function CustBottomSheet({numero, selectedMarker, setSelectedMarker}) {
         <GestureDetector gesture={gesture}>
             <Animated.View style={[styles.bottomSheetContainer, rBottomSheetStyle]}>
                 <View style={styles.line}/>
-                <PesquisaMapa selectedMarker={selectedMarker} setSelectedMarker={setSelectedMarker} />
+                <PesquisaMapa selectedPercursos={selectedPercursos} setSelectedPercursos={setSelectedPercursos} />
             </Animated.View>
         </GestureDetector>
     )
