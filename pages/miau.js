@@ -5,12 +5,14 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { db } from '../FireBase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { markers } from '../components/Map/markers';
+import PaginaAvaliacao from "../components/PaginaAvaliacao";
+
 
 const Description = ({ navigation, route }) => {
     const { percurso } = route.params;
     const [selectedMarker, setSelectedMarker] = useState([]);
-    const [comments, setComments] = useState([]);
     const [selectedButton, setSelectedButton] = useState(1);
+    const [comments, setComments] = useState([]);
     const [userRatings, setUserRatings] = useState({});
 
     useEffect(() => {
@@ -19,33 +21,61 @@ const Description = ({ navigation, route }) => {
 
     useEffect(() => {
         const fetchCommentsAndRatings = async () => {
-            try {
-                const commentsQuery = query(collection(db, 'comments'), where('percursoId', '==', percurso.id));
-                const commentsSnapshot = await getDocs(commentsQuery);
-                const commentsData = commentsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            // Fetch comments
+            const commentsQuery = query(collection(db, 'comments'), where('percursoId', '==', percurso.id));
+            const commentsSnapshot = await getDocs(commentsQuery);
+            const commentsData = commentsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-                // Fetch ratings from users collection
-                const usersQuery = query(collection(db, 'users'));
-                const usersSnapshot = await getDocs(usersQuery);
-                const usersData = usersSnapshot.docs.map(doc => doc.data());
+            // Fetch ratings
+            const ratingsQuery = query(collection(db, 'ratings'));
+            const ratingsSnapshot = await getDocs(ratingsQuery);
+            const ratingsData = ratingsSnapshot.docs.map(doc => doc.data());
 
-                // Map percurso.id to the corresponding rating field in users
-                const ratingField = `avaliacao${percurso.id}`;
+            // Organize ratings by comment ID
+            const ratingsByCommentId = {};
+            ratingsData.forEach(rating => {
+                if (!ratingsByCommentId[rating.commentId]) {
+                    ratingsByCommentId[rating.commentId] = [];
+                }
+                ratingsByCommentId[rating.commentId].push(rating);
+            });
 
-                const commentsWithRatings = commentsData.map(comment => {
-                    const userRating = usersData.find(user => user[ratingField]);
-                    const averageRating = userRating ? userRating[ratingField] : 0;
-                    return { ...comment, rating: averageRating };
-                });
+            // Fetch user data for ratings
+            const usersQuery = query(collection(db, 'users'));
+            const usersSnapshot = await getDocs(usersQuery);
+            const usersData = usersSnapshot.docs.map(doc => doc.data());
 
-                setComments(commentsWithRatings);
-            } catch (error) {
-                console.error("Error fetching comments and ratings: ", error);
-            }
+            // Organize user ratings
+            const userRatingsObj = {};
+            usersData.forEach(user => {
+                userRatingsObj[user.userId] = user.ratings;
+            });
+            setUserRatings(userRatingsObj);
+
+            const ratingField = `avaliacao${percurso.id}`;
+
+            // Merge comments with their ratings
+            const commentsWithRatings = commentsData.map(comment => {
+                const userRating = usersData.find(user => user[ratingField]);
+                const ratings = ratingsByCommentId[comment.id] || [];
+                const totalStars = ratings.reduce((acc, curr) => acc + curr.rating, 0);
+                const averageRating = ratings.length > 0 ? totalStars / ratings.length : 0;
+                const averageRating2 = userRating ? userRating[ratingField] : 0;
+                return { ...comment, rating: averageRating };
+            });
+
+
+            setComments(commentsWithRatings);
+
         };
 
         fetchCommentsAndRatings();
     }, [percurso.id]);
+
+    const handleButtonPress2 = (buttonNumber) => {
+        setSelectedButton(buttonNumber);
+    };
+
 
     return (
         <View style={styles.container}>

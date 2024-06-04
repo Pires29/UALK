@@ -328,6 +328,7 @@ const AtividadeItem = () => {
                         <Icon
                             name="star-circle-outline"
                             size={30}
+                            margin = {-13}
                             color="#7D8995"
                             style={styles.starIcon}
                             onPress={() => handleFavorite(atividade)}

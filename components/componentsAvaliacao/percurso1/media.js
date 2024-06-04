@@ -30,12 +30,12 @@ const RatingScreen = ({ percurso }) => {
             if (userDoc.exists()) {
                 // Atualize a avaliação no Firestore
                 await updateDoc(userRef, {
-                    avaliacao: rating,
+                    avaliacao1: rating,
                 });
             } else {
                 // Crie o documento com a avaliação inicial se não existir
                 await setDoc(userRef, {
-                    avaliacao: rating,
+                    avaliacao1: rating,
                 });
             }
 
