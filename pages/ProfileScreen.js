@@ -18,7 +18,6 @@ const ProfileScreen = () => {
         const fetchUser = () => {
             const currentUser = auth.currentUser;
             if (currentUser) {
-                console.log("Current User:", currentUser);
                 setUser(currentUser);
                 fetchComments(currentUser.uid);
                 subscribeToFavorites(currentUser.uid);
@@ -35,7 +34,6 @@ const ProfileScreen = () => {
         const q = query(collection(db, 'comments'), where('userId', '==', userId));
         const querySnapshot = await getDocs(q);
         const commentsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        console.log("Fetched comments data:", commentsData);
         setComments(commentsData);
     };
 
@@ -45,7 +43,6 @@ const ProfileScreen = () => {
         const unsubscribe = onSnapshot(userRef, (doc) => {
             if (doc.exists()) {
                 const favoritos = doc.data().favoritos || [];
-                console.log("Fetched favorites data:", favoritos);
                 setFavoritesCount(favoritos.length);
             }
         });
