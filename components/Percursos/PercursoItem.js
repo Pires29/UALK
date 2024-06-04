@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Slider from '../CarouselComponent';
@@ -17,13 +17,13 @@ import AverageRating4 from "../componentsAvaliacao/percurso4/mediaTotal4";
 import { Percursos } from './Percursos';
 
 const PercursoItem = () => {
+    const [searchText, setSearchText] = useState('');
+    const navigation = useNavigation();
     const carouselData = [
         require('../../imagens/image 7.png'),
         require('../../imagens/image 7.png'),
         require('../../imagens/image 7.png')
     ];
-    const navigation = useNavigation();
-
     const validateItem = (item) => {
         return {
             id: item.id || '',
@@ -113,7 +113,7 @@ const PercursoItem = () => {
             nome: 'Bar Preto',
             imagem: require('./imagesPercursos/BarPretoImage.png'),
             comprimento: '1,4 Km',
-            descricao: 'Bebe um chá (sem açúcar) e relaxa na esplanada',
+            descricao: 'Bebe um chá (sem açucar) e relaxa na esplanada',
             tempo: '19 min',
             dificuldade: 'Fácil',
             acessibilidade: 'Normal',
@@ -172,7 +172,6 @@ const PercursoItem = () => {
             {Percursos.map(percurso => (
                 <TouchableOpacity
                     key={percurso.id}
-
                     style={styles.container2}
                     onPress={() => navigation.navigate('Description', { percurso: percurso })}
                 >
@@ -188,6 +187,7 @@ const PercursoItem = () => {
                         <Icon
                             name="star-circle-outline"
                             size={30}
+                            margin = {-7}
                             color="#7D8995"
                             style={styles.starIcon}
                             onPress={() => handleFavorite(percurso)}
@@ -198,6 +198,7 @@ const PercursoItem = () => {
         </View>
     );
 };
+
 
 const styles = StyleSheet.create({
     container2: {

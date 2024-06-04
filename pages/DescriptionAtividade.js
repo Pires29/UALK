@@ -11,9 +11,6 @@ import RouteInfoAtividade from "../components/RouteInfoCaractAtividade";
 
 const DescriptionAtividades = ({ navigation, route }) => {
     const { atividade } = route.params;
-    const {percurso} = route.params;
-
-    const [selectedMarker, setSelectedMarker] = useState([]);
 
     const [selectedButton, setSelectedButton] = useState(1);
     const [comments, setComments] = useState([]);
@@ -97,68 +94,6 @@ const DescriptionAtividades = ({ navigation, route }) => {
                         <Image source={atividade.percursoAssociado3.imagem} style={styles.imagePercurso} />
                     </TouchableOpacity>
                 </View>
-
-
-                <View style={styles.buttonsContainer}>
-                    <TouchableOpacity
-                        style={[styles.button, selectedButton === 1 && styles.selectedButton]}
-                        onPress={() => handleButtonPress2(1)}
-                    >
-                        <Text style={styles.buttonText2}>COMENTÁRIOS</ Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={[styles.button, selectedButton === 2 && styles.selectedButton]}
-                        onPress={() => handleButtonPress2(2)}
-                    >
-                        <Text style={styles.buttonText2}>FOTOS</ Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={[styles.bar, { marginLeft: selectedButton === 1 ? 0 : '50%' }]} />
-
-                {selectedButton === 1 ? (
-                    <View style={styles.content}>
-                        <FlatList
-                            data={comments}
-                            keyExtractor={(item) => item.id}
-                            renderItem={({ item }) => (
-                                <View>
-                                    <View style={styles.pontosinteresse}>
-                                        <Image
-                                            source={require('../imagens/icons/Profile.png')}
-                                            style={styles.smallImage}
-                                            resizeMode="contain"
-                                        />
-                                        <View style={styles.textContainer}>
-                                            <Text style={styles.subsubtitle}>{item.username}</ Text>
-                                            <Image
-                                                source={require('../assets/images/estrelinhas.png')}
-                                                style={styles.smallImageEstrelinhas}
-                                                resizeMode="cover"
-                                            />
-                                        </View>
-                                    </View>
-                                    <View style={styles.textContainer}>
-                                        <Text style={styles.textComentarios}>{item.comment}</ Text>
-                                    </View>
-                                    <View style={styles.separator} />
-                                </View>
-                            )}
-                        />
-                        <TouchableOpacity
-                            style={styles.button1}
-                            onPress={() => navigation.navigate('OutraPagina')}
-                        >
-                            <Text style={styles.buttonText1botao}> Ver Todos </ Text>
-                        </TouchableOpacity>
-                    </View>
-                ) : (
-                    <View style={styles.content}>
-                        <Text>Conteúdo do botão 2</ Text>
-                    </View>
-                )}
-
                 <TouchableOpacity
                     onPress={() => navigation.navigate('PaginaAvaliacao',{ atividade: atividade })}
                     style={styles.buttonText}

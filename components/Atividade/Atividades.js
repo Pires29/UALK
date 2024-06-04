@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Slider from '../CarouselComponent';
@@ -14,12 +14,14 @@ import RatingScreen3 from "../componentsAvaliacao/percurso3/media3";
 import AverageRating3 from "../componentsAvaliacao/percurso3/mediaTotal3";
 
 const AtividadeItem = () => {
+    const [searchText, setSearchText] = useState('');
+    const navigation = useNavigation();
     const carouselData = [
         require('../../imagens/image 7.png'),
         require('../../imagens/image 7.png'),
         require('../../imagens/image 7.png')
     ];
-    const navigation = useNavigation();
+
     const validateItem = (item) => {
         return {
             id: item.id || '',
@@ -67,6 +69,10 @@ const AtividadeItem = () => {
                 tempo: '21 min',
                 dificuldade: 'Fácil',
                 acessibilidade: 'Normal',
+                pontoInteresse1: require('../../assets/images/porsol.jpeg'),
+                pontoInteresse2: require('../Percursos/imagesPontosInteresse/BE.jpeg'),
+                tituloPonto: 'Casa do estudante',
+                textoPonto: 'Edifício que alberga a sede da Associação Académica da Universidade de Aveiro (AAUAv).',
                 avaliacaoEstrelas: <RatingScreen/>,
                 avaliacaoQuantitativa: <AverageRating/>,
             },
@@ -81,6 +87,10 @@ const AtividadeItem = () => {
                 dificuldade: 'Difícil',
                 acessibilidade: 'Normal',
                 mapa: require('../../assets/images/mapa.jpeg'),
+                pontoInteresse1:  require('../Percursos/imagesPercursos/fadu.jpg'),
+                pontoInteresse2: require('../Percursos/imagesPontosInteresse/Isca.jpeg'),
+                tituloPonto: 'Isca-UA',
+                textoPonto: 'Instituto Superior de Contabilidade e Administração da Universidade de Aveiro.',
                 avaliacaoEstrelas: <RatingScreen2/>,
                 avaliacaoQuantitativa: <AverageRating2/>,
 
@@ -95,6 +105,10 @@ const AtividadeItem = () => {
                 tempo: '19 min',
                 dificuldade: 'Fácil',
                 acessibilidade: 'Normal',
+                pontoInteresse1: require('../Percursos/imagesPercursos/BarPretoImage.png'),
+                pontoInteresse2: require('../Percursos/imagesPontosInteresse/cantina.jpeg'),
+                tituloPonto: 'Cantina S.Tiago',
+                textoPonto: 'Refeitório Universitário localizado no campos de S.Tiago',
                 avaliacaoEstrelas: <RatingScreen3/>,
                 avaliacaoQuantitativa: <AverageRating3/>,
             },
@@ -117,6 +131,10 @@ const AtividadeItem = () => {
                 tempo: '21 min',
                 dificuldade: 'Fácil',
                 acessibilidade: 'Normal',
+                pontoInteresse1: require('../../assets/images/porsol.jpeg'),
+                pontoInteresse2: require('../Percursos/imagesPontosInteresse/BE.jpeg'),
+                tituloPonto: 'Casa do estudante',
+                textoPonto: 'Edifício que alberga a sede da Associação Académica da Universidade de Aveiro (AAUAv).',
                 avaliacaoEstrelas: <RatingScreen/>,
                 avaliacaoQuantitativa: <AverageRating/>,
             },
@@ -131,6 +149,10 @@ const AtividadeItem = () => {
                 dificuldade: 'Difícil',
                 acessibilidade: 'Normal',
                 mapa: require('../../assets/images/mapa.jpeg'),
+                pontoInteresse1:  require('../Percursos/imagesPercursos/fadu.jpg'),
+                pontoInteresse2: require('../Percursos/imagesPontosInteresse/Isca.jpeg'),
+                tituloPonto: 'Isca-UA',
+                textoPonto: 'Instituto Superior de Contabilidade e Administração da Universidade de Aveiro.',
                 avaliacaoEstrelas: <RatingScreen2/>,
                 avaliacaoQuantitativa: <AverageRating2/>,
 
@@ -145,6 +167,10 @@ const AtividadeItem = () => {
                 tempo: '19 min',
                 dificuldade: 'Fácil',
                 acessibilidade: 'Normal',
+                pontoInteresse1: require('../Percursos/imagesPercursos/BarPretoImage.png'),
+                pontoInteresse2: require('../Percursos/imagesPontosInteresse/cantina.jpeg'),
+                tituloPonto: 'Cantina S.Tiago',
+                textoPonto: 'Refeitório Universitário localizado no campos de S.Tiago',
                 avaliacaoEstrelas: <RatingScreen3/>,
                 avaliacaoQuantitativa: <AverageRating3/>,
             },
@@ -168,6 +194,10 @@ const AtividadeItem = () => {
                 tempo: '21 min',
                 dificuldade: 'Fácil',
                 acessibilidade: 'Normal',
+                pontoInteresse1: require('../../assets/images/porsol.jpeg'),
+                pontoInteresse2: require('../Percursos/imagesPontosInteresse/BE.jpeg'),
+                tituloPonto: 'Casa do estudante',
+                textoPonto: 'Edifício que alberga a sede da Associação Académica da Universidade de Aveiro (AAUAv).',
                 avaliacaoEstrelas: <RatingScreen/>,
                 avaliacaoQuantitativa: <AverageRating/>,
             },
@@ -182,6 +212,10 @@ const AtividadeItem = () => {
                 dificuldade: 'Difícil',
                 acessibilidade: 'Normal',
                 mapa: require('../../assets/images/mapa.jpeg'),
+                pontoInteresse1: require('../Percursos/imagesPercursos/fadu.jpg'),
+                pontoInteresse2: require('../Percursos/imagesPontosInteresse/Isca.jpeg'),
+                tituloPonto: 'Isca-UA',
+                textoPonto: 'Instituto Superior de Contabilidade e Administração da Universidade de Aveiro.',
                 avaliacaoEstrelas: <RatingScreen2/>,
                 avaliacaoQuantitativa: <AverageRating2/>,
 
@@ -196,6 +230,10 @@ const AtividadeItem = () => {
                 tempo: '19 min',
                 dificuldade: 'Fácil',
                 acessibilidade: 'Normal',
+                pontoInteresse1: require('../Percursos/imagesPercursos/BarPretoImage.png'),
+                pontoInteresse2: require('../Percursos/imagesPontosInteresse/cantina.jpeg'),
+                tituloPonto: 'Cantina S.Tiago',
+                textoPonto: 'Refeitório Universitário localizado no campos de S.Tiago',
                 avaliacaoEstrelas: <RatingScreen3/>,
                 avaliacaoQuantitativa: <AverageRating3/>,
             },
@@ -219,6 +257,10 @@ const AtividadeItem = () => {
                 tempo: '21 min',
                 dificuldade: 'Fácil',
                 acessibilidade: 'Normal',
+                pontoInteresse1: require('../../assets/images/porsol.jpeg'),
+                pontoInteresse2: require('../Percursos/imagesPontosInteresse/BE.jpeg'),
+                tituloPonto: 'Casa do estudante',
+                textoPonto: 'Edifício que alberga a sede da Associação Académica da Universidade de Aveiro (AAUAv).',
                 avaliacaoEstrelas: <RatingScreen/>,
                 avaliacaoQuantitativa: <AverageRating/>,
             },
@@ -233,6 +275,10 @@ const AtividadeItem = () => {
                 dificuldade: 'Difícil',
                 acessibilidade: 'Normal',
                 mapa: require('../../assets/images/mapa.jpeg'),
+                pontoInteresse1: require('../Percursos/imagesPercursos/fadu.jpg'),
+                pontoInteresse2: require('../Percursos/imagesPontosInteresse/Isca.jpeg'),
+                tituloPonto: 'Isca-UA',
+                textoPonto: 'Instituto Superior de Contabilidade e Administração da Universidade de Aveiro.',
                 avaliacaoEstrelas: <RatingScreen2/>,
                 avaliacaoQuantitativa: <AverageRating2/>,
 
@@ -247,6 +293,10 @@ const AtividadeItem = () => {
                 tempo: '19 min',
                 dificuldade: 'Fácil',
                 acessibilidade: 'Normal',
+                pontoInteresse1: require('../Percursos/imagesPercursos/BarPretoImage.png'),
+                pontoInteresse2: require('../Percursos/imagesPontosInteresse/cantina.jpeg'),
+                tituloPonto: 'Cantina S.Tiago',
+                textoPonto: 'Refeitório Universitário localizado no campos de S.Tiago',
                 avaliacaoEstrelas: <RatingScreen3/>,
                 avaliacaoQuantitativa: <AverageRating3/>,
             },
@@ -254,16 +304,19 @@ const AtividadeItem = () => {
 
 
     ];
+    const filteredAtividades = atividades.filter(atividade =>
+        atividade.nome.toLowerCase().includes(searchText.toLowerCase())
+    );
 
     return (
         <View>
             <Slider data={carouselData} />
-            <SearchBar/>
-            {atividades.map(atividade => (
+            <SearchBar onSearch={setSearchText} />
+            {filteredAtividades.map(atividade => (
                 <TouchableOpacity
                     key={atividade.id}
                     style={styles.container2}
-                    onPress={() => navigation.navigate('DescriptionAtividade', {atividade: atividade })}
+                    onPress={() => navigation.navigate('DescriptionAtividade', { atividade: atividade })}
                 >
                     <Image
                         source={atividade.imagem}
@@ -275,6 +328,7 @@ const AtividadeItem = () => {
                         <Icon
                             name="star-circle-outline"
                             size={30}
+                            margin = {-13}
                             color="#7D8995"
                             style={styles.starIcon}
                             onPress={() => handleFavorite(atividade)}
