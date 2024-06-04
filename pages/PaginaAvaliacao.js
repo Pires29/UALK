@@ -5,8 +5,13 @@ import { onAuthStateChanged } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
 import StarRating from "../components/Avaliação";
 import Media from "../components/media";
+import { useRoute } from '@react-navigation/native'; // Importe o hook useRoute
 
 const PaginaAvaliacao = () => {
+
+    const route = useRoute(); // Use o hook useRoute para acessar as props
+    const { percurso, distance, duration } = route.params; // Acesse as props do objeto route.params
+    
     const [authUser, setAuthUser] = useState(null);
     const [comentario, setComentario] = useState('');
 

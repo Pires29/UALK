@@ -24,7 +24,7 @@ const UalkScreen = () => {
                 )}
             </ScrollView>
             <TouchableOpacity style={styles.floatingButton} onPress={() => navigation.navigate('Mapa')}>
-                <Icon name="map-outline" size={40} color="#fffff" style={styles.mapaicone} />
+                <Icon name="map-outline" size={30} color="#fffff" style={styles.mapaicone} />
             </TouchableOpacity>
         </View>
     );
@@ -50,13 +50,12 @@ const styles = StyleSheet.create({
         zIndex: 999,
         height: 60,
         width: 60,
-
+        justifyContent: 'center', // Alinha verticalmente
+        alignItems: 'center', // Alinha horizontalmente
     },
     mapaicone: {
-        marginTop: 10, // Ajuste vertical para centralizar o ícone no círculo
-         // Ajuste horizontal para centralizar o ícone no círculo
-        textAlign: 'center',
-        color: 'white',
+        alignSelf:"center",
+        color:"white",
     },
 });
 

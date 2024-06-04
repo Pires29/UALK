@@ -9,7 +9,7 @@ import {collection, addDoc, doc, getDoc} from "firebase/firestore";
 const PaginaAvaliacao = () => {
     const navigation = useNavigation();
     const route = useRoute();
-    const { percurso } = route.params;  // Receba os parâmetros do percurso
+    const { percurso, distance, duration } = route.params;  // Receba os parâmetros do percurso
 
     const [authUser, setAuthUser] = useState(null);
     const [comentario, setComentario] = useState('');
@@ -81,11 +81,11 @@ const PaginaAvaliacao = () => {
 
                 <View style={styles.container2}>
                     <View style={styles.infoGroup}>
-                        <Text style={styles.infoTitle}>Distância</Text>
+                        <Text style={styles.infoTitle}>{distance}</Text>
                         <Text style={styles.infoValue}>{percurso.comprimento}</Text>
                     </View>
                     <View style={styles.infoGroup}>
-                        <Text style={styles.infoTitle}>Tempo</Text>
+                        <Text style={styles.infoTitle}>{duration}</Text>
                         <Text style={styles.infoValue}>{percurso.tempo}</Text>
                     </View>
                 </View>
@@ -230,27 +230,29 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     botaoSubmeter: {
-        backgroundColor: '#62BB76',  // Alterado para um tom de verde para melhor contraste
-        borderRadius: 5,
-        paddingVertical: 10,
-        paddingHorizontal: 10,
-        width: '70%',
-        alignItems: "center",
-        marginTop: 20,
+        width: '51%',
+        backgroundColor: '#62BB76',
+        padding: 13,
+        borderRadius: 9,
+        marginVertical: 30,
+        alignItems: 'center',
+        alignSelf: 'center',
+        marginTop: 25,
+        fontWeight: 'bold',
     },
     botaoTerminar: {
         backgroundColor: 'white',
-        borderRadius: 5,
-        paddingVertical: 10,
-        paddingHorizontal: 10,
-        width: '70%',
-        alignItems: "center",
-        marginTop: 20,
+        padding: 13,
+        borderRadius: 9,
+        marginVertical: 30,
+        alignItems: 'center',
+        alignSelf: 'center',
+        marginTop: 25,
+        fontWeight: 'bold',
+        width: '44%',
     },
     textoBotao: {
-        color: '#000',  // Texto do botão de terminar
-        fontWeight: 'bold',
-        fontSize: 18,
+        fontWeight: 'bold'
     },
     Texto: {
         color: 'white',
@@ -264,6 +266,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         fontWeight: 'bold',
         fontSize: 20,
+        marginVertical: 25,
     }
 });
 

@@ -167,14 +167,14 @@ const ProfileScreen = () => {
         <View style={{ flex: 1, backgroundColor: "#2C333C"}}>
             <View style={{width: "100%", padding: 40,}}>
                 <View style={{alignItems: 'center', justifyContent: 'center', marginBottom: 30}}>
+                    <AuthDetails />
                     <Image
                         source={require('../imagens/image 17.png')}
-                        style={{ width: 120, height: 120 }}
+                        style={{ width: 120, height: 120, marginTop:30 }}
                     />
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={{ color: 'green', fontSize: 24 }}>Olá,</Text>
                         {user && <Text style={{ color: 'white', fontSize: 18 }}>{user.displayName}</Text>}
-                        <AuthDetails />
                     </View>
                 </View>
                 <TouchableOpacity onPress={goToOtherComponent}>

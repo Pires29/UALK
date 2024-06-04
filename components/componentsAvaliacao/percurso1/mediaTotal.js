@@ -16,8 +16,8 @@ const AverageRating = ({ percurso }) => {
 
                 usersSnapshot.forEach((doc) => {
                     const userData = doc.data();
-                    if (userData.avaliacao) {
-                        ratings.push(userData.avaliacao);
+                    if (userData.avaliacao1) {
+                        ratings.push(userData.avaliacao1);
                     }
                 });
 

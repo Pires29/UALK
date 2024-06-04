@@ -5,14 +5,24 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { db } from '../FireBase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { markers } from '../components/Map/markers';
-import PaginaAvaliacao from "../components/PaginaAvaliacao";
-
 
 const Description = ({ navigation, route }) => {
     const { percurso } = route.params;
     const [selectedMarker, setSelectedMarker] = useState([]);
-    const [selectedButton, setSelectedButton] = useState(1);
+
+    useEffect(() => {
+        setSelectedMarker([markers[0], markers[4]]); // Definindo ambos os marcadores ao mesmo tempo
+
+        console.log("selectedMarker", selectedMarker);
+        console.log("Marker 0:", markers[2]);
+        console.log("Marker 1:", markers[3]);
+    }, []);
+    const handleButtonPress = () => {
+        navigation.navigate('colocarapagina');
+    }
+
     const [comments, setComments] = useState([]);
+    const [selectedButton, setSelectedButton] = useState(1);
     const [userRatings, setUserRatings] = useState({});
 
     useEffect(() => {
@@ -21,48 +31,29 @@ const Description = ({ navigation, route }) => {
 
     useEffect(() => {
         const fetchCommentsAndRatings = async () => {
-            // Fetch comments
-            const commentsQuery = query(collection(db, 'comments'), where('percursoId', '==', percurso.id));
-            const commentsSnapshot = await getDocs(commentsQuery);
-            const commentsData = commentsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            try {
+                const commentsQuery = query(collection(db, 'comments'), where('percursoId', '==', percurso.id));
+                const commentsSnapshot = await getDocs(commentsQuery);
+                const commentsData = commentsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-            // Fetch ratings
-            const ratingsQuery = query(collection(db, 'ratings'));
-            const ratingsSnapshot = await getDocs(ratingsQuery);
-            const ratingsData = ratingsSnapshot.docs.map(doc => doc.data());
+                // Fetch ratings from users collection
+                const usersQuery = query(collection(db, 'users'));
+                const usersSnapshot = await getDocs(usersQuery);
+                const usersData = usersSnapshot.docs.map(doc => doc.data());
 
-            // Organize ratings by comment ID
-            const ratingsByCommentId = {};
-            ratingsData.forEach(rating => {
-                if (!ratingsByCommentId[rating.commentId]) {
-                    ratingsByCommentId[rating.commentId] = [];
-                }
-                ratingsByCommentId[rating.commentId].push(rating);
-            });
+                // Map percurso.id to the corresponding rating field in users
+                const ratingField = `avaliacao${percurso.id}`;
 
-            // Fetch user data for ratings
-            const usersQuery = query(collection(db, 'users'));
-            const usersSnapshot = await getDocs(usersQuery);
-            const usersData = usersSnapshot.docs.map(doc => doc.data());
+                const commentsWithRatings = commentsData.map(comment => {
+                    const userRating = usersData.find(user => user[ratingField]);
+                    const averageRating = userRating ? userRating[ratingField] : 0;
+                    return { ...comment, rating: averageRating };
+                });
 
-            // Organize user ratings
-            const userRatingsObj = {};
-            usersData.forEach(user => {
-                userRatingsObj[user.userId] = user.ratings;
-            });
-            setUserRatings(userRatingsObj);
-
-            // Merge comments with their ratings
-            const commentsWithRatings = commentsData.map(comment => {
-                const ratings = ratingsByCommentId[comment.id] || [];
-                const totalStars = ratings.reduce((acc, curr) => acc + curr.rating, 0);
-                const averageRating = ratings.length > 0 ? totalStars / ratings.length : 0;
-                return { ...comment, rating: averageRating };
-            });
-
-
-            setComments(commentsWithRatings);
-
+                setComments(commentsWithRatings);
+            } catch (error) {
+                console.error("Error fetching comments and ratings: ", error);
+            }
         };
 
         fetchCommentsAndRatings();
@@ -71,7 +62,6 @@ const Description = ({ navigation, route }) => {
     const handleButtonPress2 = (buttonNumber) => {
         setSelectedButton(buttonNumber);
     };
-
 
     return (
         <View style={styles.container}>
@@ -211,7 +201,7 @@ const Description = ({ navigation, route }) => {
                     </View>
                 )}
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('PaginaAvaliacao',{ percurso: percurso })}
+                    onPress={() => navigation.navigate('Map',{ percurso: percurso})}
                     style={styles.buttonText}
                 >
                     <Text style={styles.fontes}>Let's UALK</ Text>
@@ -220,7 +210,7 @@ const Description = ({ navigation, route }) => {
         </View>
     );
 };
-        const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: '100%',
@@ -451,14 +441,14 @@ const Description = ({ navigation, route }) => {
         padding: 10,
         borderRadius: 5,
     },
-            starContainer: {
-                flexDirection: 'row',
-                justifyContent: 'center',
-                margin: 5,
-            },
-            star: {
-                marginHorizontal: 5,
-            },
+    starContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        margin: 5,
+    },
+    star: {
+        marginHorizontal: 5,
+    },
 });
 
 export default Description;

@@ -26,6 +26,7 @@ import Map from './pages/Map';
 import MapMarkers from './pages/MapMarkers';
 import Description from './pages/Description';
 import DescriptionAtividades from "./pages/DescriptionAtividade";
+import LoadingIcon from "./imagens/icons/Loading.png"
 
 // Nomes das telas
 const homeName = "Home";
@@ -68,11 +69,11 @@ function NavBar() {
                       iconName = focused ? ProfileIcon : ProfileIcon;
                       iconSize = 28; // Tamanho específico para o ícone "Settings"
                   } else if (route.name === section2Name) {
-                      iconName = focused ? Section2Icon : Section2Icon;
-                      iconSize = 34; // Tamanho específico para o ícone "Section 2"
+                      iconName = focused ? LoadingIcon : LoadingIcon;
+                      iconSize = 26; // Tamanho específico para o ícone "Section 2"
                   } else if (route.name === section3Name) {
-                      iconName = focused ? Section3Icon : Section3Icon;
-                      iconSize = 34; // Tamanho específico para o ícone "Section 3"
+                    iconName = focused ? LoadingIcon : LoadingIcon;
+                      iconSize = 26; // Tamanho específico para o ícone "Section 2"
                   }
 
                     return <Image source={iconName} style={{ width: iconSize, height: iconSize, tintColor: color }} />;
@@ -135,7 +136,7 @@ const App = () => {
       },
       headerTintColor: 'white',
     headerLeft: () => (
-      <TouchableOpacity onPress={() => navigation.navigate('outrapagina')} style={{ paddingLeft: 10}}>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingLeft: 10}}>
         <Image
             source={require('./imagens/icons/Vector White.png')} // Substitua './caminho/para/sua/imagem.jpg' pelo caminho relativo da sua imagem
             style={{ width: 20, height: 20 }} // Ajuste a largura e altura conforme necessário

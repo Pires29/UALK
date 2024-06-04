@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { TextInput, StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-function PesquisaMapa({ selectedMarker, setSelectedMarker }) {
+function PesquisaMapa({ selectedPercursos, setSelectedPercursos }) {
   useEffect(() => {
-    console.log("selectedMarker foi alterado:", selectedMarker);
-  }, [selectedMarker]);
+    console.log("selectedMarker foi alterado:", selectedPercursos);
+  }, [selectedPercursos]);
 
   const [input, setInput] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -17,29 +17,29 @@ function PesquisaMapa({ selectedMarker, setSelectedMarker }) {
   const navigation = useNavigation();
 
   const handleMarkerSelect = () => {
-    if (selectedMarker.length !== 2) {
+    if (selectedPercursos.length !== 2) {
       setErrorMessage("Please select exactly 2 markers.");
     } else {
       setErrorMessage("");
-      navigation.navigate('Map', { selectedMarker });
+      navigation.navigate('Map', { selectedPercursos });
     }
   };
 
   const handleRemoveMarker = (marker) => {
-    setSelectedMarker(selectedMarker.filter(item => item !== marker));
+    setSelectedPercursos(selectedPercursos.filter(item => item !== marker));
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.markerDetails}>
         <Text style={styles.heading}>Pontos</Text>
-        {selectedMarker.length === 0 ? (
+        {selectedPercursos.length === 0 ? (
           <View style={styles.noMarkersContainer}>
             <Text style={styles.noMarkersText}>No markers available.</Text>
             <Text style={styles.noMarkersText}>Please add 2 markers.</Text>
           </View>
         ) : (
-          selectedMarker.map((marker, index) => (
+          selectedPercursos.map((marker, index) => (
             <View key={index}>
               <View style={styles.markerItem}>
                 <View>

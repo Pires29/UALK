@@ -14,6 +14,7 @@ import AverageRating from "../componentsAvaliacao/percurso1/mediaTotal";
 import AverageRating2 from "../componentsAvaliacao/percurso2/mediatotal2";
 import AverageRating3 from "../componentsAvaliacao/percurso3/mediaTotal3";
 import AverageRating4 from "../componentsAvaliacao/percurso4/mediaTotal4";
+import { Percursos } from './Percursos';
 
 const PercursoItem = () => {
     const [searchText, setSearchText] = useState('');
@@ -50,7 +51,7 @@ const PercursoItem = () => {
     };
 
 
-    const percursos = [
+ /*)   const percursos = [
         {
             id: 1,
             nome: 'Marinha da Casqueira',
@@ -62,12 +63,22 @@ const PercursoItem = () => {
             dificuldade: 'Fácil',
             acessibilidade: 'Normal',
             mapa: require('../../assets/images/mapa.jpeg'),
-            pontoInteresse1: require('../../assets/images/porsol.jpeg'),
-            pontoInteresse2: require('../Percursos/imagesPontosInteresse/BE.jpeg'),
-            tituloPonto: 'Casa do estudante',
-            textoPonto: 'Edifício que alberga a sede da Associação Académica da Universidade de Aveiro (AAUAv).',
-            avaliacaoEstrelas: <RatingScreen/>,
-            avaliacaoQuantitativa: <AverageRating/>,
+            avaliacaoEstrelas: <RatingScreen />,
+            avaliacaoQuantitativa: <AverageRating />,
+            coordenadas: {
+                pontoA: {
+                    latitude: 40.6405,
+                    longitude: -8.6538,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005,
+                },
+                pontoB: {
+                    latitude: 40.6455,
+                    longitude: -8.6588,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005,
+                },
+            },
         },
         {
             id: 2,
@@ -80,33 +91,50 @@ const PercursoItem = () => {
             dificuldade: 'Difícil',
             acessibilidade: 'Normal',
             mapa: require('../../assets/images/mapa.jpeg'),
-            pontoInteresse1:  require('./imagesPercursos/fadu.jpg'),
-            pontoInteresse2: require('../Percursos/imagesPontosInteresse/Isca.jpeg'),
-            tituloPonto: 'Isca-UA',
-            textoPonto: 'Instituto Superior de Contabilidade e Administração da Universidade de Aveiro.',
-            avaliacaoEstrelas: <RatingScreen2/>,
-            avaliacaoQuantitativa: <AverageRating2/>,
+            avaliacaoEstrelas: <RatingScreen2 />,
+            avaliacaoQuantitativa: <AverageRating2 />,
+            coordenadas: {
+                pontoA: {
+                    latitude: 40.6405,
+                    longitude: -8.6488,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005,
+                },
+                pontoB: {
+                    latitude: 40.6455,
+                    longitude: -8.6538,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005,
+                },
+            },
         },
-
         {
             id: 3,
             nome: 'Bar Preto',
             imagem: require('./imagesPercursos/BarPretoImage.png'),
-            passos: require('./imagesPercursos/imagesPassos/passosBarPreto.png'),
             comprimento: '1,4 Km',
             descricao: 'Bebe um chá (sem açucar) e relaxa na esplanada',
             tempo: '19 min',
             dificuldade: 'Fácil',
             acessibilidade: 'Normal',
             mapa: require('../../assets/images/mapa.jpeg'),
-            pontoInteresse1: require('./imagesPercursos/BarPretoImage.png'),
-            pontoInteresse2: require('../Percursos/imagesPontosInteresse/cantina.jpeg'),
-            tituloPonto: 'Cantina S.Tiago',
-            textoPonto: 'Refeitório Universitário localizado no campos de S.Tiago',
-            avaliacaoEstrelas: <RatingScreen3/>,
-            avaliacaoQuantitativa: <AverageRating3/>,
+            avaliacaoEstrelas: <RatingScreen3 />,
+            avaliacaoQuantitativa: <AverageRating3 />,
+            coordenadas: {
+                pontoA: {
+                    latitude: 40.6455,
+                    longitude: -8.6538,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005,
+                },
+                pontoB: {
+                    latitude: 40.6505,
+                    longitude: -8.6588,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005,
+                },
+            },
         },
-
         {
             id: 4,
             nome: 'Loja Vol',
@@ -118,25 +146,30 @@ const PercursoItem = () => {
             dificuldade: 'Fácil',
             acessibilidade: 'Normal',
             mapa: require('../../assets/images/mapa.jpeg'),
-            pontoInteresse1: require('./imagesPercursos/lojaVol.png'),
-            pontoInteresse2: require('../Percursos/imagesPontosInteresse/dep.Linguas.jpeg'),
-            tituloPonto: 'Dep. Linguas e Culturas',
-            textoPonto: 'Departamento que alberga as licenciaturas de linguas e literaturas',
-            avaliacaoEstrelas: <RatingScreen4/>,
-            avaliacaoQuantitativa: <AverageRating4/>,
+            avaliacaoEstrelas: <RatingScreen4 />,
+            avaliacaoQuantitativa: <AverageRating4 />,
+            coordenadas: {
+                pontoA: {
+                    latitude: 40.6405,
+                    longitude: -8.6588,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005,
+                },
+                pontoB: {
+                    latitude: 40.6455,
+                    longitude: -8.6638,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005,
+                },
+            },
         },
-
-
-    ];
-    const filteredPercursos = percursos.filter(percurso =>
-        percurso.nome.toLowerCase().includes(searchText.toLowerCase())
-    );
-
+    ];*/
+    
     return (
         <View>
             <Slider data={carouselData} />
-            <SearchBar onSearch={setSearchText} />
-            {filteredPercursos.map(percurso => (
+            <SearchBar/>
+            {Percursos.map(percurso => (
                 <TouchableOpacity
                     key={percurso.id}
                     style={styles.container2}
@@ -154,6 +187,7 @@ const PercursoItem = () => {
                         <Icon
                             name="star-circle-outline"
                             size={30}
+                            margin = {-7}
                             color="#7D8995"
                             style={styles.starIcon}
                             onPress={() => handleFavorite(percurso)}
