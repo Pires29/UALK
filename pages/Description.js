@@ -47,6 +47,10 @@ const Description = ({ navigation, route }) => {
         fetchCommentsAndRatings();
     }, [percurso.id]);
 
+    const handleButtonPress2 = (buttonNumber) => {
+        setSelectedButton(buttonNumber);
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.background} />
