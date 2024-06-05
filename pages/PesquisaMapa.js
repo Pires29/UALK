@@ -45,13 +45,14 @@ function PesquisaMapa({ selectedPercursos, setSelectedPercursos }) {
                 <View>
                   <Image style={styles.image} source={marker.source} />
                 </View>
-                <View style={styles.textContainer}>
-                  <Text style={styles.markerTitle}>{marker.title}</Text>
-                  <Text style={styles.markerDescription}>{marker.description}</Text>
-                </View>
-                <TouchableOpacity onPress={() => handleRemoveMarker(marker)} style={styles.removeButton}>
-                  <Image source={require('../imagens/icons/Remove.png')} style={styles.icon} />
-                </TouchableOpacity>
+                  <View style={styles.textContainer}>
+                    <Text style={styles.markerTitle}>{marker.title}</Text>
+                  </View>
+                  <View>
+                    <TouchableOpacity onPress={() => handleRemoveMarker(marker)} style={styles.removeButton}>
+                    <Image source={require('../imagens/icons/Remove.png')} style={styles.icon} />
+                  </TouchableOpacity>
+                  </View>
               </View>
               <View style={styles.hr}></View>
             </View>
@@ -111,12 +112,12 @@ const styles = StyleSheet.create({
   markerTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 5,
     color:"white"
   },
   markerItem: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between"
   },
   markerDescription: {
     fontSize: 14,
@@ -124,7 +125,6 @@ const styles = StyleSheet.create({
     color:"white"
   },
   textContainer: {
-    marginLeft: 20,
   },
   button: {
     backgroundColor: "#62BB76",
@@ -149,9 +149,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   removeButton: {
-    padding: 10,
-    borderRadius: 5,
-    marginLeft: 30,
   },
   icon: {
     width: 15,

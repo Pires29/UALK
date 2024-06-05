@@ -32,11 +32,11 @@ const StarRating = ({ onRatingChange }) => {
 const styles = StyleSheet.create({
     starContainer: {
         flexDirection: 'row',
-        justifyContent: 'center',
-        margin: 10,
+        justifyContent: 'left',
+        marginBottom: 20,
     },
     star: {
-        marginHorizontal: 5,
+        marginRight: 10,
     },
 });
 

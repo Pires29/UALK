@@ -166,14 +166,16 @@ const ProfileScreen = () => {
     return (
         <View style={{ flex: 1, backgroundColor: "#2C333C"}}>
             <View style={{width: "100%", padding: 40,}}>
-                <View style={{alignItems: 'center', justifyContent: 'center', marginBottom: 30}}>
-                    <AuthDetails />
-                    <Image
-                        source={require('../imagens/image 17.png')}
-                        style={{ width: 120, height: 120, marginTop:30 }}
-                    />
-                    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={{ color: 'green', fontSize: 24 }}>Olá,</Text>
+                <View style={{flexDirection:"row" , marginBottom: 30}}>
+                    
+                <Icon
+                            name="user-circle-o"
+                            size={80}
+                            color="#ffffff"
+                        />
+                    <View style={{}}>
+                        <Text style={{ color: 'green', fontSize: 24, marginLeft: 30, }}>Olá,</Text>
+                        <AuthDetails />
                         {user && <Text style={{ color: 'white', fontSize: 18 }}>{user.displayName}</Text>}
                     </View>
                 </View>

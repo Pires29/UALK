@@ -14,6 +14,193 @@ export default function Map() {
   const { percurso, selectedPercursos } = route.params;
 
 
+  const mapDarkStyle = [
+    {
+      "elementType": "geometry",
+      "stylers": [
+        {
+          "color": "#212121"
+        }
+      ]
+    },
+    {
+      "elementType": "labels.icon",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "elementType": "labels.text.fill",
+      "stylers": [
+        {
+          "color": "#757575"
+        }
+      ]
+    },
+    {
+      "elementType": "labels.text.stroke",
+      "stylers": [
+        {
+          "color": "#212121"
+        }
+      ]
+    },
+    {
+      "featureType": "administrative",
+      "elementType": "geometry",
+      "stylers": [
+        {
+          "color": "#757575"
+        }
+      ]
+    },
+    {
+      "featureType": "administrative.country",
+      "elementType": "labels.text.fill",
+      "stylers": [
+        {
+          "color": "#9e9e9e"
+        }
+      ]
+    },
+    {
+      "featureType": "administrative.land_parcel",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "administrative.locality",
+      "elementType": "labels.text.fill",
+      "stylers": [
+        {
+          "color": "#bdbdbd"
+        }
+      ]
+    },
+    {
+      "featureType": "poi",
+      "elementType": "labels.text.fill",
+      "stylers": [
+        {
+          "color": "#757575"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.park",
+      "elementType": "geometry",
+      "stylers": [
+        {
+          "color": "#181818"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.park",
+      "elementType": "labels.text.fill",
+      "stylers": [
+        {
+          "color": "#616161"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.park",
+      "elementType": "labels.text.stroke",
+      "stylers": [
+        {
+          "color": "#1b1b1b"
+        }
+      ]
+    },
+    {
+      "featureType": "road",
+      "elementType": "geometry.fill",
+      "stylers": [
+        {
+          "color": "#2c2c2c"
+        }
+      ]
+    },
+    {
+      "featureType": "road",
+      "elementType": "labels.text.fill",
+      "stylers": [
+        {
+          "color": "#8a8a8a"
+        }
+      ]
+    },
+    {
+      "featureType": "road.arterial",
+      "elementType": "geometry",
+      "stylers": [
+        {
+          "color": "#373737"
+        }
+      ]
+    },
+    {
+      "featureType": "road.highway",
+      "elementType": "geometry",
+      "stylers": [
+        {
+          "color": "#3c3c3c"
+        }
+      ]
+    },
+    {
+      "featureType": "road.highway.controlled_access",
+      "elementType": "geometry",
+      "stylers": [
+        {
+          "color": "#4e4e4e"
+        }
+      ]
+    },
+    {
+      "featureType": "road.local",
+      "elementType": "labels.text.fill",
+      "stylers": [
+        {
+          "color": "#616161"
+        }
+      ]
+    },
+    {
+      "featureType": "transit",
+      "elementType": "labels.text.fill",
+      "stylers": [
+        {
+          "color": "#757575"
+        }
+      ]
+    },
+    {
+      "featureType": "water",
+      "elementType": "geometry",
+      "stylers": [
+        {
+          "color": "#000000"
+        }
+      ]
+    },
+    {
+      "featureType": "water",
+      "elementType": "labels.text.fill",
+      "stylers": [
+        {
+          "color": "#3d3d3d"
+        }
+      ]
+    }
+  ]
+
   const [location, setLocation] = useState(null);
   const [distance, setDistance] = useState(null);
   const [duration, setDuration] = useState(null);
@@ -24,6 +211,10 @@ export default function Map() {
   const [showResumeAndEndButtons, setShowResumeAndEndButtons] = useState(false);
   const mapRef = useRef(null);
   const locationSubscription = useRef(null);
+  const [distanceFinal, setDistanceFinal] = useState(0);
+  const [distanceInicial, setDistanceInicial] = useState(0);
+  const [durationFinal, setDurationFinal] = useState(0);
+  const [durationInicial, setDurationInicial] = useState(0);
 
   let pontoA, pontoB;
   if (selectedPercursos && selectedPercursos.length > 0) {
@@ -51,8 +242,8 @@ export default function Map() {
           const totalDistance = routes[0].legs.reduce((acc, leg) => acc + leg.distance.value, 0);
           const totalDuration = routes[0].legs.reduce((acc, leg) => acc + leg.duration.value, 0);
 
-          setDistance(`${(totalDistance / 1000).toFixed(2)} km`);
-          setDuration(`${Math.floor(totalDuration / 60)} min`);
+          setDistance(`${(totalDistance / 1000).toFixed(2)}`);
+          setDuration(`${Math.floor(totalDuration / 60)}`);
         }
       } catch (error) {
         console.error('Error fetching directions:', error);
@@ -79,6 +270,11 @@ export default function Map() {
   }, []);
 
   const startTrack = () => {
+
+    setDistanceInicial(distance)
+    setDurationInicial(duration)
+    console.log("DISTANCE INICIAL", distanceInicial)
+    console.log("DURATION INICIAL", durationInicial)
     if (!isTracking) {
       const watchLocation = async () => {
         locationSubscription.current = await watchPositionAsync({
@@ -126,9 +322,28 @@ export default function Map() {
   }
 
   const endTrack = () => {
+    console.log("DistanceInicial", distanceInicial)
+    console.log("Distance", distance)
+    const distanceTraveled = distanceInicial - distance;
+    const roundedDistanceTraveled = parseFloat(distanceTraveled.toFixed(2));
+    console.log("CALCULO", roundedDistanceTraveled);
+
+    console.log("DurationInicial", durationInicial)
+    console.log("Duration", duration)
+    const durationTraveled = durationInicial - duration;
+    const roundedDurationTraveled = parseFloat(durationTraveled.toFixed(2));
+    console.log("CALCULO", roundedDurationTraveled);
+
+
     setShowResumeAndEndButtons(false);
     setIsStarted(false);
-    navigation.navigate('PaginaAvaliacao', { percurso: percurso, distance: distance, duration: duration });
+    setDistanceFinal(distanceTraveled)
+    console.log("PAPSPASDPADSPADAD",distanceFinal)
+
+    setDurationFinal(durationTraveled)
+    console.log("PAPSPASDPADSPADAD",distanceFinal)
+
+    navigation.navigate('PaginaAvaliacao', { percurso: percurso,durationTraveled: roundedDurationTraveled, distanceTraveled: roundedDistanceTraveled,distance: distance, duration: duration });
   }
 
   const [region, setRegion] = useState({
@@ -141,8 +356,8 @@ export default function Map() {
   const CustomMarker = ({ coordinate, title, description }) => (
     <Marker coordinate={coordinate}>
       <Image
-        source={require("../imagens/image 5.png")}
-        style={{ width: 40, height: 40 }} // Ajuste o tamanho da imagem conforme necessário
+        source={require("../imagens/icons/CustomMarker.png")}
+        style={{ width: 20, height: 20 }} // Ajuste o tamanho da imagem conforme necessário
       />
     </Marker>
   );
@@ -153,6 +368,7 @@ export default function Map() {
         <MapView
           ref={mapRef}
           style={styles.map}
+          customMapStyle={mapDarkStyle}
           initialRegion={{
             latitude: currentLocation ? currentLocation.coords.latitude : pontoA.latitude,
             longitude: currentLocation ? currentLocation.coords.longitude : pontoA.longitude,
@@ -198,11 +414,11 @@ export default function Map() {
           <Text style={styles.routeTitle}>Percurso</Text>
           <View style={styles.routeInfo}>
             <View>
-              <Text style={styles.routeText}>{duration}</Text>
+              <Text style={styles.routeText}>{duration} min</Text>
               <Text style={styles.routeCateText}>Tempo</Text>
             </View>
             <View>
-              <Text style={styles.routeText}>{distance}</Text>
+              <Text style={styles.routeText}>{distance} km</Text>
               <Text style={styles.routeCateText}>Distância</Text>
             </View>
           </View>
@@ -324,6 +540,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    flexWrap: "wrap"
   },
   headerBack: {
     justifyContent: 'center',

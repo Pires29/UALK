@@ -58,22 +58,18 @@ const AuthDetails = () => {
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center',
     },
     text: {
         color: 'white',
         fontSize: 20,
-        marginTop: 10,
-        marginBottom: 10,
+        marginLeft: 30,
     },
     button: {
         backgroundColor: '#62BB76',
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 4,
-        marginTop: 20,
-        marginBottom: 20,
-        marginLeft: '65%',
+        marginLeft: 30,
     },
     buttonText: {
         color: 'white',

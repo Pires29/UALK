@@ -131,7 +131,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginVertical: 10,
+        backgroundColor: '#2C333C', // ou outra cor de fundo desejada
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        padding: 20, // ajuste o padding conforme necessário
+        marginTop: -20,
     },
+    
     avaliacao: {
         flexDirection: 'row',
         alignItems: 'center',

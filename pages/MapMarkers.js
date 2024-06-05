@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Dimensions, StyleSheet, View, Text, Alert, TouchableOpacity } from 'react-native';
+import { Dimensions, StyleSheet, View, Text, Alert, TouchableOpacity, Image } from 'react-native';
 import MapView, { Marker, Callout } from 'react-native-maps';
 import { Percursos  } from '../components/Percursos/Percursos';
 import CustBottomSheet from '../components/Map/CustBottomSheet';
@@ -249,8 +249,10 @@ export default function MapMarkers() {
                 }}
               >
                 <Callout tooltip onPress={() => handleMarkerPress(ponto)} style={styles.calloutContainer}>
-                  <Text style={styles.title}>{ponto.title}</Text>
+                  <View style={{marginBottom: 20}}>
+                    <Text style={styles.title}>{ponto.title}</Text>
                   <Text style={styles.description}>{ponto.description}</Text>
+                  </View>
                   <View style={styles.buttonContainer}>
                     <TouchableOpacity onPress={() => handleMarkerPress(ponto)} style={styles.button}>
                       <Text style={styles.buttonText}>Adicionar</Text>
@@ -279,32 +281,37 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
   },
   calloutContainer: {
+    width: 250, // Defina uma largura fixa para o Callout
     backgroundColor: '#2C333C',
-    padding: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 15,
     borderRadius: 8,
     alignItems: 'center',
+    justifyContent: 'center', // Centraliza o conteúdo verticalmente
   },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'white',
-    marginBottom: 5,
-  },
-  description: {
-    fontSize: 14,
-    color: 'white',
-  },
+    title: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: 'white',
+      marginBottom: 5,
+      textAlign: 'center', // Centraliza o texto
+    },
+    description: {
+      fontSize: 16,
+      color: 'white',
+      textAlign: 'center', // Centraliza o texto
+    },
   button: {
     borderColor: "#62BB76",
     borderWidth: 1,
-    paddingVertical: 5,
+    paddingVertical: 10,
     width: 150,
     borderRadius: 5,
   },
   buttonContainer: {
     width: '100%',
     alignItems: 'center',
-    marginTop: 10
+    marginTop: 10,
   },
   buttonText: {
     color: '#62BB76',
@@ -312,4 +319,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+  button1: {
+    width: '40%',
+    padding: 12,
+    borderRadius: 5,
+    marginTop: 35,
+    marginVertical: 10,
+    marginLeft: 25,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#62BB76',
+    backgroundColor: 'transparent',
+},
+buttonText1botao: {
+  fontSize: 14,
+  color: '#62BB76',
+  fontWeight: 'bold',
+},
 });

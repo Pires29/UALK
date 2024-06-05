@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import { db } from '../../../FireBase'; // Certifique-se de que o caminho esteja correto
 import { collection, getDocs } from 'firebase/firestore';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const AverageRating2 = ({ percurso }) => {
     const [averageRating, setAverageRating] = useState(0);
@@ -37,9 +38,30 @@ const AverageRating2 = ({ percurso }) => {
         calculateAverageRating();
     }, [percurso]); // Dependência em 'percurso' para recalcular a média se o percurso mudar
 
+    // Função para renderizar as estrelas
+    const renderStars = () => {
+        const fullStars = Math.floor(averageRating);
+        const halfStar = averageRating % 1 >= 0.5 ? 1 : 0;
+        const emptyStars = 5 - fullStars - halfStar;
+
+        return (
+            <View style={styles.starsContainer}>
+                {Array(fullStars).fill().map((_, index) => (
+                    <Icon key={`full-${index}`} name="star" size={20} color="white" style={styles.star} />
+                ))}
+                {halfStar === 1 && (
+                    <Icon key="half" name="star-half" size={20} color="white" style={styles.star} />
+                )}
+                {Array(emptyStars).fill().map((_, index) => (
+                    <Icon key={`empty-${index}`} name="star-o" size={20} color="white" style={styles.star} />
+                ))}
+            </View>
+        );
+    };
+
     return (
         <View>
-            <Text style={styles.textMedia}> {averageRating.toFixed(2)}</Text>
+            {renderStars()}
         </View>
     );
 };
@@ -50,5 +72,12 @@ const styles = StyleSheet.create({
     textMedia: {
         color: 'white',
         fontSize: 16,
+    },
+    starsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    star: {
+        marginHorizontal: 2,
     },
 });

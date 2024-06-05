@@ -94,7 +94,7 @@ const Description = ({ navigation, route }) => {
                         style={styles.smallImage2}
                         resizeMode="cover"
                     />
-                    <Text style={styles.textavaliacao}> {percurso.avaliacaoQuantitativa} </Text>
+                    <Text style={styles.textavaliacao}> {percurso.avaliacaoNumero} </Text>
                 </View>
                 <RouteInfo time={percurso.tempo} difficulty={percurso.dificuldade} accessibility={percurso.acessibilidade} distance={percurso.comprimento} />
                 <View style={styles.descricao}>
@@ -126,7 +126,7 @@ const Description = ({ navigation, route }) => {
                         <Text style={styles.text3}>{percurso.textoPonto}</ Text>
                     </View>
                 </View>
-                <View style={styles.descricao}>
+                {/*<View style={styles.descricao}>
                     <Text style={styles.subtitle2}> Mapa </ Text>
                 </View>
                 <TouchableOpacity
@@ -138,7 +138,7 @@ const Description = ({ navigation, route }) => {
                         style={styles.buttonImage}
                         resizeMode="contain"
                     />
-                </TouchableOpacity>
+    </TouchableOpacity>*/}
                 <View style={styles.buttonsContainer}>
                     <TouchableOpacity
                         style={[styles.button, selectedButton === 1 && styles.selectedButton]}
@@ -232,13 +232,16 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginVertical: 10,
+        backgroundColor: '#2C333C', // ou outra cor de fundo desejada
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        marginTop: -20, 
     },
     avaliacao: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
         width: '100%',
-        paddingHorizontal: 20,
     },
     descricao: {
         alignItems: 'flex-start',
@@ -249,7 +252,6 @@ const styles = StyleSheet.create({
         height: 75,
         marginRight: 10,
         borderRadius: 10,
-        marginLeft: 25,
     },
     smallImageEstrelinhas: {
         width: 120,
@@ -261,7 +263,6 @@ const styles = StyleSheet.create({
         width: 25,
         height: 25,
         marginRight: 5,
-        marginLeft: 20,
     },
     smallpassos: {
         width: 70,
@@ -271,7 +272,6 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 14,
         color: 'white',
-        marginLeft: 25,
         textAlign: 'justify',
         width: '87%',
     },
@@ -306,7 +306,6 @@ const styles = StyleSheet.create({
         width: '75%',
         fontSize: 24,
         color: 'white',
-        marginLeft: 20,
         fontWeight: 'bold',
         marginVertical: 20,
     },
@@ -317,7 +316,6 @@ const styles = StyleSheet.create({
         marginTop: 15,
         marginBottom: 10,
         fontWeight: 'bold',
-        marginLeft: 20,
     },
     subtitle2: {
         width: '80%',
@@ -325,14 +323,12 @@ const styles = StyleSheet.create({
         color: 'white',
         marginTop: 15,
         fontWeight: 'bold',
-        marginLeft: 20,
     },
     subsubtitle: {
         fontSize: 16,
         color: 'white',
         marginBottom: 10,
         fontWeight: 'bold',
-        marginLeft: 5,
     },
     separator: {
         width: '93%',
@@ -347,7 +343,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginTop: 35,
         marginVertical: 10,
-        marginLeft: 25,
         alignItems: 'center',
         borderWidth: 2,
         borderColor: '#62BB76',
@@ -384,6 +379,7 @@ const styles = StyleSheet.create({
     },
     scrollViewContent: {
         paddingBottom: 40,
+        paddingHorizontal: 30,
     },
     pontosinteresse: {
         flexDirection: 'row',
@@ -413,6 +409,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: '80%',
         alignSelf: "center",
+        marginTop:20,
     },
     button: {
         flex: 1,

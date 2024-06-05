@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Button, Text } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { db, auth } from '../../../FireBase';
 import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 import StarRating from './avaliacao'; // Importando o componente corrigido
@@ -47,11 +47,34 @@ const RatingScreen = ({ percurso }) => {
     };
 
     return (
-        <View style={{ padding: 20 }}>
+        <View style={styles.container}>
             <StarRating onRatingChange={handleRatingChange} />
-            <Button title="Submeter Avaliação" onPress={handleSubmit} color="#62BB76"/>
+            <TouchableOpacity onPress={handleSubmit} style={styles.button}>
+                <Text style={styles.buttonText}>Submeter Avaliação</Text>
+            </TouchableOpacity>
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        padding: 20,
+    },
+    button: {
+        width: '60%',
+        padding: 12,
+        borderRadius: 5,
+        marginVertical: 10,
+        alignItems: 'center',
+        borderWidth: 2,
+        borderColor: '#62BB76',
+        backgroundColor: 'transparent',
+    },
+    buttonText: {
+        fontSize: 14,
+        color: '#62BB76',
+        fontWeight: 'bold',
+    },
+});
 
 export default RatingScreen;

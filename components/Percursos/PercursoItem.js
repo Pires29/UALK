@@ -188,7 +188,7 @@ const PercursoItem = () => {
                     <View style={styles.detalhes}>
                         <Text style={styles.nome}>{percurso.nome}</Text>
                         <Text style={styles.comprimento}>{percurso.comprimento}</Text>
-                        <Text style={styles.avaliacaoQualitativa}>Classificação: {percurso.avaliacaoQuantitativa} </Text>
+                        <Text style={styles.avaliacaoQualitativa}>{percurso.avaliacaoQuantitativa} </Text>
                         <Text style={styles.descricao}>{percurso.descricao}</Text>
                         <Icon
                             name="star-circle-outline"

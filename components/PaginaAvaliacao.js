@@ -9,7 +9,7 @@ import {collection, addDoc, doc, getDoc} from "firebase/firestore";
 const PaginaAvaliacao = () => {
     const navigation = useNavigation();
     const route = useRoute();
-    const { percurso, distance, duration } = route.params;  // Receba os parâmetros do percurso
+    const { percurso, distance, duration, distanceTraveled, durationTraveled } = route.params;  // Receba os parâmetros do percurso
 
     const [authUser, setAuthUser] = useState(null);
     const [comentario, setComentario] = useState('');
@@ -54,6 +54,8 @@ const PaginaAvaliacao = () => {
         } else {
             Alert.alert("Erro", "Usuário não autenticado");
         }
+
+        navigation.navigate('NavBar')
     };
 
     return (
@@ -71,6 +73,9 @@ const PaginaAvaliacao = () => {
                         <Icon name="arrow-back" size={24} color="white" />
                     </TouchableOpacity>
                 </View>
+                <View style={styles.field}>
+
+                
                 <Text style={styles.nomePercurso}>{percurso.nome}</Text>
                 <Text style={styles.data}>{new Date().toLocaleDateString()}</Text>
 
@@ -81,21 +86,21 @@ const PaginaAvaliacao = () => {
 
                 <View style={styles.container2}>
                     <View style={styles.infoGroup}>
-                        <Text style={styles.infoTitle}>{distance}</Text>
-                        <Text style={styles.infoValue}>{percurso.comprimento}</Text>
+                        <Text style={styles.infoTitle}>Distância</Text>
+                        <Text style={styles.infoValue}>{distanceTraveled} km</Text>
                     </View>
                     <View style={styles.infoGroup}>
-                        <Text style={styles.infoTitle}>{duration}</Text>
-                        <Text style={styles.infoValue}>{percurso.tempo}</Text>
+                        <Text style={styles.infoTitle}>Tempo</Text>
+                        <Text style={styles.infoValue}>{durationTraveled} min</Text>
                     </View>
                 </View>
 
                 <View style={styles.container}>
-                    <Text style={styles.titulos}>A tua rota</Text>
+                    {/*<Text style={styles.titulos}>A tua rota</Text>
                     <Image
                         source={require('../imagens/image 16.png')}
                         style={styles.imagemPercurso}
-                    />
+    />*/}
 
                     <Text style={styles.titulos}>Comentários</Text>
                     <Text style={styles.Texto}>Adiciona aqui o teu comentário</Text>
@@ -108,21 +113,22 @@ const PaginaAvaliacao = () => {
                         value={comentario}
                         onChangeText={setComentario}
                     />
-                    <TouchableOpacity style={styles.botaoSubmeter} onPress={handleCommentSubmit}>
+                    {/*<TouchableOpacity style={styles.botaoSubmeter} onPress={handleCommentSubmit}>
                         <Text style={styles.textoBotao}>Submeter Comentário</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>*/}
 
-                    <Text style={styles.titulos}>Fotos</Text>
+                    {/*<Text style={styles.titulos}>Fotos</Text>
                     <Text style={styles.Texto}>Adiciona as tuas fotos do percurso</Text>
                     <View style={styles.exemplosImagens}>
                         <Image source={require('../imagens/image 5.png')} style={styles.imagemExemplo} />
                         <Image source={{ uri: 'https://via.placeholder.com/100' }} style={styles.imagemExemplo} />
                         <Image source={{ uri: 'https://via.placeholder.com/100' }} style={styles.imagemExemplo} />
-                    </View>
+                    </View>*/}
 
-                    <TouchableOpacity style={styles.botaoTerminar} onPress={() => navigation.navigate('NavBar')}>
+                    <TouchableOpacity style={styles.botaoTerminar} onPress={handleCommentSubmit}>
                         <Text style={styles.textoBotao}>Terminar</Text>
                     </TouchableOpacity>
+                </View>
                 </View>
             </ScrollView>
         </View>
@@ -133,6 +139,15 @@ const styles = StyleSheet.create({
     container3: {
         flex: 1,
         backgroundColor: '#2C333C',
+
+    },
+    field: {
+        paddingTop: 20,
+        paddingHorizontal: 10,
+        backgroundColor: '#2C333C', // ou outra cor de fundo desejada
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        marginTop: -20, 
     },
     container: {
         flex: 1,
@@ -152,8 +167,7 @@ const styles = StyleSheet.create({
     },
     imagemTopo: {
         width: '100%',
-        height: 200,
-        marginBottom: 10,
+        height: 250,
     },
     backButton: {
         position: 'absolute',
@@ -179,8 +193,7 @@ const styles = StyleSheet.create({
     },
     descricaoAvaliacao: {
         color: 'white',
-        fontSize: 10,
-        marginBottom: 10,
+        fontSize: 12,
         marginLeft: 20,
     },
     data: {
@@ -217,7 +230,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#2C333C',
         color: 'white',
         marginBottom: 10,
-        padding: 10,
+        padding: 15,
+        textAlignVertical: 'top',
     },
     exemplosImagens: {
         flexDirection: 'row',
@@ -258,7 +272,7 @@ const styles = StyleSheet.create({
         color: 'white',
         alignSelf: 'flex-start',
         marginBottom: 10,
-        fontSize: 10,
+        fontSize: 12,
     },
     titulos: {
         color: 'white',
@@ -269,5 +283,6 @@ const styles = StyleSheet.create({
         marginVertical: 25,
     }
 });
+
 
 export default PaginaAvaliacao;
