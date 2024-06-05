@@ -13,6 +13,7 @@ const ProfileScreen = () => {
     const [comments, setComments] = useState([]);
     const [user, setUser] = useState(null);
     const [favoritesCount, setFavoritesCount] = useState(0);
+    const [showAllComments, setShowAllComments] = useState(false);
 
     useEffect(() => {
         const fetchUser = () => {
@@ -55,29 +56,43 @@ const ProfileScreen = () => {
         navigation.navigate('Favorites');
     };
 
-    const FirstRoute = () => (
-        <View style={styles.content}>
-            <FlatList
-                data={comments}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                    <View style={styles.pontosinteresse}>
-                        <Icon
-                            name="user-circle-o"
-                            size={50}
-                            color="#ffffff"
-                            padding={10}
-                        />
-                        <View style={styles.textContainer}>
-                            <Text style={styles.subsubtitle}>{item.username}</Text>
-                            <Text style={styles.textComentarios}>{item.comment}</Text>
-                        </View>
-                    </View>
-                )}
-            />
-        </View>
-    );
+    const toggleComments = () => {
+        setShowAllComments(!showAllComments);
+    };
 
+    const FirstRoute = () => {
+        const commentsToShow = showAllComments ? comments : comments.slice(0, 2);
+
+        return (
+            <View style={styles.content}>
+                <FlatList
+                    data={commentsToShow}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                        <View style={styles.pontosinteresse}>
+                            <Icon
+                                name="user-circle-o"
+                                size={50}
+                                color="#ffffff"
+                                padding={10}
+                            />
+                            <View style={styles.textContainer}>
+                                <Text style={styles.subsubtitle}>{item.username}</Text>
+                                <Text style={styles.textComentarios}>{item.comment}</Text>
+                            </View>
+                        </View>
+                    )}
+                />
+                {comments.length > 2 && (
+                    <TouchableOpacity onPress={toggleComments} style={styles.button}>
+                        <Text style={styles.buttonText}>
+                            {showAllComments ? 'Ver menos' : 'Ver mais'}
+                        </Text>
+                    </TouchableOpacity>
+                )}
+            </View>
+        );
+    };
 
     const renderScene = SceneMap({
         first: FirstRoute,
@@ -86,8 +101,8 @@ const ProfileScreen = () => {
     const TabViewExample = () => {
         const layout = useWindowDimensions();
 
-        const [index, setIndex] = React.useState(0);
-        const [routes] = React.useState([
+        const [index, setIndex] = useState(0);
+        const [routes] = useState([
             { key: 'first', title: 'Comentários' },
         ]);
 
@@ -103,7 +118,7 @@ const ProfileScreen = () => {
         );
     };
 
-    const renderTabBar = props => (
+    const renderTabBar = (props) => (
         <TabBar
             {...props}
             indicatorStyle={{
@@ -126,46 +141,17 @@ const ProfileScreen = () => {
         />
     );
 
-    const GridExample = () => {
-        const images = [
-            require('../assets/images/image 7.png'),
-            require('../assets/images/image 7.png'),
-            require('../assets/images/image 7.png'),
-            require('../assets/images/image 7.png'),
-            require('../assets/images/image 7.png'),
-            require('../assets/images/image 7.png'),
-            require('../assets/images/image 7.png'),
-            require('../assets/images/image 7.png'),
-            require('../assets/images/image 7.png'),
-        ];
-
-        return (
-            <View style={styles.containerGrid}>
-                {images.map((image, index) => (
-                    <View key={index} style={styles.itemGrid}>
-                        {index === 0 ? (
-                            <View style={styles.placeholder}>
-                                <Image source={require('../imagens/icons/back-arrow.png')} style={{ width: 25, height: 25 }} />
-                            </View>
-                        ) : (
-                            <Image source={image} style={styles.imageGrid} />
-                        )}
-                    </View>
-                ))}
-            </View>
-        );
-    }
 
     return (
-        <View style={{ flex: 1, backgroundColor: "#2C333C"}}>
-            <View style={{width: "100%", padding: 40,}}>
-                <View style={{flexDirection:"row" , marginBottom: 30}}>
-                    
-                <Icon
-                            name="user-circle-o"
-                            size={80}
-                            color="#ffffff"
-                        />
+        <View style={{ flex: 1, backgroundColor: "#2C333C" }}>
+            <View style={{ width: "100%", padding: 40, }}>
+                <View style={{ flexDirection: "row", marginBottom: 30 }}>
+
+                    <Icon
+                        name="user-circle-o"
+                        size={80}
+                        color="#ffffff"
+                    />
                     <View style={{}}>
                         <Text style={{ color: 'green', fontSize: 24, marginLeft: 30, }}>Olá,</Text>
                         <AuthDetails />
@@ -199,7 +185,7 @@ const ProfileScreen = () => {
                 </TouchableOpacity>
             </View>
 
-            <TabViewExample/>
+            <TabViewExample />
         </View>
     );
 };
@@ -317,6 +303,17 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginLeft: 5,
         width: "95%",
+    },
+    button: {
+        marginTop: 10,
+        padding: 10,
+        backgroundColor: '#62BB76',
+        borderRadius: 5,
+        alignItems: 'center',
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 16,
     },
 });
 
