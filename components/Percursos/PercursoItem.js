@@ -7,9 +7,11 @@ import { useNavigation } from '@react-navigation/native';
 import { auth, db } from "../../FireBase";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { Percursos } from './Percursos';
+import PopUp from "../PopUp";
 
 const PercursoItem = () => {
     const [searchText, setSearchText] = useState('');
+    const [showPopUp, setShowPopUp] = useState(true); // Definir como true para exibir automaticamente
     const navigation = useNavigation();
     const carouselData = [
         require('../../imagens/image 7.png'),
@@ -63,6 +65,7 @@ const PercursoItem = () => {
                             source={percurso.imagem}
                             style={styles.imagem}
                         />
+
                         <View style={styles.detalhes}>
                             <Text style={styles.nome}>{percurso.nome}</Text>
                             <Text style={styles.comprimento}>{percurso.comprimento}</Text>
@@ -81,6 +84,11 @@ const PercursoItem = () => {
                     </TouchableOpacity>
                 ))}
             </View>
+            <PopUp
+                visible={showPopUp}
+                onClose={() => setShowPopUp(false)} // Fechar o PopUp
+            />
+
         </View>
     );
 };
