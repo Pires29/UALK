@@ -432,7 +432,6 @@ export default function Map() {
                   coordinate={{ latitude: ponto.latitude, longitude: ponto.longitude }}
                   title={ponto.title}
                   description={ponto.description}
-                  pinColor="#62BB76"
                 />
               ))}
               {currentLocation && (
@@ -442,7 +441,7 @@ export default function Map() {
                   destination={{ latitude: pontoB.latitude, longitude: pontoB.longitude }}
                   apikey={GOOGLE_MAPS_APIKEY}
                   strokeWidth={4}
-                  strokeColor="#7D8995"
+                  strokeColor="white"
                   mode="WALKING"
                 />
               )}

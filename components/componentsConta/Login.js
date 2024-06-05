@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#2C333C',
     },
     logo: {
-        width: 260,
-        height: 100,
+        width: 500,
+        height: 80,
         marginBottom: 40,
     },
     titulo: {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Image, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { View, Image, Text, TouchableOpacity, StyleSheet, FlatList, ScrollView } from 'react-native';
 import { db, auth } from '../FireBase';
 import { collection, query, where, getDocs, doc, onSnapshot } from 'firebase/firestore';
 import AuthDetails from "../components/Autenticado";
@@ -65,7 +65,7 @@ const ProfileScreen = () => {
         const commentsToShow = showAllComments ? comments : comments.slice(0, 2);
 
         return (
-            <View style={styles.content}>
+            <ScrollView style={styles.content}>
                 <FlatList
                     data={commentsToShow}
                     keyExtractor={(item) => item.id}
@@ -91,7 +91,7 @@ const ProfileScreen = () => {
                         </Text>
                     </TouchableOpacity>
                 )}
-            </View>
+            </ScrollView>
         );
     };
 
@@ -293,6 +293,7 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: 10,
+        marginBottom: 20,
         padding: 10,
         backgroundColor: '#62BB76',
         borderRadius: 5,

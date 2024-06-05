@@ -53,7 +53,7 @@ function NavBar() {
                 },
                 tabBarStyle: {
                     backgroundColor: "#2C333C",
-                    height: 100,
+                    height: 80,
                 },
                 headerShown: false,
                 tabBarIcon: ({ focused, color }) => {

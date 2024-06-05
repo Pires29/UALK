@@ -43,12 +43,12 @@ const AuthDetails = () => {
     return (
         <View style={styles.container}>
             {authUser ? (
-                <>
+                <View style={{flexDirection: "row"}}>
                     <Text style={styles.text}>{authUser.username}</Text>
                     <TouchableOpacity style={styles.button} onPress={userSignOut}>
                         <Text style={styles.buttonText}>Logout</Text>
                     </TouchableOpacity>
-                </>
+                </View>
             ) : (
                 <Text style={styles.text}>Não há usuário autenticado</Text>
             )}
@@ -69,7 +69,10 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 4,
-        marginLeft: 30,
+        marginLeft: 70,
+        position: "absolute",
+        top: -30,
+        left: 80,
     },
     buttonText: {
         color: 'white',
