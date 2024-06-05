@@ -78,15 +78,9 @@ const ProfileScreen = () => {
         </View>
     );
 
-    const SecondRoute = () => (
-        <View style={{ marginTop: 30 }}>
-            <GridExample />
-        </View>
-    );
 
     const renderScene = SceneMap({
         first: FirstRoute,
-        second: SecondRoute,
     });
 
     const TabViewExample = () => {
@@ -95,7 +89,6 @@ const ProfileScreen = () => {
         const [index, setIndex] = React.useState(0);
         const [routes] = React.useState([
             { key: 'first', title: 'Comentários' },
-            { key: 'second', title: 'Fotos' },
         ]);
 
         return (

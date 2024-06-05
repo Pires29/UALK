@@ -9,21 +9,9 @@ import { markers } from '../components/Map/markers';
 const Description = ({ navigation, route }) => {
     const { percurso } = route.params;
     const [selectedMarker, setSelectedMarker] = useState([]);
-
-    useEffect(() => {
-        setSelectedMarker([markers[0], markers[4]]); // Definindo ambos os marcadores ao mesmo tempo
-
-        console.log("selectedMarker", selectedMarker);
-        console.log("Marker 0:", markers[2]);
-        console.log("Marker 1:", markers[3]);
-    }, []);
-    const handleButtonPress = () => {
-        navigation.navigate('colocarapagina');
-    }
-
     const [comments, setComments] = useState([]);
+    const [showAllComments, setShowAllComments] = useState(false);
     const [selectedButton, setSelectedButton] = useState(1);
-    const [userRatings, setUserRatings] = useState({});
 
     useEffect(() => {
         setSelectedMarker([markers[3], markers[4]]);
@@ -36,12 +24,10 @@ const Description = ({ navigation, route }) => {
                 const commentsSnapshot = await getDocs(commentsQuery);
                 const commentsData = commentsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-                // Fetch ratings from users collection
                 const usersQuery = query(collection(db, 'users'));
                 const usersSnapshot = await getDocs(usersQuery);
                 const usersData = usersSnapshot.docs.map(doc => doc.data());
 
-                // Map percurso.id to the corresponding rating field in users
                 const ratingField = `avaliacao${percurso.id}`;
 
                 const commentsWithRatings = commentsData.map(comment => {
@@ -62,6 +48,45 @@ const Description = ({ navigation, route }) => {
     const handleButtonPress2 = (buttonNumber) => {
         setSelectedButton(buttonNumber);
     };
+
+    const handleShowAllComments = () => {
+        setShowAllComments(true);
+    };
+
+    const handleShowLessComments = () => {
+        setShowAllComments(false);
+    };
+
+    const renderComment = ({ item }) => (
+        <View>
+            <View style={styles.pontosinteresse}>
+                <Image
+                    source={require('../imagens/icons/Profile.png')}
+                    style={styles.smallImage}
+                    resizeMode="contain"
+                />
+                <View style={styles.textContainer}>
+                    <Text style={styles.subsubtitle}>{item.username}</Text>
+                    <View style={styles.starContainer}>
+                        {[1, 2, 3, 4, 5].map((star) => (
+                            <Icon
+                                key={star}
+                                name={star <= item.rating ? 'star' : 'star-outline'}
+                                size={20}
+                                color="white"
+                            />
+                        ))}
+                    </View>
+                </View>
+            </View>
+            <View style={styles.textContainer}>
+                <Text style={styles.textComentarios}>{item.comment}</Text>
+            </View>
+            <View style={styles.separator} />
+        </View>
+    );
+
+    const commentsToShow = showAllComments ? comments : comments.slice(0, 3);
 
     return (
         <View style={styles.container}>
@@ -111,7 +136,7 @@ const Description = ({ navigation, route }) => {
                         resizeMode="cover"
                     />
                     <View style={styles.textContainer}>
-                        <Text style={styles.subsubtitle}> {percurso.nome}</ Text>
+                        <Text style={styles.subsubtitle}> {percurso.nome} </ Text>
                         <Text style={styles.text2}>{percurso.descricao} </ Text>
                     </View>
                 </View>
@@ -123,7 +148,7 @@ const Description = ({ navigation, route }) => {
                     />
                     <View style={styles.textContainer}>
                         <Text style={styles.subsubtitle}> {percurso.tituloPonto} </ Text>
-                        <Text style={styles.text3}>{percurso.textoPonto}</ Text>
+                        <Text style={styles.text3}>{percurso.textoPonto} </ Text>
                     </View>
                 </View>
                 {/*<View style={styles.descricao}>
@@ -146,54 +171,23 @@ const Description = ({ navigation, route }) => {
                     >
                         <Text style={styles.buttonText2}>COMENTÁRIOS</ Text>
                     </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.button, selectedButton === 2 && styles.selectedButton]}
-                        onPress={() => handleButtonPress2(2)}
-                    >
-                        <Text style={styles.buttonText2}>FOTOS</ Text>
-                    </TouchableOpacity>
                 </View>
                 <View style={[styles.bar, { marginLeft: selectedButton === 1 ? 0 : '50%' }]} />
                 {selectedButton === 1 ? (
                     <View style={styles.content}>
                         <FlatList
-                            data={comments}
+                            data={commentsToShow}
                             keyExtractor={(item) => item.id}
-                            renderItem={({ item }) => (
-                                <View>
-                                    <View style={styles.pontosinteresse}>
-                                        <Image
-                                            source={require('../imagens/icons/Profile.png')}
-                                            style={styles.smallImage}
-                                            resizeMode="contain"
-                                        />
-                                        <View style={styles.textContainer}>
-                                            <Text style={styles.subsubtitle}>{item.username}</ Text>
-                                            <View style={styles.starContainer}>
-                                                {[1, 2, 3, 4, 5].map((star) => (
-                                                    <Icon
-                                                        key={star}
-                                                        name={star <= item.rating ? 'star' : 'star-outline'}
-                                                        size={20}
-                                                        color="white"
-                                                    />
-                                                ))}
-                                            </View>
-                                        </View>
-                                    </View>
-                                    <View style={styles.textContainer}>
-                                        <Text style={styles.textComentarios}>{item.comment}</ Text>
-                                    </View>
-                                    <View style={styles.separator} />
-                                </View>
-                            )}
+                            renderItem={renderComment}
                         />
-                        <TouchableOpacity
-                            style={styles.button1}
-                            onPress={() => navigation.navigate('OutraPagina')}
-                        >
-                            <Text style={styles.buttonText1botao}> Ver Todos </ Text>
-                        </TouchableOpacity>
+                        {comments.length > 3 && (
+                            <TouchableOpacity
+                                style={styles.button1}
+                                onPress={showAllComments ? handleShowLessComments : handleShowAllComments}
+                            >
+                                <Text style={styles.buttonText1botao}>{showAllComments ? 'Ver Menos' : 'Ver Todos'}</ Text>
+                            </TouchableOpacity>
+                        )}
                     </View>
                 ) : (
                     <View style={styles.content}>
@@ -201,7 +195,7 @@ const Description = ({ navigation, route }) => {
                     </View>
                 )}
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('Map',{ percurso: percurso})}
+                    onPress={() => navigation.navigate('Map', { percurso: percurso })}
                     style={styles.buttonText}
                 >
                     <Text style={styles.fontes}>Let's UALK</ Text>
@@ -210,6 +204,7 @@ const Description = ({ navigation, route }) => {
         </View>
     );
 };
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -270,7 +265,7 @@ const styles = StyleSheet.create({
         marginRight: 30,
     },
     text: {
-        fontSize: 14,
+        fontSize: 13,
         color: 'white',
         textAlign: 'justify',
         width: '87%',
@@ -369,7 +364,7 @@ const styles = StyleSheet.create({
         marginTop: 35,
         fontWeight: 'bold',
     },
-    fontes:{
+    fontes: {
         fontWeight: 'bold'
     },
     buttonText1botao: {
@@ -430,7 +425,6 @@ const styles = StyleSheet.create({
     content: {
         marginTop: 20,
     },
-
     backButton: {
         position: 'absolute',
         top: 20,
