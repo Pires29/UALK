@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, Text, TouchableOpacity, StyleSheet, ScrollView, FlatList } from 'react-native';
 import RouteInfo from '../components/RouteInfoCaractPercurso';
-import Icon from 'react-native-vector-icons/Ionicons';
 import { db } from '../FireBase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { markers } from '../components/Map/markers';
+import Icon from 'react-native-vector-icons/Ionicons';
+import Ionicons from "react-native-vector-icons/FontAwesome";
 
 const Description = ({ navigation, route }) => {
     const { percurso } = route.params;
@@ -59,14 +60,15 @@ const Description = ({ navigation, route }) => {
 
     const renderComment = ({ item }) => (
         <View>
-            <View style={styles.pontosinteresse}>
-                <Image
-                    source={require('../imagens/icons/Profile.png')}
-                    style={styles.smallImage}
-                    resizeMode="contain"
-                />
-                <View style={styles.textContainer}>
-                    <Text style={styles.subsubtitle}>{item.username}</Text>
+            <View style={styles.pontosinteresseComment}>
+            <Ionicons
+                            name="user-circle-o"
+                            size={50}
+                            color="#ffffff"
+                            padding={0}
+                        />
+                <View style={styles.textContainerComment}>
+                    <Text style={styles.subsubtitleComent}>{item.username}</Text>
                     <View style={styles.starContainer}>
                         {[1, 2, 3, 4, 5].map((star) => (
                             <Icon
@@ -79,7 +81,7 @@ const Description = ({ navigation, route }) => {
                     </View>
                 </View>
             </View>
-            <View style={styles.textContainer}>
+            <View style={styles.textContainerComment2}>
                 <Text style={styles.textComentarios}>{item.comment}</Text>
             </View>
             <View style={styles.separator} />
@@ -164,14 +166,9 @@ const Description = ({ navigation, route }) => {
                         resizeMode="contain"
                     />
     </TouchableOpacity>*/}
-                <View style={styles.buttonsContainer}>
-                    <TouchableOpacity
-                        style={[styles.button, selectedButton === 1 && styles.selectedButton]}
-                        onPress={() => handleButtonPress2(1)}
-                    >
-                        <Text style={styles.buttonText2}>COMENTÁRIOS</ Text>
-                    </TouchableOpacity>
-                </View>
+                    <View style={{justifyContent: "center", alignItems: "center", marginTop: 20,}}>
+                        <Text style={styles.buttonText2}>Comentários</ Text>
+                    </View>
                 <View style={[styles.bar, { marginLeft: selectedButton === 1 ? 0 : '50%' }]} />
                 {selectedButton === 1 ? (
                     <View style={styles.content}>
@@ -231,16 +228,19 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         marginTop: -20, 
+        paddingHorizontal: 20,
     },
     avaliacao: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
         width: '100%',
+        paddingHorizontal: 20,
     },
     descricao: {
         alignItems: 'flex-start',
         marginVertical: 10,
+        paddingHorizontal: 15,
     },
     smallImage: {
         width: 75,
@@ -269,6 +269,7 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'justify',
         width: '87%',
+        marginLeft: 5,
     },
     text2: {
         fontSize: 13,
@@ -289,9 +290,8 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'justify',
         width: '87%',
-        marginLeft: 25,
         marginTop: 8,
-        marginBottom: 8,
+        marginLeft: 20,
     },
     textavaliacao: {
         fontSize: 16,
@@ -325,12 +325,19 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         fontWeight: 'bold',
     },
+    subsubtitleComent:{
+        fontSize: 16,
+        color: 'white',
+        marginBottom: 5,
+        fontWeight: 'bold',
+    },
     separator: {
-        width: '93%',
-        height: 4,
+        width: '91%',
+        height: 3,
         backgroundColor: '#62BB76',
-        marginVertical: 10,
+        paddingHorizontal: 20,
         alignSelf: 'center',
+        marginVertical: 20,
     },
     button1: {
         width: '40%',
@@ -338,6 +345,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginTop: 35,
         marginVertical: 10,
+        marginLeft: 14,
         alignItems: 'center',
         borderWidth: 2,
         borderColor: '#62BB76',
@@ -354,18 +362,17 @@ const styles = StyleSheet.create({
         marginTop: 35,
     },
     buttonText: {
-        width: '44%',
-        backgroundColor: '#62BB76',
-        padding: 13,
-        borderRadius: 9,
-        marginVertical: 10,
-        alignItems: 'center',
-        alignSelf: 'center',
-        marginTop: 35,
-        fontWeight: 'bold',
+        backgroundColor: "#62BB76",
+        paddingVertical: 15,
+        width: 200,
+        borderRadius: 15,
+        marginTop: 40,
+        alignItems: "center",
+        alignSelf: "center",
     },
     fontes: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color:"white",
     },
     buttonText1botao: {
         fontSize: 14,
@@ -374,16 +381,28 @@ const styles = StyleSheet.create({
     },
     scrollViewContent: {
         paddingBottom: 40,
-        paddingHorizontal: 30,
     },
     pontosinteresse: {
         flexDirection: 'row',
         alignItems: 'center',
         marginVertical: 10,
+        paddingHorizontal: 20,
+    },
+    pontosinteresseComment:{
+        flexDirection: 'row',
+        marginHorizontal: 20,
     },
     textContainer: {
         flexDirection: 'column',
         justifyContent: 'flex-start',
+    },
+    textContainerComment: {
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        marginLeft: 15,
+    },
+    textContainerComment2: {
+        marginTop: 5,
     },
     buttonWithImage: {
         width: 320,
@@ -399,13 +418,6 @@ const styles = StyleSheet.create({
         height: '100%',
         borderRadius: 10,
     },
-    buttonsContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        width: '80%',
-        alignSelf: "center",
-        marginTop:20,
-    },
     button: {
         flex: 1,
         paddingVertical: 15,
@@ -419,23 +431,21 @@ const styles = StyleSheet.create({
         borderColor: '#62BB76',
     },
     buttonText2: {
-        fontSize: 16,
         color: 'white',
+        fontSize: 18,
+        fontWeight: 'bold',
     },
     content: {
         marginTop: 20,
     },
     backButton: {
         position: 'absolute',
-        top: 20,
+        top: 30,
         left: 20,
-        padding: 10,
         borderRadius: 5,
     },
     starContainer: {
         flexDirection: 'row',
-        justifyContent: 'center',
-        margin: 5,
     },
     star: {
         marginHorizontal: 5,

@@ -51,33 +51,36 @@ const PercursoItem = () => {
     return (
         <View>
             <Slider data={carouselData} />
-            <SearchBar onSearch={setSearchText} />
-            {filteredPercursos.map(percurso => (
-                <TouchableOpacity
-                    key={percurso.id}
-                    style={styles.container2}
-                    onPress={() => navigation.navigate('Description', { percurso: percurso })}
-                >
-                    <Image
-                        source={percurso.imagem}
-                        style={styles.imagem}
-                    />
-                    <View style={styles.detalhes}>
-                        <Text style={styles.nome}>{percurso.nome}</Text>
-                        <Text style={styles.comprimento}>{percurso.comprimento}</Text>
-                        <Text style={styles.avaliacaoQualitativa}>{percurso.avaliacaoQuantitativa} </Text>
-                        <Text style={styles.descricao}>{percurso.descricao}</Text>
-                        <Icon
-                            name="star-circle-outline"
-                            size={30}
-                            margin = {-7}
-                            color="#7D8995"
-                            style={styles.starIcon}
-                            onPress={() => handleFavorite(percurso)}
+            <View style={{paddingHorizontal: 20,}}>
+                <SearchBar onSearch={setSearchText} />
+                {filteredPercursos.map(percurso => (
+                    <TouchableOpacity
+                        key={percurso.id}
+                        style={styles.container2}
+                        onPress={() => navigation.navigate('Description', { percurso: percurso })}
+                    >
+                        <Image
+                            source={percurso.imagem}
+                            style={styles.imagem}
                         />
-                    </View>
-                </TouchableOpacity>
-            ))}
+                        <View style={styles.detalhes}>
+                            <Text style={styles.nome}>{percurso.nome}</Text>
+                            <Text style={styles.comprimento}>{percurso.comprimento}</Text>
+                            <Text style={styles.avaliacaoQualitativa}>{percurso.avaliacaoQuantitativa} </Text>
+                            <Text style={styles.descricao}>{percurso.descricao}</Text>
+                            <Icon
+                                name="star-circle-outline"
+                                size={30}
+                                margin = {-7}
+                                color="#7D8995"
+                                style={styles.starIcon}
+                                onPress={() => handleFavorite(percurso)}
+                            />
+                        </View>
+                        <View style={styles.borderBottom} />
+                    </TouchableOpacity>
+                ))}
+            </View>
         </View>
     );
 };
@@ -86,44 +89,53 @@ const styles = StyleSheet.create({
     container2: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginHorizontal: 10,
-        padding: 10,
-        borderBottomWidth: 3,
+        paddingVertical: 20,
         backgroundColor: '#2C333C',
-        borderBottomColor: '#62BB76',
     },
     imagem: {
-        width: 100,
-        height: 100,
-        borderRadius: 8,
-        marginRight: 10,
+        width: 115,
+        height: 115,
+        borderRadius: 10,
+        marginRight: 7,
     },
     detalhes: {
         flex: 1,
+        marginLeft: 10,
     },
     nome: {
         fontSize: 18,
         fontWeight: 'bold',
-        marginBottom: 5,
+        marginBottom: 7,
         color: 'white',
     },
     avaliacaoQualitativa: {
         color: 'white',
-        marginBottom: 5,
-        fontSize: 14,
     },
     comprimento: {
         color: 'white',
-        fontSize: 10,
-        marginBottom: 2
+        fontSize: 12,
+        marginBottom: 8,
     },
     descricao: {
         color: 'white',
+        fontSize: 12,
+        marginTop: 2,
     },
     starIcon: {
         position: 'absolute',
         top: 10,
         right: 10,
+    },
+    borderBottom: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: 3,
+        width: '100%',
+        backgroundColor: '#62BB76',
+        alignSelf: 'center',
+
     },
 });
 

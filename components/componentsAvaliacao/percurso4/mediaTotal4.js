@@ -47,13 +47,13 @@ const AverageRating4 = ({ percurso }) => {
         return (
             <View style={styles.starsContainer}>
                 {Array(fullStars).fill().map((_, index) => (
-                    <Icon key={`full-${index}`} name="star" size={20} color="white" style={styles.star} />
+                    <Icon key={`full-${index}`} name="star" size={15} color="white" style={styles.star} />
                 ))}
                 {halfStar === 1 && (
-                    <Icon key="half" name="star-half" size={20} color="white" style={styles.star} />
+                    <Icon key="half" name="star-half" size={15} color="white" style={styles.star} />
                 )}
                 {Array(emptyStars).fill().map((_, index) => (
-                    <Icon key={`empty-${index}`} name="star-o" size={20} color="white" style={styles.star} />
+                    <Icon key={`empty-${index}`} name="star-o" size={15} color="white" style={styles.star} />
                 ))}
             </View>
         );

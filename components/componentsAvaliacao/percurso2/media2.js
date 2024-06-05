@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Button, Text, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Button, Text, StyleSheet } from 'react-native';
 import { db, auth } from '../../../FireBase';
 import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 import StarRating2 from "./avaliacao2";

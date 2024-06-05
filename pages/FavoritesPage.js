@@ -7,23 +7,6 @@ import FavoriteList from "../components/Favorites";
 import Eventos from '../components/Atividade/Eventos';
 import { useNavigation } from '@react-navigation/native';
 
-const FirstRoute = () => (
-  <Concluidos/>
-);
-
-const SecondRoute = () => (
-  <FavoriteList/>
-);
-
-const ThirdRoute = () => (
-    <Eventos/>
-  );
-
-const renderScene = SceneMap({
-  first: FirstRoute,
-  second: SecondRoute,
-  third: ThirdRoute,
-});
 
 export default function FavoritesPage() {
   const layout = useWindowDimensions();
@@ -33,36 +16,12 @@ export default function FavoritesPage() {
     navigation.navigate('Profile'); // Navega para 'OutraPagina' quando a imagem é pressionada
   };
 
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
-    { key: 'first', title: 'Concluídos' },
-    { key: 'second', title: 'Favoritos' },
-    { key: 'third', title: 'Eventos' }
-  ]);
 
   return (
     <View style={{ flex: 1, backgroundColor: "#2C333C"}}>
-      {/*<View style={{flexDirection: "row",justifyContent:"center", padding: 30}}>
-        <View style={{justifyContent: "left"}}>
-          <TouchableOpacity onPress={handleImagePress}>
-          <Image
-            source={require('../assets/icons/back-arrow.png')} // Substitua './caminho/para/sua/imagem.jpg' pelo caminho relativo da sua imagem
-            style={{ width: 20, height: 20 }} // Ajuste a largura e altura conforme necessário
-          />
-          </TouchableOpacity>
-        </View>
-        <View>
-          <Text>Texto acima do TabView</Text>
-        </View>
-  </View>*/}
 
-      <TabView
-          renderTabBar={renderTabBar}
-          navigationState={{ index, routes }}
-          renderScene={renderScene}
-          onIndexChange={setIndex}
-          initialLayout={{ width: layout.width }}
-        />
+
+<FavoriteList/>
     </View>
   );
 }
@@ -71,7 +30,7 @@ const renderTabBar = props => (
     <TabBar
     {...props}
     indicatorStyle={{
-    backgroundColor: 'green',
+    backgroundColor: '#62BB76',
     height: 2,
   }}
   indicatorContainerStyle={{
@@ -82,7 +41,7 @@ const renderTabBar = props => (
     style={{ backgroundColor: 'none' }}
     renderLabel={({ route, focused }) => {
         return focused ? (
-            <Text style={{ color: 'green', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
+            <Text style={{ color: '#62BB76', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
         ) : (
             <Text style={{ color: 'white', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
         );

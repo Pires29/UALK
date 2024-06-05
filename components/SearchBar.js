@@ -5,13 +5,13 @@ import Icon from 'react-native-vector-icons/Ionicons';
 const SearchBar = ({ onSearch }) => {
     return (
         <View style={styles.searchBarContainer}>
-            <Icon name="search" size={20} style={styles.icon} />
+            <Icon name="search" size={20} style={styles.icon1} />
             <TextInput
                 placeholder="Destino?"
+                placeholderTextColor="white" // Definindo a cor do placeholder como verde
                 style={styles.input}
                 onChangeText={onSearch}
             />
-            <Icon name="options" size={20} style={styles.icon} />
         </View>
     );
 };
@@ -23,12 +23,18 @@ const styles = StyleSheet.create({
         backgroundColor: '#7D8995',
         borderRadius: 10,
         paddingHorizontal: 10,
-        margin: 20,
+        marginTop: 25,
+    },
+    icon1: {
+        marginHorizontal: 5,
+        color: 'white',
+        marginRight: 20,
     },
     icon: {
         marginHorizontal: 5,
-        color: 'white'
+        color: 'white',
     },
+
     input: {
         flex: 1,
         height: 40,

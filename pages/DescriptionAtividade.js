@@ -59,16 +59,6 @@ const DescriptionAtividades = ({ navigation, route }) => {
 
                 <View style={styles.field}>
                     <Text style={styles.title}>Atividade {atividade.nome}</Text>
-                    <TouchableOpacity
-                        style={styles.buttonWithImage}
-                        onPress={handleButtonPress}
-                    >
-                        <Image
-                            source={require('../components/Atividade/imagensAtividades/estrela.png')}
-                            style={styles.favoritos}
-                            resizeMode="cover"
-                        />
-                    </TouchableOpacity>
                 </View>
 
                 <RouteInfoAtividade time={atividade.tempo} difficulty={atividade.dificuldade} accessibility={atividade.acessibilidade} />
@@ -87,19 +77,20 @@ const DescriptionAtividades = ({ navigation, route }) => {
                         <Image source={atividade.percursoAssociado.imagem} style={styles.imagePercurso} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => navigation.navigate('Description', {percurso: atividade.percursoAssociado2})} style={styles.buttonpercurso}>
+                    {/*<TouchableOpacity onPress={() => navigation.navigate('Description', {percurso: atividade.percursoAssociado2})} style={styles.buttonpercurso}>
                         <Image source={atividade.percursoAssociado2.imagem} style={styles.imagePercurso} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.navigate('Description', { percurso: atividade.percursoAssociado3 })} style={styles.buttonpercurso}>
                         <Image source={atividade.percursoAssociado3.imagem} style={styles.imagePercurso} />
                     </TouchableOpacity>
+                    */}
                 </View>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('PaginaAvaliacao',{ atividade: atividade })}
+                    onPress={() => navigation.navigate('NavBar',{ atividade: atividade })}
                     style={styles.buttonText}
                 >
-                    <Text style={styles.fontes}>Let's UALK</ Text>
-                </TouchableOpacity>
+                    <Text style={styles.fontes}>Participar</ Text>
+    </TouchableOpacity>
 
             </ScrollView>
         </View>
@@ -134,7 +125,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#2C333C', // ou outra cor de fundo desejada
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        padding: 20, // ajuste o padding conforme necessário
+        padding: 5, // ajuste o padding conforme necessário
         marginTop: -20,
     },
     
@@ -268,18 +259,17 @@ const styles = StyleSheet.create({
         marginTop: 35,
     },
     buttonText: {
-        width: '44%',
-        backgroundColor: '#62BB76',
-        padding: 13,
-        borderRadius: 9,
-        marginVertical: 10,
-        alignItems: 'center',
-        alignSelf: 'center',
-        marginTop: 35,
-        fontWeight: 'bold',
+        backgroundColor: "#62BB76",
+        paddingVertical: 15,
+        width: 200,
+        borderRadius: 15,
+        marginTop: 40,
+        alignItems: "center",
+        alignSelf: "center",
     },
     fontes:{
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: "white"
     },
     buttonText1botao: {
         fontSize: 14,
@@ -348,13 +338,14 @@ const styles = StyleSheet.create({
     percursoscontainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 10,
+        paddingHorizontal: 20,
     },
 
     buttonpercurso: {
         width: '30%', // Aproximadamente um terço do container
         aspectRatio: 1, // Para manter as imagens quadradas
         margin: 5,
+
     },
     imagePercurso: {
         width: '100%',

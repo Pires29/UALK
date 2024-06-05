@@ -18,7 +18,10 @@ const PaginaPrincipal = () => {
             <NavPrincipal onSelect={handleSelectOption} />
             <ScrollView style={styles.content}>
                 {selectedOption === 'Percursos' ? (
-                    <PercursoItem />
+                    <View>
+                        <PercursoItem />
+                    </View>
+                    
                 ) : (
                     <AtividadesItem />
                 )}

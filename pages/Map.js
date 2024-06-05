@@ -1,10 +1,11 @@
-import { Dimensions, StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
+import { Dimensions, StyleSheet, View, Text, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState, useRef } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { requestForegroundPermissionsAsync, getCurrentPositionAsync, LocationAccuracy, watchPositionAsync } from 'expo-location';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyBl6uQw0SyA0_I2utXTJJAj1BtBPhSoLDE';
 
@@ -201,6 +202,10 @@ export default function Map() {
     }
   ]
 
+  const [startTime, setStartTime] = useState(null);
+  const [stopTime, setStopTime] = useState(null);
+  const [totalDuration, setTotalDuration] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   const [location, setLocation] = useState(null);
   const [distance, setDistance] = useState(null);
   const [duration, setDuration] = useState(null);
@@ -260,6 +265,7 @@ export default function Map() {
       setCurrentLocation(currentPosition);
       setLocation(currentPosition);
       console.log("Localização atual", currentPosition);
+      setIsLoading(false);
     } else {
       console.log("Permissão de localização negada");
     }
@@ -270,6 +276,13 @@ export default function Map() {
   }, []);
 
   const startTrack = () => {
+    setStartTime(new Date());
+    // Se já houver um tempo de início registrado, calcule a diferença de tempo e adicione-a à duração total
+    if (startTime) {
+      const elapsed = new Date() - startTime;
+      const minutesElapsed = Math.floor(elapsed / 60000); // Converta para minutos
+      setTotalDuration(totalDuration + minutesElapsed);
+    }
 
     setDistanceInicial(distance)
     setDurationInicial(duration)
@@ -306,6 +319,8 @@ export default function Map() {
   }
 
   const stopTrack = () => {
+    setStopTime(new Date());
+
     if (locationSubscription.current) {
       locationSubscription.current.remove();
       locationSubscription.current = null;
@@ -316,12 +331,20 @@ export default function Map() {
   }
 
   const resumeTrack = () => {
+    setStartTime(new Date());
+
     startTrack();
     setShowResumeAndEndButtons(false);
     setShowStopButton(true);
   }
 
   const endTrack = () => {
+    const currentStopTime = new Date();
+  const elapsed = currentStopTime - startTime;
+  const minutesElapsed = Math.floor(elapsed / 60000); // Converta para minutos
+  const totalDurationElapsed = totalDuration + minutesElapsed;
+
+  console.log("MINUTOS CARALHOOOO", totalDurationElapsed)
     console.log("DistanceInicial", distanceInicial)
     console.log("Distance", distance)
     const distanceTraveled = distanceInicial - distance;
@@ -343,7 +366,7 @@ export default function Map() {
     setDurationFinal(durationTraveled)
     console.log("PAPSPASDPADSPADAD",distanceFinal)
 
-    navigation.navigate('PaginaAvaliacao', { percurso: percurso,durationTraveled: roundedDurationTraveled, distanceTraveled: roundedDistanceTraveled,distance: distance, duration: duration });
+    navigation.navigate('PaginaAvaliacao', { percurso: percurso,durationTraveled: totalDurationElapsed, distanceTraveled: roundedDistanceTraveled,distance: distance, duration: duration });
   }
 
   const [region, setRegion] = useState({
@@ -364,121 +387,150 @@ export default function Map() {
 
   return (
     <View style={styles.container}>
-      {location && (
-        <MapView
-          ref={mapRef}
-          style={styles.map}
-          customMapStyle={mapDarkStyle}
-          initialRegion={{
-            latitude: currentLocation ? currentLocation.coords.latitude : pontoA.latitude,
-            longitude: currentLocation ? currentLocation.coords.longitude : pontoA.longitude,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.005,
-          }}
-          onRegionChangeComplete={setRegion}
-          provider='google'
-        >
-          {currentLocation && (
-            <CustomMarker
-              coordinate={{
-                latitude: currentLocation.coords.latitude,
-                longitude: currentLocation.coords.longitude,
-              }}
-              title="Sua Localização"
-              description="Você está aqui"
+      {isLoading ? (
+        <View style={{    flex: 1,
+          width: "100%",
+          backgroundColor: '#2C333C', // Altere para a cor de fundo desejada
+          alignItems: "center",
+          justifyContent: 'center',}}>
+            <Image
+                source={require('../imagens/LogoN.png')}
+                style={{height: 60}}
             />
-          )}
-          {[pontoA, pontoB].map((ponto, index) => (
-            <Marker
-              key={index}
-              coordinate={{ latitude: ponto.latitude, longitude: ponto.longitude }}
-              title={ponto.title}
-              description={ponto.description}
-            />
-          ))}
-          {currentLocation && (
-            <MapViewDirections
-              origin={{ latitude: currentLocation.coords.latitude, longitude: currentLocation.coords.longitude }}
-              waypoints={[{ latitude: pontoA.latitude, longitude: pontoA.longitude }]}
-              destination={{ latitude: pontoB.latitude, longitude: pontoB.longitude }}
-              apikey={GOOGLE_MAPS_APIKEY}
-              strokeWidth={4}
-              strokeColor="blue"
-              mode="WALKING"
-            />
-          )}
-        </MapView>
-      )}
-      {distance && duration && (
-        <View style={styles.routeInfoContainer}>
-          <Text style={styles.routeTitle}>Percurso</Text>
-          <View style={styles.routeInfo}>
-            <View>
-              <Text style={styles.routeText}>{duration} min</Text>
-              <Text style={styles.routeCateText}>Tempo</Text>
-            </View>
-            <View>
-              <Text style={styles.routeText}>{distance} km</Text>
-              <Text style={styles.routeCateText}>Distância</Text>
-            </View>
-          </View>
-          <View style={styles.buttonRow}>
-            {!isStarted && (
-              <TouchableOpacity
-                style={styles.button2}
-                onPress={startTrack}
-              >
-                <Text style={styles.buttonText}>Iniciar</Text>
-              </TouchableOpacity>
-            )}
-            {showStopButton && (
-              <TouchableOpacity
-                style={styles.button2}
-                onPress={stopTrack}
-              >
-                <Text style={styles.buttonText}>Parar</Text>
-              </TouchableOpacity>
-            )}
-          </View>
-          {showResumeAndEndButtons && (
-            <View style={styles.buttonRow2}>
-              <TouchableOpacity
-                style={styles.button3}
-                onPress={resumeTrack}
-              >
-                <Text style={styles.buttonText}>Retomar</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button2}
-                onPress={endTrack}
-              >
-                <Text style={styles.buttonText}>Terminar</Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </View>
-      )}
-      <View style={styles.headerInfoContainer}>
-        <TouchableOpacity style={styles.headerBack} onPress={() => navigation.goBack()}>
-          <Image
-            source={require('../imagens/icons/Vector White.png')}
-            style={{ width: 20, height: 20 }}
-          />
-        </TouchableOpacity>
-        <View style={styles.headerInfo}>
-          <Text style={styles.headerText}>{pontoA.title}</Text>
-          <Image
-            source={require('../imagens/icons/back-arrow.png')}
-            style={{ width: 20, height: 20, marginHorizontal: 10 }}
-          />
-          <Text style={styles.headerText}>{pontoB.title}</Text>
-        </View>
+        <ActivityIndicator size="large" color="white" style={styles.loader} />
+        <Text style={styles.loadingText}>A carregar o teu mapa...</Text>
       </View>
+      ) : (
+        location && (
+          <>
+            <MapView
+              ref={mapRef}
+              style={styles.map}
+              customMapStyle={mapDarkStyle}
+              initialRegion={{
+                latitude: currentLocation ? currentLocation.coords.latitude : pontoA.latitude,
+                longitude: currentLocation ? currentLocation.coords.longitude : pontoA.longitude,
+                latitudeDelta: 0.005,
+                longitudeDelta: 0.005,
+              }}
+              onRegionChangeComplete={setRegion}
+              provider='google'
+            >
+              {currentLocation && (
+                <CustomMarker
+                  coordinate={{
+                    latitude: currentLocation.coords.latitude,
+                    longitude: currentLocation.coords.longitude,
+                  }}
+                  title="Sua Localização"
+                  description="Você está aqui"
+                />
+              )}
+              {[pontoA, pontoB].map((ponto, index) => (
+                <Marker
+                  key={index}
+                  coordinate={{ latitude: ponto.latitude, longitude: ponto.longitude }}
+                  title={ponto.title}
+                  description={ponto.description}
+                  pinColor="#62BB76"
+                />
+              ))}
+              {currentLocation && (
+                <MapViewDirections
+                  origin={{ latitude: currentLocation.coords.latitude, longitude: currentLocation.coords.longitude }}
+                  waypoints={[{ latitude: pontoA.latitude, longitude: pontoA.longitude }]}
+                  destination={{ latitude: pontoB.latitude, longitude: pontoB.longitude }}
+                  apikey={GOOGLE_MAPS_APIKEY}
+                  strokeWidth={4}
+                  strokeColor="#7D8995"
+                  mode="WALKING"
+                />
+              )}
+            </MapView>
+  
+            {distance && duration && (
+              <View style={styles.routeInfoContainer}>
+                <Text style={styles.routeTitle}>Percurso</Text>
+                <View style={styles.routeInfo}>
+                  <View>
+                    <Text style={styles.routeText}>{duration} min</Text>
+                    <Text style={styles.routeCateText}>Tempo</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.routeText}>{distance} km</Text>
+                    <Text style={styles.routeCateText}>Distância</Text>
+                  </View>
+                </View>
+                <View style={styles.buttonRow}>
+                  {!isStarted && (
+                    <TouchableOpacity
+                      style={styles.button2}
+                      onPress={startTrack}
+                    >
+                      <Text style={styles.buttonText}>Iniciar</Text>
+                    </TouchableOpacity>
+                  )}
+                  {showStopButton && (
+                    <TouchableOpacity
+                      style={styles.button2}
+                      onPress={stopTrack}
+                    >
+                      <Text style={styles.buttonText}>Parar</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+                {showResumeAndEndButtons && (
+                  <View style={styles.buttonRow2}>
+                    <TouchableOpacity
+                      style={styles.button3}
+                      onPress={resumeTrack}
+                    >
+                      <Text style={styles.buttonText}>Retomar</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.button2}
+                      onPress={endTrack}
+                    >
+                      <Text style={styles.buttonText}>Terminar</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+              </View>
+            )}
+  
+            <View style={styles.headerInfoContainer}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.goBack()}
+            >
+              <Icon name="arrow-back" size={24} color="white" />
+            </TouchableOpacity>
+              <View style={styles.headerInfo}>
+                <Text style={styles.headerText}>{pontoA.title}</Text>
+                <Image
+                  source={require('../imagens/icons/back-arrow.png')}
+                  style={{ width: 20, height: 20, marginHorizontal: 10 }}
+                />
+                <Text style={styles.headerText}>{pontoB.title}</Text>
+              </View>
+            </View>
+          </>
+        )
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  loadingText:{
+    fontSize: 18,
+    color: "white",
+    marginTop: 10,
+
+  },
+  loader:{
+    marginTop: 100,
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',

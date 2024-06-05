@@ -40,22 +40,22 @@ const styles = StyleSheet.create({
         borderRadius: 0,
         overflow: 'hidden',
         alignItems: "center",
-        marginBottom: 10
+        marginBottom: 20
     },
     logo: {
-        width: 220, // Defina a largura conforme necessário
-        height: 60, // Defina a altura conforme necessário
+        width: 200, // Defina a largura conforme necessário
+        height: 40, // Defina a altura conforme necessário
         marginTop: 50,
     },
     optionsContainer: {
         flexDirection: 'row', // Layout de linha para as opções
-        width: '95%', // Ocupa toda a largura disponível
+        paddingHorizontal: 20,
     },
     option: {
         flex: 1, // Faz a opção ocupar o espaço disponível
         alignItems: 'center',
         paddingVertical: 14,
-        borderBottomWidth: 4,
+        borderBottomWidth: 2.3,
         borderBottomColor: '#C9C9C9',
 
     },
@@ -64,9 +64,8 @@ const styles = StyleSheet.create({
     },
     optionText: {
         color: '#C9C9C9',
-        fontSize: 17,
+        fontSize: 16,
         fontWeight: 'bold',
-        textTransform: 'uppercase',
     },
     selectedText: {
         color: '#62BB76', // Cor do texto quando selecionado

@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         padding: 15,
         backgroundColor: '#3A3A3A',
         borderRadius: 8,
-        marginHorizontal: 15,
+        marginHorizontal: 22,
         marginBottom: 15,
     },
     infoColumn: {

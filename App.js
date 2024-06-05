@@ -27,6 +27,7 @@ import MapMarkers from './pages/MapMarkers';
 import Description from './pages/Description';
 import DescriptionAtividades from "./pages/DescriptionAtividade";
 import LoadingIcon from "./imagens/icons/Loading.png"
+import Icon from 'react-native-vector-icons/Ionicons';
 
 // Nomes das telas
 const homeName = "Home";
@@ -60,8 +61,9 @@ function NavBar() {
                     let iconSize;
 
                     if (route.name === homeName) {
-                      iconName = focused ? HomeIcon : HomeIcon;
-                      iconSize = 24; // Tamanho específico para o ícone "Home"
+                        iconName = focused ? 'home-outline' : 'home-outline'; // Nome do ícone do Ionicons
+                        iconSize = 26; // Tamanho específico para o ícone "Section 3"
+                        return <Icon name={iconName} size={iconSize} color={color} />;
                   } else if (route.name === ualkName) {
                       iconName = focused ? UalkIcon : UalkIcon;
                       iconSize = 40; // Tamanho específico para o ícone "UALK"
@@ -69,11 +71,13 @@ function NavBar() {
                       iconName = focused ? ProfileIcon : ProfileIcon;
                       iconSize = 28; // Tamanho específico para o ícone "Settings"
                   } else if (route.name === section2Name) {
-                      iconName = focused ? LoadingIcon : LoadingIcon;
-                      iconSize = 26; // Tamanho específico para o ícone "Section 2"
+                    iconName = focused ? 'help' : 'help'; // Nome do ícone do Ionicons
+                    iconSize = 26; // Tamanho específico para o ícone "Section 3"
+                    return <Icon name={iconName} size={iconSize} color={color} />;
                   } else if (route.name === section3Name) {
-                    iconName = focused ? LoadingIcon : LoadingIcon;
-                      iconSize = 26; // Tamanho específico para o ícone "Section 2"
+                    iconName = focused ? 'help' : 'help'; // Nome do ícone do Ionicons
+                    iconSize = 26; // Tamanho específico para o ícone "Section 3"
+                    return <Icon name={iconName} size={iconSize} color={color} />;
                   }
 
                     return <Image source={iconName} style={{ width: iconSize, height: iconSize, tintColor: color }} />;
@@ -109,7 +113,7 @@ const App = () => {
                     <Stack.Screen name="Description" component={Description} options={{ headerShown: false }} />
                     <Stack.Screen name="DescriptionAtividade" component={DescriptionAtividades} options={{ headerShown: false }} />
                     <Stack.Screen name="Favorites" component={FavoritesPage} options={{
-          headerTitle: "Atividade",
+          headerTitle: "Favoritos",
           headerTitleAlign: 'center',
           headerStyle: {
             backgroundColor: '#2C333C', // Define a cor de fundo como transparente
@@ -136,12 +140,12 @@ const App = () => {
       },
       headerTintColor: 'white',
     headerLeft: () => (
-      <TouchableOpacity onPress={() => navigation.goBack()} style={{ paddingLeft: 10}}>
-        <Image
-            source={require('./imagens/icons/Vector White.png')} // Substitua './caminho/para/sua/imagem.jpg' pelo caminho relativo da sua imagem
-            style={{ width: 20, height: 20 }} // Ajuste a largura e altura conforme necessário
-          />
-      </TouchableOpacity>
+        <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}
+    >
+        <Icon name="arrow-back" size={24} color="white" />
+    </TouchableOpacity>
     ),
   })}
 />

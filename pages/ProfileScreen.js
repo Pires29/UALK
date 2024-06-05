@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { useWindowDimensions } from 'react-native';
 import Icon from "react-native-vector-icons/FontAwesome";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const ProfileScreen = () => {
     const navigation = useNavigation();
@@ -107,58 +108,21 @@ const ProfileScreen = () => {
         <TabBar
             {...props}
             indicatorStyle={{
-                backgroundColor: '#62BB76',
-                height: 4,
+                backgroundColor: 'transparent',
             }}
             indicatorContainerStyle={{
-                backgroundColor: "white",
-                height: 2,
-                marginTop: 46,
+                backgroundColor: "transparent",
             }}
-            style={{ backgroundColor: 'none' }}
+            style={{ backgroundColor: 'transparent' }}
             renderLabel={({ route, focused }) => {
-                return focused ? (
-                    <Text style={{ color: '#62BB76', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
-                ) : (
-                    <Text style={{ color: 'white', fontSize: 16, minWidth: 100, textAlign: 'center' }}>{route.title}</Text>
-                );
+                return <Text style={{ color: 'white', fontSize: 18, fontWeight: "bold"}}>Comentários</Text>
             }}
         />
     );
 
-    const GridExample = () => {
-        const images = [
-            require('../assets/images/image 7.png'),
-            require('../assets/images/image 7.png'),
-            require('../assets/images/image 7.png'),
-            require('../assets/images/image 7.png'),
-            require('../assets/images/image 7.png'),
-            require('../assets/images/image 7.png'),
-            require('../assets/images/image 7.png'),
-            require('../assets/images/image 7.png'),
-            require('../assets/images/image 7.png'),
-        ];
-
-        return (
-            <View style={styles.containerGrid}>
-                {images.map((image, index) => (
-                    <View key={index} style={styles.itemGrid}>
-                        {index === 0 ? (
-                            <View style={styles.placeholder}>
-                                <Image source={require('../imagens/icons/back-arrow.png')} style={{ width: 25, height: 25 }} />
-                            </View>
-                        ) : (
-                            <Image source={image} style={styles.imageGrid} />
-                        )}
-                    </View>
-                ))}
-            </View>
-        );
-    }
-
     return (
         <View style={{ flex: 1, backgroundColor: "#2C333C"}}>
-            <View style={{width: "100%", padding: 40,}}>
+            <View style={{width: "100%", paddingHorizontal: 40, paddingTop: 70, paddingBottom: 20,}}>
                 <View style={{flexDirection:"row" , marginBottom: 30}}>
                     
                 <Icon
@@ -175,25 +139,19 @@ const ProfileScreen = () => {
                 <TouchableOpacity onPress={goToOtherComponent}>
                     <View style={styles.containerN}>
                         <View style={styles.innerContainer}>
-                            <Text style={styles.maintext}>Atividade</Text>
+                            <Text style={styles.maintext}>Favoritos</Text>
                             <Image
                                 source={require('../imagens/icons/back-arrow.png')}
                                 style={{ width: 20, height: 20 }}
                             />
                         </View>
                         <View style={styles.innerContainer2}>
-                            <View style={styles.statItem}>
-                                <Text style={styles.statNumber}>6</Text>
-                                <Text style={styles.statLabel}>Concluídos</Text>
-                            </View>
+                            
                             <View style={styles.statItem}>
                                 <Text style={styles.statNumber}>{favoritesCount}</Text>
                                 <Text style={styles.statLabel}>Favoritos</Text>
                             </View>
-                            <View style={styles.statItem}>
-                                <Text style={styles.statNumber}>5</Text>
-                                <Text style={styles.statLabel}>Eventos</Text>
-                            </View>
+                            
                         </View>
                     </View>
                 </TouchableOpacity>

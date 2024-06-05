@@ -76,7 +76,7 @@ const AtividadeItem = () => {
                 avaliacaoEstrelas: <RatingScreen/>,
                 avaliacaoQuantitativa: <AverageRating/>,
             },
-            percursoAssociado2: {
+            /*percursoAssociado2: {
                 id: 2,
                 nome: 'FADU',
                 imagem: require('../Percursos/imagesPercursos/fadu.jpg'),
@@ -111,9 +111,9 @@ const AtividadeItem = () => {
                 textoPonto: 'Refeitório Universitário localizado no campos de S.Tiago',
                 avaliacaoEstrelas: <RatingScreen3/>,
                 avaliacaoQuantitativa: <AverageRating3/>,
-            },
+            },*/
         },
-        {
+        /*{
             id: 2,
             nome: 'Jogar setas',
             imagem: require('./imagensAtividades/setas.jpg'),
@@ -174,17 +174,17 @@ const AtividadeItem = () => {
                 avaliacaoEstrelas: <RatingScreen3/>,
                 avaliacaoQuantitativa: <AverageRating3/>,
             },
-        },
+        },*/
 
         {
             id: 3,
-            nome: 'Berber chá',
+            nome: 'Beber chá',
             imagem: require('./imagensAtividades/cha.jpg'),
             descricao: 'Bebe um chá (sem açúcar) e relaxa na esplanada',
             tempo: '15 min',
             dificuldade: 'Fácil',
             acessibilidade: 'Normal',
-            percursoAssociado: {
+            /*percursoAssociado: {
                 id: 1,
                 nome: 'Marinha da Casqueira',
                 imagem: require('../../assets/images/porsol.jpeg'),
@@ -219,8 +219,8 @@ const AtividadeItem = () => {
                 avaliacaoEstrelas: <RatingScreen2/>,
                 avaliacaoQuantitativa: <AverageRating2/>,
 
-            },
-            percursoAssociado3: {
+            },*/
+            percursoAssociado: {
                 id: 3,
                 imagem: require('../Percursos/imagesPercursos/BarPretoImage.png'),
                 passos: require('../Percursos/imagesPercursos/imagesPassos/passosBarPreto.png'),
@@ -264,8 +264,9 @@ const AtividadeItem = () => {
                 avaliacaoEstrelas: <RatingScreen/>,
                 avaliacaoQuantitativa: <AverageRating/>,
             },
-            percursoAssociado2: {
-                id: 2,
+            /*
+            percursoAssociado: {
+                id: 1,
                 nome: 'FADU',
                 imagem: require('../Percursos/imagesPercursos/fadu.jpg'),
                 passos: require('../Percursos/imagesPercursos/imagesPassos/passosCasaEst1.png'),
@@ -299,7 +300,7 @@ const AtividadeItem = () => {
                 textoPonto: 'Refeitório Universitário localizado no campos de S.Tiago',
                 avaliacaoEstrelas: <RatingScreen3/>,
                 avaliacaoQuantitativa: <AverageRating3/>,
-            },
+            },*/
         },
 
 
@@ -311,31 +312,33 @@ const AtividadeItem = () => {
     return (
         <View>
             <Slider data={carouselData} />
-            <SearchBar onSearch={setSearchText} />
-            {filteredAtividades.map(atividade => (
-                <TouchableOpacity
-                    key={atividade.id}
-                    style={styles.container2}
-                    onPress={() => navigation.navigate('DescriptionAtividade', { atividade: atividade })}
-                >
-                    <Image
-                        source={atividade.imagem}
-                        style={styles.imagem}
-                    />
-                    <View style={styles.detalhes}>
-                        <Text style={styles.nome}>{atividade.nome}</Text>
-                        <Text style={styles.descricao}>{atividade.descricao}</Text>
-                        <Icon
-                            name="star-circle-outline"
-                            size={30}
-                            margin = {-13}
-                            color="#7D8995"
-                            style={styles.starIcon}
-                            onPress={() => handleFavorite(atividade)}
+            <View style={{paddingHorizontal: 20}}>
+                <SearchBar onSearch={setSearchText} />
+                {filteredAtividades.map(atividade => (
+                    <TouchableOpacity
+                        key={atividade.id}
+                        style={styles.container2}
+                        onPress={() => navigation.navigate('DescriptionAtividade', { atividade: atividade })}
+                    >
+                        <Image
+                            source={atividade.imagem}
+                            style={styles.imagem}
                         />
-                    </View>
-                </TouchableOpacity>
-            ))}
+                        <View style={styles.detalhes}>
+                            <Text style={styles.nome}>{atividade.nome}</Text>
+                            <Text style={styles.descricao}>{atividade.descricao}</Text>
+                            <Icon
+                                name="star-circle-outline"
+                                size={30}
+                                margin = {-13}
+                                color="#7D8995"
+                                style={styles.starIcon}
+                                onPress={() => handleFavorite(atividade)}
+                            />
+                        </View>
+                    </TouchableOpacity>
+                ))}
+            </View>
         </View>
     );
 };
@@ -344,20 +347,20 @@ const styles = StyleSheet.create({
     container2: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginHorizontal: 10,
-        padding: 10,
         borderBottomWidth: 3,
+        paddingVertical: 23,
         backgroundColor: '#2C333C',
         borderBottomColor: '#62BB76',
     },
     imagem: {
-        width: 100,
-        height: 100,
-        borderRadius: 8,
-        marginRight: 10,
+        width: 115,
+        height: 115,
+        borderRadius: 10,
+        marginRight: 7,
     },
     detalhes: {
         flex: 1,
+        marginLeft: 10,
     },
     nome: {
         fontSize: 18,
