@@ -6,14 +6,6 @@ import SearchBar from "../SearchBar";
 import { useNavigation } from '@react-navigation/native';
 import { auth, db } from "../../FireBase";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
-import RatingScreen from "../componentsAvaliacao/percurso1/media";
-import RatingScreen2 from "../componentsAvaliacao/percurso2/media2";
-import RatingScreen3 from "../componentsAvaliacao/percurso3/media3";
-import RatingScreen4 from "../componentsAvaliacao/percurso4/media4";
-import AverageRating from "../componentsAvaliacao/percurso1/mediaTotal";
-import AverageRating2 from "../componentsAvaliacao/percurso2/mediatotal2";
-import AverageRating3 from "../componentsAvaliacao/percurso3/mediaTotal3";
-import AverageRating4 from "../componentsAvaliacao/percurso4/mediaTotal4";
 import { Percursos } from './Percursos';
 
 const PercursoItem = () => {
@@ -50,121 +42,6 @@ const PercursoItem = () => {
         }
     };
 
-
- /*)   const percursos = [
-        {
-            id: 1,
-            nome: 'Marinha da Casqueira',
-            imagem: require('../../assets/images/porsol.jpeg'),
-            passos: require('./imagesPercursos/imagesPassos/passosMarinha.png'),
-            comprimento: '1,7 Km',
-            descricao: 'Aproveita a calma das marinhas para ver o pôr do sol, ou ler um livro,enquanto ouves uma música relaxante',
-            tempo: '21 min',
-            dificuldade: 'Fácil',
-            acessibilidade: 'Normal',
-            mapa: require('../../assets/images/mapa.jpeg'),
-            avaliacaoEstrelas: <RatingScreen />,
-            avaliacaoQuantitativa: <AverageRating />,
-            coordenadas: {
-                pontoA: {
-                    latitude: 40.6405,
-                    longitude: -8.6538,
-                    latitudeDelta: 0.005,
-                    longitudeDelta: 0.005,
-                },
-                pontoB: {
-                    latitude: 40.6455,
-                    longitude: -8.6588,
-                    latitudeDelta: 0.005,
-                    longitudeDelta: 0.005,
-                },
-            },
-        },
-        {
-            id: 2,
-            nome: 'FADU',
-            imagem: require('./imagesPercursos/fadu.jpg'),
-            passos: require('./imagesPercursos/imagesPassos/passosCasaEst1.png'),
-            comprimento: '1 Km',
-            descricao: 'Conhece a Casa do Estudante-Atleta e o Museu do Desporto Universitário Português da FADU, espaço onde é contada a história da federação.',
-            tempo: '14 min',
-            dificuldade: 'Difícil',
-            acessibilidade: 'Normal',
-            mapa: require('../../assets/images/mapa.jpeg'),
-            avaliacaoEstrelas: <RatingScreen2 />,
-            avaliacaoQuantitativa: <AverageRating2 />,
-            coordenadas: {
-                pontoA: {
-                    latitude: 40.6405,
-                    longitude: -8.6488,
-                    latitudeDelta: 0.005,
-                    longitudeDelta: 0.005,
-                },
-                pontoB: {
-                    latitude: 40.6455,
-                    longitude: -8.6538,
-                    latitudeDelta: 0.005,
-                    longitudeDelta: 0.005,
-                },
-            },
-        },
-        {
-            id: 3,
-            nome: 'Bar Preto',
-            imagem: require('./imagesPercursos/BarPretoImage.png'),
-            comprimento: '1,4 Km',
-            descricao: 'Bebe um chá (sem açucar) e relaxa na esplanada',
-            tempo: '19 min',
-            dificuldade: 'Fácil',
-            acessibilidade: 'Normal',
-            mapa: require('../../assets/images/mapa.jpeg'),
-            avaliacaoEstrelas: <RatingScreen3 />,
-            avaliacaoQuantitativa: <AverageRating3 />,
-            coordenadas: {
-                pontoA: {
-                    latitude: 40.6455,
-                    longitude: -8.6538,
-                    latitudeDelta: 0.005,
-                    longitudeDelta: 0.005,
-                },
-                pontoB: {
-                    latitude: 40.6505,
-                    longitude: -8.6588,
-                    latitudeDelta: 0.005,
-                    longitudeDelta: 0.005,
-                },
-            },
-        },
-        {
-            id: 4,
-            nome: 'Loja Vol',
-            imagem: require('./imagesPercursos/lojaVol.png'),
-            passos: require('./imagesPercursos/imagesPassos/passosLojaVol1.png'),
-            comprimento: '1,3 Km',
-            descricao: 'Conhece o espaço do Programa de Voluntariado da UA e vê como podes participar nas várias atividades.',
-            tempo: '19 min',
-            dificuldade: 'Fácil',
-            acessibilidade: 'Normal',
-            mapa: require('../../assets/images/mapa.jpeg'),
-            avaliacaoEstrelas: <RatingScreen4 />,
-            avaliacaoQuantitativa: <AverageRating4 />,
-            coordenadas: {
-                pontoA: {
-                    latitude: 40.6405,
-                    longitude: -8.6588,
-                    latitudeDelta: 0.005,
-                    longitudeDelta: 0.005,
-                },
-                pontoB: {
-                    latitude: 40.6455,
-                    longitude: -8.6638,
-                    latitudeDelta: 0.005,
-                    longitudeDelta: 0.005,
-                },
-            },
-        },
-    ];*/
-    
 
     const filteredPercursos = Percursos.filter(percurso =>
         percurso.nome.toLowerCase().includes(searchText.toLowerCase())
@@ -204,7 +81,6 @@ const PercursoItem = () => {
         </View>
     );
 };
-
 
 const styles = StyleSheet.create({
     container2: {
