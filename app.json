@@ -19,6 +19,9 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "googleMaps": {
+      "apiKey": "AIzaSyBl6uQw0SyA0_I2utXTJJAj1BtBPhSoLDE"
+    },
       "package": "com.pires29.ProjFinTeste"
     },
     "web": {

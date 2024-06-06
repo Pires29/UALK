@@ -248,7 +248,7 @@ const AtividadeItem = () => {
             dificuldade: 'Fácil',
             acessibilidade: 'Normal',
             percursoAssociado: {
-                id: 1,
+                id: 4,
                 nome: 'Marinha da Casqueira',
                 imagem: require('../../assets/images/porsol.jpeg'),
                 passos: require('../Percursos/imagesPercursos/imagesPassos/passosMarinha.png'),
