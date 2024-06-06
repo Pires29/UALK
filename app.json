@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "UALK",
-    "slug": "UALK",
+    "name": "Como Estás",
+    "slug": "como-estás",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,7 +22,7 @@
       "googleMaps": {
       "apiKey": "AIzaSyBl6uQw0SyA0_I2utXTJJAj1BtBPhSoLDE"
     },
-      "package": "com.pires29.ProjFinTeste"
+      "package": "com.pires29.comoestas"
     },
     "web": {
       "favicon": "./assets/ComoEstasHowAreYou.png"
